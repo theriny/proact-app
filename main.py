@@ -322,6 +322,61 @@ def delete_current_course(request: Request, student_course_id: int, csrf: str = 
     return RedirectResponse('/current-courses', status_code=303)
 
 
+def ensure_phase_24_tables():
+    """Create planner tables only when absent. Existing tables are never altered."""
+    with db_connection() as conn:
+        conn.execute("""
+        CREATE TABLE IF NOT EXISTS academic_plans (
+            plan_id INTEGER PRIMARY KEY AUTOINCREMENT,
+            student_id INTEGER NOT NULL UNIQUE,
+            plan_name TEXT NOT NULL DEFAULT 'My Four-Year Plan',
+            starting_grade INTEGER NOT NULL DEFAULT 9 CHECK (starting_grade BETWEEN 9 AND 12),
+            graduation_year INTEGER NOT NULL,
+            status TEXT NOT NULL DEFAULT 'draft' CHECK (status IN ('draft','finalized','archived')),
+            created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (student_id) REFERENCES students(student_id) ON DELETE CASCADE
+        )
+        """)
+        conn.execute("""
+        CREATE TABLE IF NOT EXISTS academic_plan_courses (
+            plan_course_id INTEGER PRIMARY KEY AUTOINCREMENT,
+            plan_id INTEGER NOT NULL,
+            course_id INTEGER NOT NULL,
+            planned_grade INTEGER NOT NULL CHECK (planned_grade BETWEEN 9 AND 12),
+            school_year TEXT NOT NULL,
+            term TEXT NOT NULL DEFAULT 'full_year' CHECK (term IN ('fall','spring','summer','full_year')),
+            requirement_category TEXT NOT NULL DEFAULT 'elective' CHECK (requirement_category IN ('core','elective','pathway','other')),
+            status TEXT NOT NULL DEFAULT 'planned' CHECK (status IN ('planned','approved','completed','removed')),
+            notes TEXT,
+            created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (plan_id) REFERENCES academic_plans(plan_id) ON DELETE CASCADE,
+            FOREIGN KEY (course_id) REFERENCES courses(course_id) ON DELETE RESTRICT,
+            UNIQUE (plan_id, course_id, planned_grade, term)
+        )
+        """)
+        conn.execute('CREATE INDEX IF NOT EXISTS idx_academic_plans_student ON academic_plans(student_id)')
+        conn.execute('CREATE INDEX IF NOT EXISTS idx_academic_plan_courses_plan ON academic_plan_courses(plan_id)')
+        conn.commit()
+
+def validate_phase_24_schema():
+    expected = {
+        'academic_plans': {'plan_id','student_id','plan_name','starting_grade','graduation_year','status','created_at','updated_at'},
+        'academic_plan_courses': {'plan_course_id','plan_id','course_id','planned_grade','school_year','term','requirement_category','status','notes','created_at','updated_at'},
+    }
+    with db_connection() as conn:
+        for table, required in expected.items():
+            columns = {r['name'] for r in conn.execute(f'PRAGMA table_info("{table}")')}
+            missing = required - columns
+            if missing:
+                raise RuntimeError(f"Table '{table}' already exists but is missing Phase 2.4 columns: {', '.join(sorted(missing))}. Back up the database and reconcile its schema before running this version.")
+        for table in ('academic_plans','academic_plan_courses'):
+            foreign = conn.execute(f'PRAGMA foreign_key_list("{table}")').fetchall()
+            # A legacy table with unexpected FK definitions should not be silently rebuilt.
+            if not foreign:
+                raise RuntimeError(f"Table '{table}' exists without foreign-key relationships. Inspect its schema before continuing.")
+
 def validate_schema():
     expected = {
         'users': {'user_id', 'email', 'password_hash', 'role', 'is_active'},
@@ -344,6 +399,8 @@ def startup_check():
     validate_phase_22_schema()
     ensure_phase_23_tables()
     validate_phase_23_schema()
+    ensure_phase_24_tables()
+    validate_phase_24_schema()
 
 @app.middleware('http')
 async def security_headers(request: Request, call_next):
@@ -474,6 +531,153 @@ def logout(request: Request, csrf: str = Form(...)):
 def get_student_for_user(user_id: int):
     with db_connection() as conn:
         return conn.execute('SELECT * FROM students WHERE user_id=?', (user_id,)).fetchone()
+
+# ------------------------- Phase 2.4: four-year planner -------------------------
+
+def _school_year_for_grade(graduation_year: int, grade: int) -> str:
+    start_year = int(graduation_year) - (12 - int(grade)) - 1
+    return f"{start_year}-{start_year + 1}"
+
+def _get_or_create_plan(student):
+    with db_connection() as conn:
+        plan = conn.execute('SELECT * FROM academic_plans WHERE student_id=?', (student['student_id'],)).fetchone()
+        if plan:
+            # Keep graduation-year changes on the student profile reflected in the plan.
+            if int(plan['graduation_year']) != int(student['graduation_year']):
+                conn.execute('UPDATE academic_plans SET graduation_year=?, updated_at=CURRENT_TIMESTAMP WHERE plan_id=?',
+                             (student['graduation_year'], plan['plan_id']))
+                conn.commit()
+                plan = conn.execute('SELECT * FROM academic_plans WHERE plan_id=?', (plan['plan_id'],)).fetchone()
+            return plan
+        cur = conn.execute("INSERT INTO academic_plans (student_id,plan_name,starting_grade,graduation_year,status) VALUES (?,?,?,?, 'draft')",
+                           (student['student_id'], 'My Four-Year Plan', student['current_grade'], student['graduation_year']))
+        conn.commit()
+        return conn.execute('SELECT * FROM academic_plans WHERE plan_id=?', (cur.lastrowid,)).fetchone()
+
+def _planner_course_rows(plan_id):
+    with db_connection() as conn:
+        dept_expr, join = _department_join(conn)
+        ccols = _table_columns(conn, 'courses')
+        credits = 'c.credits' if 'credits' in ccols else 'NULL'
+        sql = f'''SELECT apc.plan_course_id, apc.plan_id, apc.course_id, apc.planned_grade,
+                         apc.school_year, apc.term, apc.requirement_category, apc.status,
+                         apc.notes, c.course_name, {credits} AS credits, {dept_expr} AS department
+                  FROM academic_plan_courses apc JOIN courses c ON c.course_id=apc.course_id
+                  {join} WHERE apc.plan_id=?
+                  ORDER BY apc.planned_grade, CASE apc.term WHEN 'fall' THEN 1 WHEN 'full_year' THEN 2 WHEN 'spring' THEN 3 WHEN 'summer' THEN 4 ELSE 5 END, c.course_name COLLATE NOCASE'''
+        return conn.execute(sql, (plan_id,)).fetchall()
+
+def _planner_catalog():
+    with db_connection() as conn:
+        return _search_courses(conn, '', '', '')
+
+def _planner_context(student, plan, error=None, success=None):
+    rows = _planner_course_rows(plan['plan_id'])
+    grouped = {g: [] for g in (9,10,11,12)}
+    totals = {g: 0.0 for g in (9,10,11,12)}
+    for row in rows:
+        grouped[int(row['planned_grade'])].append(row)
+        try:
+            totals[int(row['planned_grade'])] += float(row['credits'] or 0)
+        except (ValueError, TypeError):
+            pass
+    courses = _planner_catalog()
+    return dict(student=student, plan=plan, grouped_courses=grouped, credit_totals=totals,
+                catalog_courses=courses, school_years={g: _school_year_for_grade(plan['graduation_year'],g) for g in (9,10,11,12)},
+                error=error, success=success)
+
+@app.get('/planner', response_class=HTMLResponse)
+def four_year_planner(request: Request):
+    user = current_user(request)
+    if not user: return RedirectResponse('/login', status_code=303)
+    student = get_student_for_user(user['user_id'])
+    if not student: return RedirectResponse('/login', status_code=303)
+    plan = _get_or_create_plan(student)
+    return render(request, 'planner.html', **_planner_context(student, plan))
+
+@app.post('/planner/settings', response_class=HTMLResponse)
+def save_planner_settings(request: Request, csrf: str = Form(...), plan_name: str = Form(...), status: str = Form('draft')):
+    user = current_user(request)
+    if not user: return RedirectResponse('/login', status_code=303)
+    student = get_student_for_user(user['user_id'])
+    if not student: return RedirectResponse('/login', status_code=303)
+    plan = _get_or_create_plan(student)
+    name = plan_name.strip()[:100]
+    if not csrf_ok(request, csrf):
+        return render(request, 'planner.html', **_planner_context(student, plan, error='Your form expired. Refresh and try again.'))
+    if not name or status not in ('draft','finalized','archived'):
+        return render(request, 'planner.html', **_planner_context(student, plan, error='Enter a plan name and choose a valid plan status.'))
+    with db_connection() as conn:
+        conn.execute('UPDATE academic_plans SET plan_name=?,status=?,graduation_year=?,updated_at=CURRENT_TIMESTAMP WHERE plan_id=? AND student_id=?',
+                     (name, status, student['graduation_year'], plan['plan_id'], student['student_id']))
+        conn.commit()
+        plan = conn.execute('SELECT * FROM academic_plans WHERE plan_id=?', (plan['plan_id'],)).fetchone()
+    return render(request, 'planner.html', **_planner_context(student, plan, success='Your plan settings have been saved.'))
+
+@app.post('/planner/courses/add', response_class=HTMLResponse)
+def add_planned_course(request: Request, csrf: str = Form(...), course_id: int = Form(...),
+                       planned_grade: int = Form(...), term: str = Form('full_year'),
+                       requirement_category: str = Form('elective'), notes: str = Form('')):
+    user = current_user(request)
+    if not user: return RedirectResponse('/login', status_code=303)
+    student = get_student_for_user(user['user_id'])
+    if not student: return RedirectResponse('/login', status_code=303)
+    plan = _get_or_create_plan(student)
+    if not csrf_ok(request, csrf):
+        return render(request, 'planner.html', **_planner_context(student, plan, error='Your form expired. Refresh and try again.'))
+    if planned_grade not in (9,10,11,12) or term not in ('fall','spring','summer','full_year') or requirement_category not in ('core','elective','pathway','other'):
+        return render(request, 'planner.html', **_planner_context(student, plan, error='Choose a valid grade, term, and requirement category.'))
+    school_year = _school_year_for_grade(plan['graduation_year'], planned_grade)
+    with db_connection() as conn:
+        if not conn.execute('SELECT 1 FROM courses WHERE course_id=?', (course_id,)).fetchone():
+            return render(request, 'planner.html', **_planner_context(student, plan, error='That course is not in the catalog.'))
+        try:
+            conn.execute('''INSERT INTO academic_plan_courses
+                (plan_id,course_id,planned_grade,school_year,term,requirement_category,status,notes)
+                VALUES (?,?,?,?,?,?,'planned',?)''',
+                (plan['plan_id'], course_id, planned_grade, school_year, term, requirement_category, notes.strip()[:500] or None))
+            conn.execute("UPDATE academic_plans SET updated_at=CURRENT_TIMESTAMP WHERE plan_id=?", (plan['plan_id'],))
+            conn.commit()
+        except sqlite3.IntegrityError as exc:
+            conn.rollback()
+            message = 'That course is already planned for this grade and term.' if 'UNIQUE constraint failed' in str(exc) else f'Could not save this course: {exc}'
+            return render(request, 'planner.html', **_planner_context(student, plan, error=message))
+    plan = _get_or_create_plan(student)
+    return render(request, 'planner.html', **_planner_context(student, plan, success='Course added to your four-year plan.'))
+
+@app.post('/planner/courses/{plan_course_id}/update', response_class=HTMLResponse)
+def update_planned_course(request: Request, plan_course_id: int, csrf: str = Form(...),
+                          status: str = Form('planned'), notes: str = Form('')):
+    user = current_user(request)
+    if not user: return RedirectResponse('/login', status_code=303)
+    student = get_student_for_user(user['user_id'])
+    if not student: return RedirectResponse('/login', status_code=303)
+    plan = _get_or_create_plan(student)
+    if not csrf_ok(request, csrf):
+        return render(request, 'planner.html', **_planner_context(student, plan, error='Your form expired. Refresh and try again.'))
+    if status not in ('planned','approved','completed','removed'):
+        return render(request, 'planner.html', **_planner_context(student, plan, error='Choose a valid course status.'))
+    with db_connection() as conn:
+        cur = conn.execute('''UPDATE academic_plan_courses SET status=?,notes=?,updated_at=CURRENT_TIMESTAMP
+                              WHERE plan_course_id=? AND plan_id=?''',
+                           (status, notes.strip()[:500] or None, plan_course_id, plan['plan_id']))
+        conn.commit()
+        if cur.rowcount == 0:
+            return RedirectResponse('/planner', status_code=303)
+    return RedirectResponse('/planner', status_code=303)
+
+@app.post('/planner/courses/{plan_course_id}/delete')
+def delete_planned_course(request: Request, plan_course_id: int, csrf: str = Form(...)):
+    user = current_user(request)
+    if not user: return RedirectResponse('/login', status_code=303)
+    student = get_student_for_user(user['user_id'])
+    if not student: return RedirectResponse('/login', status_code=303)
+    plan = _get_or_create_plan(student)
+    if not csrf_ok(request, csrf): return HTMLResponse('Invalid form token. Refresh and try again.', status_code=400)
+    with db_connection() as conn:
+        conn.execute('DELETE FROM academic_plan_courses WHERE plan_course_id=? AND plan_id=?', (plan_course_id, plan['plan_id']))
+        conn.commit()
+    return RedirectResponse('/planner', status_code=303)
 
 def get_careers():
     # Read career choices only when the existing careers table has compatible columns.

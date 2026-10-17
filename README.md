@@ -129,3 +129,42 @@ Use a backed-up development database for testing. The application code and templ
 ## Phase 2.3 term-value compatibility
 
 The course form submits the canonical term values expected by the existing student_courses table: `fall`, `spring`, `summer`, and `full_year`. The backend also normalizes older labels (`Full year`, `Semester 1`, `Semester 2`) before inserting or updating. No database migration is required for the term mismatch.
+
+
+## Phase 2.4 — Four-year planner with saving
+
+This version adds `/planner` and the `academic_plans` and `academic_plan_courses` tables. The app creates these tables only when absent and validates an existing table instead of silently altering it. It does not replace the course catalog or existing student data.
+
+### Install
+1. Stop Uvicorn with `Ctrl+C`.
+2. Back up the development database: `copy "%DB_PATH%" "%DB_PATH%.before-phase-24.bak"` (or copy the actual database path).
+3. Copy the updated `main.py`, `templates`, `static`, `README.md` into the existing project directory. Keep your existing database and environment variables.
+4. Restart with `uvicorn main:app --reload`.
+5. Sign in and open `http://127.0.0.1:8000/planner`.
+
+The planner saves a student's plan name/status and planned course rows, groups courses into Grades 9–12, estimates school years from the student's expected graduation year, and calculates catalog-credit totals where `courses.credits` is available. Duplicate course/grade/term entries are blocked. Each student's plan is scoped to their own authenticated student ID. This is a planning aid, not an official graduation audit: prerequisite and graduation-requirement validation still need counselor/catalog rule verification.
+
+
+## Fix for an existing Phase 2.4 database missing `academic_plan_courses.updated_at`
+
+If startup reports that `academic_plan_courses` is missing `updated_at`, stop Uvicorn and back up the database first. This project includes `migrate_phase_24.py`, which makes a timestamped backup and adds only the missing column, then populates existing rows. It does not drop or rebuild the table.
+
+In Windows CMD, with the virtual environment active and from this project folder:
+
+```cmd
+python migrate_phase_24.py
+```
+
+This uses the `DB_PATH` environment variable. Or pass the full database path explicitly:
+
+```cmd
+python migrate_phase_24.py "C:\path\to\proact-backup.db"
+```
+
+After the script reports success, restart the app:
+
+```cmd
+uvicorn main:app --reload
+```
+
+The migration was tested against a copy of the supplied database. It added the missing column, verified that no rows had a blank `updated_at`, and passed `PRAGMA foreign_key_check`. The supplied database had no rows in `academic_plans` or `academic_plan_courses` at the time of inspection.
