@@ -1,4 +1,4 @@
-# Langston Student MVP — Phase 2.1 + 2.2
+# Langston Student MVP — Phase 2.1, 2.2, and 2.3
 
 FastAPI + Jinja2 + SQLite starter for student registration/login and Phase 2.2 profile, interests, and career/college goals.
 
@@ -95,3 +95,37 @@ Any future child table that needs a goal should store `goal_id` as a foreign key
 ### Existing student_goals status constraint
 
 Some existing databases restrict `student_goals.status` to `active`, `achieved`, or `paused`. The goal form and validation use those exact values to remain compatible with that CHECK constraint.
+
+## Phase 2.3 — Course browser and current courses
+
+This milestone adds:
+
+- `/courses`: authenticated catalog browser with keyword search, department filter, and optional AP / Honors / dual-enrollment / pathway filters when those catalog flags exist.
+- `/current-courses`: each student's own course records, filterable by current/completed/withdrawn status.
+- Add a catalog course to a student's records with school year, grade, term, and status.
+- Edit or remove a student's own course record; record an optional final grade.
+- `student_courses` is created only when it does not exist. Existing catalog tables are treated as read-only reference data.
+- Course catalog queries support the legacy `courses.department` text column and the normalized `courses.department_id` plus `departments.department_name` layout.
+- If `course_grade_levels` has recognizable `course_id` and grade columns, the browser displays the source grade-level values as catalog information. This milestone does not enforce prerequisite or grade eligibility rules; those belong in a later planning/validation milestone.
+
+### Phase 2.3 database table
+
+When absent, the app creates `student_courses` with `student_course_id`, `student_id`, `course_id`, `school_year`, `grade_level`, `term`, `status`, `final_grade`, `created_at`, and `updated_at`. It references the existing `students` and `courses` tables and prevents duplicate records for the same student/course/year/term. If a `student_courses` table already exists with a different schema, the app stops and reports the missing columns instead of modifying it automatically.
+
+### Phase 2.3 test checklist
+
+1. Sign in with a practice student and open `/courses`.
+2. Search by a course name or code; filter by department and course type.
+3. Add a course to the student's current-course records.
+4. Open `/current-courses`, edit the year/grade/term/status, optionally add a final grade, then save.
+5. Remove a test record and confirm it disappears.
+6. Sign out and sign back in; confirm records persist.
+7. Register or use a second practice student and confirm their current-course list is separate.
+8. Confirm catalog reference rows were not changed.
+
+Use a backed-up development database for testing. The application code and templates were smoke-tested against a temporary SQLite database matching the expected catalog schema; the user's actual database has not been inspected or tested here.
+
+
+## Phase 2.3 term-value compatibility
+
+The course form submits the canonical term values expected by the existing student_courses table: `fall`, `spring`, `summer`, and `full_year`. The backend also normalizes older labels (`Full year`, `Semester 1`, `Semester 2`) before inserting or updating. No database migration is required for the term mismatch.

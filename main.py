@@ -1,4 +1,4 @@
-import hmac, os, secrets, sqlite3, time
+import hmac, os, re, secrets, sqlite3, time
 from collections import defaultdict, deque
 from contextlib import contextmanager
 from pathlib import Path
@@ -99,6 +99,229 @@ def validate_phase_22_schema():
                         ". Stop the server, back up the database, and run migrate_student_goals.py to normalize to title/description."
                     )
 
+
+# ------------------------- Phase 2.3: course browser & current courses -------------------------
+# Normalize human-readable/legacy term labels to the values enforced by the existing DB.
+def _normalize_course_term(term: str) -> str:
+    mapping = {
+        "fall": "fall", "spring": "spring", "summer": "summer", "full_year": "full_year",
+        "Full year": "full_year", "full year": "full_year",
+        "Semester 1": "fall", "semester 1": "fall",
+        "Semester 2": "spring", "semester 2": "spring",
+    }
+    return mapping.get((term or "").strip(), "")
+
+def ensure_phase_23_tables():
+    """Create the student-course tracking table if absent; never alter existing tables."""
+    with db_connection() as conn:
+        conn.execute("""
+        CREATE TABLE IF NOT EXISTS student_courses (
+            student_course_id INTEGER PRIMARY KEY AUTOINCREMENT,
+            student_id INTEGER NOT NULL,
+            course_id INTEGER NOT NULL,
+            school_year TEXT NOT NULL,
+            grade_level INTEGER NOT NULL CHECK (grade_level BETWEEN 9 AND 12),
+            term TEXT NOT NULL DEFAULT 'full_year' CHECK (term IN ('fall','spring','summer','full_year')),
+            status TEXT NOT NULL DEFAULT 'current' CHECK (status IN ('current','completed','withdrawn')),
+            final_grade TEXT,
+            created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (student_id) REFERENCES students(student_id) ON DELETE CASCADE,
+            FOREIGN KEY (course_id) REFERENCES courses(course_id) ON DELETE RESTRICT,
+            UNIQUE (student_id, course_id, school_year, term)
+        )
+        """)
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_student_courses_student ON student_courses(student_id)")
+        conn.commit()
+
+def validate_phase_23_schema():
+    with db_connection() as conn:
+        expected = {'student_course_id','student_id','course_id','school_year','grade_level','term','status','final_grade','created_at','updated_at'}
+        exists = conn.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='student_courses'").fetchone()
+        if not exists:
+            raise RuntimeError("Required Phase 2.3 table 'student_courses' is missing.")
+        cols = {r['name'] for r in conn.execute('PRAGMA table_info(student_courses)')}
+        missing = expected - cols
+        if missing:
+            raise RuntimeError("Table 'student_courses' already exists but is missing Phase 2.3 columns: " + ', '.join(sorted(missing)) + ". Back up the database and reconcile the schema.")
+        exists = conn.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='courses'").fetchone()
+        if not exists:
+            raise RuntimeError("Required reference table 'courses' is missing. Load the Langston course catalog before using Phase 2.3.")
+        course_cols = {r['name'] for r in conn.execute('PRAGMA table_info(courses)')}
+        if not {'course_id','course_name'} <= course_cols:
+            raise RuntimeError("The courses table must include course_id and course_name.")
+
+def _table_columns(conn, table_name):
+    return {r['name'] for r in conn.execute(f'PRAGMA table_info("{table_name}")')}
+
+def _department_join(conn):
+    cols = _table_columns(conn, 'courses')
+    if 'department' in cols:
+        return 'c.department', ''
+    if 'department_id' in cols and conn.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='departments'").fetchone():
+        dcols = _table_columns(conn, 'departments')
+        if {'department_id','department_name'} <= dcols:
+            return 'd.department_name', ' LEFT JOIN departments d ON d.department_id=c.department_id'
+    return "''", ''
+
+def _course_select_sql(conn):
+    cols = _table_columns(conn, 'courses')
+    dept_expr, join = _department_join(conn)
+    fields = ['c.course_id AS course_id', 'c.course_name AS course_name', f'{dept_expr} AS department']
+    for col in ('sem1_course_code','sem2_course_code','description','credits','course_level','pathway','is_ap','is_honors','is_dual_enrollment'):
+        fields.append(f'c."{col}" AS "{col}"' if col in cols else f'NULL AS "{col}"')
+    return 'SELECT ' + ', '.join(fields) + ' FROM courses c' + join
+
+def _get_course_departments(conn):
+    dept_expr, join = _department_join(conn)
+    rows = conn.execute(f"SELECT DISTINCT {dept_expr} AS department FROM courses c{join} WHERE {dept_expr} IS NOT NULL AND TRIM({dept_expr})<>'' ORDER BY department").fetchall()
+    return [r['department'] for r in rows]
+
+def _search_courses(conn, q='', department='', course_type=''):
+    sql = _course_select_sql(conn)
+    where, args = [], []
+    if q.strip():
+        needle = '%' + q.strip()[:100] + '%'
+        where.append("(course_name LIKE ? OR COALESCE(description,'') LIKE ? OR COALESCE(department,'') LIKE ? OR CAST(course_id AS TEXT) LIKE ? OR CAST(sem1_course_code AS TEXT) LIKE ? OR CAST(sem2_course_code AS TEXT) LIKE ?)")
+        args.extend([needle] * 6)
+    if department:
+        where.append('department=?'); args.append(department)
+    if course_type in ('ap','honors','dual','pathway'):
+        col = {'ap':'is_ap','honors':'is_honors','dual':'is_dual_enrollment','pathway':'pathway'}[course_type]
+        where.append(f"COALESCE({col},0) IN (1,'1','TRUE','true','Yes','yes')")
+    if where: sql += ' WHERE ' + ' AND '.join(where)
+    sql += ' ORDER BY course_name COLLATE NOCASE LIMIT 300'
+    return conn.execute(sql, args).fetchall()
+
+def _student_course_rows(student_id, status=''):
+    with db_connection() as conn:
+        dept_expr, join = _department_join(conn)
+        # Use a dynamic department expression so both legacy text and normalized department schemas work.
+        sql = f"""SELECT sc.student_course_id, sc.student_id, sc.course_id, sc.school_year,
+                  sc.grade_level, sc.term, sc.status, sc.final_grade, c.course_name,
+                  c.sem1_course_code, c.sem2_course_code, c.credits, c.description,
+                  c.is_ap, c.is_honors, c.is_dual_enrollment, {dept_expr} AS department
+                  FROM student_courses sc JOIN courses c ON c.course_id=sc.course_id
+                  {join} WHERE sc.student_id=?"""
+        args = [student_id]
+        if status in ('current','completed','withdrawn'):
+            sql += ' AND sc.status=?'; args.append(status)
+        sql += ' ORDER BY sc.school_year DESC, sc.grade_level DESC, c.course_name COLLATE NOCASE'
+        return conn.execute(sql, args).fetchall()
+
+@app.get('/courses', response_class=HTMLResponse)
+def course_browser(request: Request, q: str = '', department: str = '', course_type: str = ''):
+    user = current_user(request)
+    if not user: return RedirectResponse('/login', status_code=303)
+    student = get_student_for_user(user['user_id'])
+    if not student: return RedirectResponse('/login', status_code=303)
+    with db_connection() as conn:
+        departments = _get_course_departments(conn)
+        courses = _search_courses(conn, q, department if department in departments else '', course_type)
+        grade_levels = {}
+        if conn.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='course_grade_levels'").fetchone():
+            gc = _table_columns(conn, 'course_grade_levels')
+            course_key = 'course_id' if 'course_id' in gc else None
+            grade_key = next((x for x in ('grade_level','grade','grade_level_id') if x in gc), None)
+            if course_key and grade_key:
+                try:
+                    for r in conn.execute(f'SELECT "{course_key}" AS course_id, GROUP_CONCAT("{grade_key}", ", ") AS grades FROM course_grade_levels GROUP BY "{course_key}"'):
+                        grade_levels[r['course_id']] = r['grades']
+                except sqlite3.Error:
+                    pass
+    return render(request, 'courses.html', student=student, courses=courses, departments=departments,
+                  q=q, selected_department=department, course_type=course_type, grade_levels=grade_levels,
+                  error=None, success=None)
+
+@app.get('/current-courses', response_class=HTMLResponse)
+def current_courses_page(request: Request, status: str = ''):
+    user = current_user(request)
+    if not user: return RedirectResponse('/login', status_code=303)
+    student = get_student_for_user(user['user_id'])
+    if not student: return RedirectResponse('/login', status_code=303)
+    selected = status if status in ('current','completed','withdrawn') else ''
+    return render(request, 'current_courses.html', student=student,
+                  courses=_student_course_rows(student['student_id'], selected), selected_status=selected,
+                  error=None, success=None, edit_course=None)
+
+@app.get('/current-courses/{student_course_id}/edit', response_class=HTMLResponse)
+def edit_current_course_page(request: Request, student_course_id: int):
+    user = current_user(request)
+    if not user: return RedirectResponse('/login', status_code=303)
+    student = get_student_for_user(user['user_id'])
+    if not student: return RedirectResponse('/login', status_code=303)
+    with db_connection() as conn:
+        item = conn.execute('SELECT * FROM student_courses WHERE student_course_id=? AND student_id=?', (student_course_id, student['student_id'])).fetchone()
+    if not item: return RedirectResponse('/current-courses', status_code=303)
+    return render(request, 'current_courses.html', student=student,
+                  courses=_student_course_rows(student['student_id']), selected_status='',
+                  error=None, success=None, edit_course=item)
+
+@app.post('/current-courses/add')
+def add_current_course(request: Request, csrf: str = Form(...), course_id: int = Form(...),
+                       school_year: str = Form(...), grade_level: int = Form(...),
+                       term: str = Form('full_year'), status: str = Form('current')):
+    user = current_user(request)
+    if not user: return RedirectResponse('/login', status_code=303)
+    student = get_student_for_user(user['user_id'])
+    if not student: return RedirectResponse('/login', status_code=303)
+    school_year = school_year.strip()
+    term = _normalize_course_term(term)
+    if not csrf_ok(request, csrf): return HTMLResponse('Your form expired. Refresh and try again.', status_code=400)
+    if not 9 <= grade_level <= 12 or term not in ('fall','spring','summer','full_year') or status not in ('current','completed','withdrawn'):
+        return HTMLResponse('Please select a valid grade, term, and course status.', status_code=400)
+    if not re.fullmatch(r'\d{4}-\d{4}', school_year) or int(school_year[:4]) + 1 != int(school_year[5:]):
+        return HTMLResponse('School year must use the format YYYY-YYYY, such as 2026-2027.', status_code=400)
+    with db_connection() as conn:
+        if not conn.execute('SELECT 1 FROM courses WHERE course_id=?', (course_id,)).fetchone():
+            return HTMLResponse('That course was not found in the catalog.', status_code=404)
+        try:
+            conn.execute('INSERT INTO student_courses (student_id,course_id,school_year,grade_level,term,status) VALUES (?,?,?,?,?,?)',
+                          (student['student_id'], course_id, school_year, grade_level, term, status))
+            conn.commit()
+        except sqlite3.IntegrityError as exc:
+            conn.rollback()
+            print(f"[Phase 2.3] Failed to add course: {exc}")
+            if 'UNIQUE constraint failed' in str(exc):
+                return HTMLResponse('A uniqueness constraint was violated. Check the server terminal for the exact database constraint.', status_code=400)
+            return HTMLResponse(f'Database constraint error: {exc}. Check the server terminal for details.', status_code=400)
+    return RedirectResponse('/current-courses', status_code=303)
+
+@app.post('/current-courses/{student_course_id}/save')
+def save_current_course(request: Request, student_course_id: int, csrf: str = Form(...),
+                        school_year: str = Form(...), grade_level: int = Form(...), term: str = Form('full_year'),
+                        status: str = Form('current'), final_grade: str = Form('')):
+    user = current_user(request)
+    if not user: return RedirectResponse('/login', status_code=303)
+    student = get_student_for_user(user['user_id'])
+    if not student: return RedirectResponse('/login', status_code=303)
+    if not csrf_ok(request, csrf): return HTMLResponse('Invalid form token. Refresh and try again.', status_code=400)
+    school_year = school_year.strip()
+    term = _normalize_course_term(term)
+    if not 9 <= grade_level <= 12 or term not in ('fall','spring','summer','full_year') or status not in ('current','completed','withdrawn'):
+        return HTMLResponse('Please select a valid grade, term, and status.', status_code=400)
+    if not re.fullmatch(r'\d{4}-\d{4}', school_year) or int(school_year[:4]) + 1 != int(school_year[5:]):
+        return HTMLResponse('School year must use the format YYYY-YYYY.', status_code=400)
+    with db_connection() as conn:
+        cur = conn.execute('UPDATE student_courses SET school_year=?,grade_level=?,term=?,status=?,final_grade=?,updated_at=CURRENT_TIMESTAMP WHERE student_course_id=? AND student_id=?',
+                           (school_year, grade_level, term, status, final_grade.strip()[:20] or None, student_course_id, student['student_id']))
+        if not cur.rowcount: return RedirectResponse('/current-courses', status_code=303)
+        conn.commit()
+    return RedirectResponse('/current-courses', status_code=303)
+
+@app.post('/current-courses/{student_course_id}/delete')
+def delete_current_course(request: Request, student_course_id: int, csrf: str = Form(...)):
+    user = current_user(request)
+    if not user: return RedirectResponse('/login', status_code=303)
+    student = get_student_for_user(user['user_id'])
+    if not student: return RedirectResponse('/login', status_code=303)
+    if not csrf_ok(request, csrf): return HTMLResponse('Invalid form token. Refresh and try again.', status_code=400)
+    with db_connection() as conn:
+        conn.execute('DELETE FROM student_courses WHERE student_course_id=? AND student_id=?', (student_course_id, student['student_id']))
+        conn.commit()
+    return RedirectResponse('/current-courses', status_code=303)
+
+
 def validate_schema():
     expected = {
         'users': {'user_id', 'email', 'password_hash', 'role', 'is_active'},
@@ -119,6 +342,8 @@ def startup_check():
     validate_schema()
     ensure_phase_22_tables()
     validate_phase_22_schema()
+    ensure_phase_23_tables()
+    validate_phase_23_schema()
 
 @app.middleware('http')
 async def security_headers(request: Request, call_next):

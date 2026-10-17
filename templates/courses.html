@@ -1,0 +1,24 @@
+{% extends "base.html" %}{% block title %}Course Browser · Langston Student Planner{% endblock %}{% block content %}
+<section class="dashboard-card">
+<p class="eyebrow">PHASE 2.3 · COURSE CATALOG</p><h1>Course browser</h1>
+<p class="muted">Explore courses in the Langston High School catalog. Use search and filters to narrow the list, then add a course to your current-course record.</p>
+{% if error %}<div class="alert" role="alert">{{ error }}</div>{% endif %}{% if success %}<div class="success" role="status">{{ success }}</div>{% endif %}
+<form method="get" action="/courses" class="filter-form">
+<div><label for="q">Search courses</label><input id="q" name="q" value="{{ q }}" placeholder="Course name, code, department, or keyword"></div>
+<div><label for="department">Department</label><select id="department" name="department"><option value="">All departments</option>{% for dept in departments %}<option value="{{ dept }}" {% if selected_department==dept %}selected{% endif %}>{{ dept }}</option>{% endfor %}</select></div>
+<div><label for="course_type">Course type</label><select id="course_type" name="course_type"><option value="">All course types</option><option value="ap" {% if course_type=='ap' %}selected{% endif %}>AP</option><option value="honors" {% if course_type=='honors' %}selected{% endif %}>Honors</option><option value="dual" {% if course_type=='dual' %}selected{% endif %}>Dual enrollment</option><option value="pathway" {% if course_type=='pathway' %}selected{% endif %}>Pathway course</option></select></div>
+<div class="filter-actions"><button type="submit">Search</button> <a href="/courses" class="button-link">Clear</a></div>
+</form>
+<p class="field-help">Showing {{ courses|length }} course(s), up to 300 results per search.</p>
+{% if courses %}<div class="record-list">{% for course in courses %}<article class="record course-record"><div>
+<div class="record-heading"><strong>{{ course['course_name'] }}</strong>{% if course['credits'] is not none %}<span class="tag">{{ course['credits'] }} credit(s)</span>{% endif %}</div>
+<p class="muted compact">{{ course['department'] or 'Department not listed' }}{% if course['sem1_course_code'] %} · Code {{ course['sem1_course_code'] }}{% endif %}{% if course['sem2_course_code'] %} / {{ course['sem2_course_code'] }}{% endif %}</p>
+{% if course['description'] %}<p class="record-notes">{{ course['description'] }}</p>{% endif %}
+<div class="tags">{% if course['is_ap'] %}<span class="tag">AP</span>{% endif %}{% if course['is_honors'] %}<span class="tag">Honors</span>{% endif %}{% if course['is_dual_enrollment'] %}<span class="tag">Dual enrollment</span>{% endif %}{% if course['pathway'] %}<span class="tag">Pathway</span>{% endif %}{% if course['course_level'] %}<span class="tag">Level {{ course['course_level'] }}</span>{% endif %}{% if grade_levels.get(course['course_id']) %}<span class="tag">Catalog grade data: {{ grade_levels.get(course['course_id']) }}</span>{% endif %}</div>
+</div><div class="add-course-box"><form method="post" action="/current-courses/add"><input type="hidden" name="csrf" value="{{ csrf_token }}"><input type="hidden" name="course_id" value="{{ course['course_id'] }}">
+<label for="school_year_{{ course['course_id'] }}">School year</label><input id="school_year_{{ course['course_id'] }}" name="school_year" value="2026-2027" pattern="[0-9]{4}-[0-9]{4}" required>
+<label for="grade_{{ course['course_id'] }}">Grade</label><select id="grade_{{ course['course_id'] }}" name="grade_level">{% for grade in [9,10,11,12] %}<option value="{{ grade }}" {% if student['current_grade']|int==grade %}selected{% endif %}>Grade {{ grade }}</option>{% endfor %}</select>
+<label for="term_{{ course['course_id'] }}">Term</label><select id="term_{{ course['course_id'] }}" name="term"><option value="full_year">Full year</option><option value="fall">Fall</option><option value="spring">Spring</option><option value="summer">Summer</option></select>
+<label for="status_{{ course['course_id'] }}">Status</label><select id="status_{{ course['course_id'] }}" name="status"><option value="current">Current</option><option value="completed">Completed</option><option value="withdrawn">Withdrawn</option></select>
+<button type="submit">Add to my courses</button></form></div></article>{% endfor %}</div>{% else %}<p class="field-help">No courses matched your search. Try another keyword or clear the filters.</p>{% endif %}
+<p class="switch"><a href="/current-courses">View my current courses →</a> · <a href="/dashboard">Back to dashboard</a></p></section>{% endblock %}
