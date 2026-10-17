@@ -1,0 +1,26 @@
+career_id,career_name,industry,description,created_at
+1,Registered Nurse,Healthcare,"Provides patient care using clinical judgment, communication, teamwork, and medical knowledge.",10/6/2026
+2,Medical Assistant,Healthcare,"Supports clinical and administrative care with patient service, organization, and attention to detail.",10/6/2026
+3,Pharmacy Technician,Healthcare,"Prepares medications and supports pharmacy operations using accuracy, organization, customer service, and regulatory awareness.",10/6/2026
+4,Medical & Clinical Laboratory Technician,Healthcare,"Performs laboratory testing using scientific reasoning, precision, technical skills, and attention to detail.",10/6/2026
+5,Software Developer,Information Technology,"Builds software using programming, logical reasoning, problem-solving, and collaboration.",10/6/2026
+6,Data Analyst,Information Technology,"Analyzes data using statistics, SQL/programming, visualization, and analytical thinking.",10/6/2026
+7,Cybersecurity Analyst,Information Technology,"Protects systems and data using networking, security concepts, analysis, and problem-solving.",10/6/2026
+8,Computer Systems Analyst,Information Technology,"Evaluates and improves technology systems using systems thinking, analysis, communication, and technology knowledge.",10/6/2026
+9,Computer User Support Specialist,Information Technology,"Troubleshoots technology issues using technical knowledge, communication, and customer service.",10/6/2026
+10,Mechanical Engineer,Engineering & Manufacturing,"Designs and improves mechanical systems using mathematics, physics, CAD, problem-solving, and project skills.",10/6/2026
+11,Electrical Engineer,Engineering & Manufacturing,"Designs electrical systems using mathematics, electronics, programming, analysis, and problem-solving.",10/6/2026
+12,Industrial Engineer,Engineering & Manufacturing,"Improves processes using data analysis, mathematics, process improvement, and project management.",10/6/2026
+13,Machinist / CNC Technician,Advanced Manufacturing,"Produces precision components using technical math, measurement, CAD/CAM, and manufacturing skills.",10/6/2026
+14,Industrial Maintenance Technician,Advanced Manufacturing,"Maintains industrial equipment using mechanical/electrical troubleshooting, safety practices, and problem-solving.",10/6/2026
+15,Accountant,Business & Finance,"Manages financial records and reporting using accounting, mathematics, organization, and attention to detail.",10/6/2026
+16,Business Operations Analyst,Business & Management,"Analyzes business processes and data using analytical thinking, communication, and business knowledge.",10/6/2026
+17,Marketing Specialist,Marketing & Communications,"Develops marketing activities using communication, creativity, analytics, and digital media skills.",10/6/2026
+18,Sales Representative,Sales & Business,"Builds customer relationships and drives sales using communication, persuasion, customer service, and business acumen.",10/6/2026
+19,Logistics / Supply Chain Specialist,Transportation & Logistics,"Coordinates movement of goods using organization, analytics, planning, and problem-solving.",10/6/2026
+20,Graphic Designer,Creative & Digital Media,"Creates visual communications using design, typography, creativity, and digital production skills.",10/6/2026
+21,Multimedia / Video Producer,Creative & Digital Media,"Creates multimedia content using storytelling, video production, editing, and communication.",10/6/2026
+22,Web / Digital Interface Designer,IT & Media,"Designs digital interfaces using visual design, UX principles, communication, and technology skills.",10/6/2026
+23,Early Childhood / Elementary Teacher,Education,"Educates and supports students using communication, organization, collaboration, and instructional skills.",10/6/2026
+24,Emergency Medical Technician,Public Safety & Healthcare,"Provides emergency medical care using medical knowledge, rapid decision-making, teamwork, and composure.",10/6/2026
+25,Automotive Service Technician,Automotive & Transportation,"Diagnoses and repairs vehicles using mechanical knowledge, diagnostics, technical problem-solving, and precision.",10/6/2026

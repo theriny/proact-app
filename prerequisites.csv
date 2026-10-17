@@ -1,0 +1,166 @@
+prerequisite_id,prerequisite_group_id,requirement_order,prerequisite_course_id,requirement_type,requirement_text,source_requirement,resolution_status
+PR0001,PG0001,0,,teacher_recommendation,teacher_recommendation,teacher_recommendation,non_course
+PR0002,PG0002,0,1000,course,Lit/Comp I,Lit/Comp I,resolved
+PR0003,PG0003,0,1000,course,Lit/Comp I,Lit/Comp I,resolved
+PR0004,PG0003,1,,teacher_recommendation,teacher_recommendation,teacher_recommendation,non_course
+PR0005,PG0004,0,1000,course,Lit/Comp I,Lit/Comp I,resolved
+PR0006,PG0004,1,1002,course,Lit/Comp II,Lit/Comp II,resolved
+PR0007,PG0005,0,1002,course,Lit/Comp II,Lit/Comp II,resolved
+PR0008,PG0005,1,,teacher_recommendation,teacher_recommendation,teacher_recommendation,non_course
+PR0009,PG0006,0,1004,course,American Literature/11th Literature,American Literature/11th Literature,resolved
+PR0010,PG0007,0,1004,course,American Literature/11th Literature,American Literature/11th Literature,resolved
+PR0011,PG0008,0,1002,course,Lit/Comp II,Lit/Comp II,resolved
+PR0012,PG0008,1,,teacher_recommendation,teacher_recommendation,teacher_recommendation,non_course
+PR0013,PG0009,0,1004,course,American Literature/11th Literature,American Literature/11th Literature,resolved
+PR0014,PG0009,1,,teacher_recommendation,teacher_recommendation,teacher_recommendation,non_course
+PR0015,PG0010,0,1010,course,GSE Algebra I,GSE Algebra I,resolved
+PR0016,PG0011,0,,teacher_recommendation,teacher_recommendation,teacher_recommendation,non_course
+PR0017,PG0012,0,1011,course,GSE Geometry,GSE Geometry,resolved
+PR0018,PG0013,0,,teacher_recommendation,teacher_recommendation,teacher_recommendation,non_course
+PR0019,PG0014,0,,unresolved_reference,GSE Algebra II,GSE Algebra II,unresolved
+PR0020,PG0015,0,1013,course,Advanced Algebra C&C,Advanced Algebra C&C,resolved
+PR0021,PG0016,0,1013,course,Advanced Algebra C&C,Advanced Algebra C&C,resolved
+PR0022,PG0017,0,,teacher_recommendation,teacher_recommendation,teacher_recommendation,non_course
+PR0023,PG0018,0,,teacher_recommendation,teacher_recommendation,teacher_recommendation,non_course
+PR0024,PG0019,0,1010,course,GSE Algebra I,GSE Algebra I,resolved
+PR0025,PG0020,0,,teacher_recommendation,teacher_recommendation,teacher_recommendation,non_course
+PR0026,PG0021,0,,teacher_recommendation,teacher_recommendation,teacher_recommendation,non_course
+PR0027,PG0022,0,,teacher_recommendation,teacher_recommendation,teacher_recommendation,non_course
+PR0028,PG0023,0,,teacher_recommendation,teacher_recommendation,teacher_recommendation,non_course
+PR0029,PG0024,0,,teacher_recommendation,teacher_recommendation,teacher_recommendation,non_course
+PR0030,PG0025,0,1022,course,Biology,Biology,resolved
+PR0031,PG0025,1,1024,course,Physical Science,Physical Science,resolved
+PR0032,PG0025,2,1026,course,Chemistry,Chemistry,resolved
+PR0033,PG0026,0,1022,course,Biology,Biology,resolved
+PR0034,PG0026,1,1026,course,Chemistry,Chemistry,resolved
+PR0035,PG0027,0,1022,course,Biology,Biology,resolved
+PR0036,PG0027,1,1026,course,Chemistry,Chemistry,resolved
+PR0037,PG0028,0,,teacher_recommendation,teacher_recommendation,teacher_recommendation,non_course
+PR0038,PG0029,0,1011,course,GSE Geometry,GSE Geometry,resolved
+PR0039,PG0029,1,,unresolved_reference,Algebra II,Algebra II,unresolved
+PR0040,PG0030,0,1037,course,U.S. History,U.S. History,resolved
+PR0041,PG0031,0,,teacher_recommendation,teacher_recommendation,teacher_recommendation,non_course
+PR0042,PG0032,0,,teacher_recommendation,teacher_recommendation,teacher_recommendation,non_course
+PR0043,PG0033,0,,teacher_recommendation,teacher_recommendation,teacher_recommendation,non_course
+PR0044,PG0034,0,1042,course,French I,French I,resolved
+PR0045,PG0035,0,1042,course,French I,French I,resolved
+PR0046,PG0035,1,,teacher_recommendation,teacher_recommendation,teacher_recommendation,non_course
+PR0047,PG0036,0,1043,course,French II,French II,resolved
+PR0048,PG0036,1,,teacher_recommendation,teacher_recommendation,teacher_recommendation,non_course
+PR0049,PG0037,0,1043,course,French II,French II,resolved
+PR0050,PG0037,1,,teacher_recommendation,teacher_recommendation,teacher_recommendation,non_course
+PR0051,PG0038,0,1045,course,French III,French III,resolved
+PR0052,PG0038,1,,teacher_recommendation,teacher_recommendation,teacher_recommendation,non_course
+PR0053,PG0039,0,,teacher_recommendation,teacher_recommendation,teacher_recommendation,non_course
+PR0054,PG0040,0,1050,course,Spanish I,Spanish I,resolved
+PR0055,PG0041,0,,teacher_recommendation,teacher_recommendation,teacher_recommendation,non_course
+PR0056,PG0042,0,1051,course,Spanish II,Spanish II,resolved
+PR0057,PG0043,0,,teacher_recommendation,teacher_recommendation,teacher_recommendation,non_course
+PR0058,PG0044,0,,teacher_recommendation,teacher_recommendation,teacher_recommendation,non_course
+PR0059,PG0045,0,,teacher_recommendation,teacher_recommendation,teacher_recommendation,non_course
+PR0060,PG0046,0,,teacher_recommendation,teacher_recommendation,teacher_recommendation,non_course
+PR0061,PG0047,0,1062,course,General PE I,General PE I,resolved
+PR0062,PG0048,0,1066,course,Weight Training,Weight Training,resolved
+PR0063,PG0049,0,1069,course,Introduction to Healthcare Science,Introduction to Healthcare Science,resolved
+PR0064,PG0050,0,1069,course,Introduction to Healthcare Science,Introduction to Healthcare Science,resolved
+PR0065,PG0050,1,1070,course,Essentials of Healthcare,Essentials of Healthcare,resolved
+PR0066,PG0051,0,1069,course,Introduction to Healthcare Science,Introduction to Healthcare Science,resolved
+PR0067,PG0051,1,1070,course,Essentials of Healthcare,Essentials of Healthcare,resolved
+PR0068,PG0052,0,1073,course,Intro to Business & Technology,Intro to Business & Technology,resolved
+PR0069,PG0053,0,1073,course,Intro to Business & Technology,Intro to Business & Technology,resolved
+PR0070,PG0054,0,1073,course,Intro to Business & Technology,Intro to Business & Technology,resolved
+PR0071,PG0055,0,1073,course,Intro to Business & Technology,Intro to Business & Technology,resolved
+PR0072,PG0055,1,1076,course,Financial Literacy,Financial Literacy,resolved
+PR0073,PG0056,0,,unresolved_reference,Intro to Software Technology,Intro to Software Technology,unresolved
+PR0074,PG0057,0,1078,course,Intro to Digital Technology,Intro to Digital Technology,resolved
+PR0075,PG0057,1,,unresolved_reference,Computer Science Principles,Computer Science Principles,unresolved
+PR0076,PG0058,0,1081,course,Marketing Principles,Marketing Principles,resolved
+PR0077,PG0059,0,1082,course,Fashion Merchandising and Retailing Essentials,Fashion Merchandising and Retailing Essentials,resolved
+PR0078,PG0060,0,1081,course,Marketing Principles,Marketing Principles,resolved
+PR0079,PG0061,0,1084,course,Introduction to Sports and Entertainment Marketing,Introduction to Sports and Entertainment Marketing,resolved
+PR0080,PG0062,0,1086,course,Foundations of Engineering & Technology,Foundations of Engineering & Technology,resolved
+PR0081,PG0063,0,1087,course,Engineering Concepts,Engineering Concepts,resolved
+PR0082,PG0064,0,,teacher_recommendation,teacher_recommendation,teacher_recommendation,non_course
+PR0083,PG0065,0,1089,course,Audio & Video Technology & Film I,Audio & Video Technology & Film I,resolved
+PR0084,PG0066,0,1090,course,Audio & Video Technology & Film II,Audio & Video Technology & Film II,resolved
+PR0085,PG0067,0,,advisor_approval,advisor_approval,advisor_approval,non_course
+PR0086,PG0068,0,1092,course,Introduction to Graphics and Design,Introduction to Graphics and Design,resolved
+PR0087,PG0069,0,1092,course,Introduction to Graphics and Design,Introduction to Graphics and Design,resolved
+PR0088,PG0069,1,1093,course,Graphic Design and Production,Graphic Design and Production,resolved
+PR0089,PG0070,0,1095,course,JROTC/Army I,JROTC/Army I,resolved
+PR0090,PG0071,0,1096,course,JROTC/Army II,JROTC/Army II,resolved
+PR0091,PG0072,0,1097,course,JROTC/Army III,JROTC/Army III,resolved
+PR0092,PG0073,0,,unresolved_reference,Intro to Art,Intro to Art,unresolved
+PR0093,PG0074,0,1099,course,Drawing & Painting I,Drawing & Painting I,resolved
+PR0094,PG0075,0,1100,course,Drawing & Painting II,Drawing & Painting II,resolved
+PR0095,PG0076,0,1100,course,Drawing & Painting II,Drawing & Painting II,resolved
+PR0096,PG0077,0,,teacher_recommendation,teacher_recommendation,teacher_recommendation,non_course
+PR0097,PG0078,0,,unresolved_reference,Intro to Art,Intro to Art,unresolved
+PR0098,PG0079,0,1104,course,Ceramics I,Ceramics I,resolved
+PR0099,PG0080,0,1105,course,Ceramics II,Ceramics II,resolved
+PR0100,PG0081,0,1106,course,Ceramics III,Ceramics III,resolved
+PR0101,PG0082,0,,unresolved_reference,Intro to Art,Intro to Art,unresolved
+PR0102,PG0083,0,1108,course,Sculpture I,Sculpture I,resolved
+PR0103,PG0084,0,1109,course,Sculpture II,Sculpture II,resolved
+PR0104,PG0085,0,1110,course,Sculpture III,Sculpture III,resolved
+PR0105,PG0086,0,,teacher_recommendation,teacher_recommendation,teacher_recommendation,non_course
+PR0106,PG0087,0,1113,course,Photography I,Photography I,resolved
+PR0107,PG0088,0,1114,course,Photography II,Photography II,resolved
+PR0108,PG0089,0,1115,course,Photography III,Photography III,resolved
+PR0109,PG0090,0,1117,course,Fundamentals of Theatre I,Fundamentals of Theatre I,resolved
+PR0110,PG0091,0,1117,course,Fundamentals of Theatre I,Fundamentals of Theatre I,resolved
+PR0111,PG0091,1,1118,course,Fundamentals of Theatre II,Fundamentals of Theatre II,resolved
+PR0112,PG0091,2,,audition,audition,audition,non_course
+PR0113,PG0092,0,1117,course,Fundamentals of Theatre I,Fundamentals of Theatre I,resolved
+PR0114,PG0092,1,1118,course,Fundamentals of Theatre II,Fundamentals of Theatre II,resolved
+PR0115,PG0092,2,,audition,audition,audition,non_course
+PR0116,PG0093,0,1117,course,Fundamentals of Theatre I,Fundamentals of Theatre I,resolved
+PR0117,PG0093,1,1118,course,Fundamentals of Theatre II,Fundamentals of Theatre II,resolved
+PR0118,PG0093,2,,audition,audition,audition,non_course
+PR0119,PG0094,0,,audition,audition,audition,non_course
+PR0120,PG0095,0,,audition,audition,audition,non_course
+PR0121,PG0096,0,1124,course,Beginning Band,Beginning Band,resolved
+PR0122,PG0096,1,,teacher_recommendation,teacher_recommendation,teacher_recommendation,non_course
+PR0123,PG0097,0,1124,course,Beginning Band,Beginning Band,resolved
+PR0124,PG0097,1,,teacher_recommendation,teacher_recommendation,teacher_recommendation,non_course
+PR0125,PG0098,0,1125,course,Intermediate Band I,Intermediate Band I,resolved
+PR0126,PG0098,1,1126,course,Intermediate Band II,Intermediate Band II,resolved
+PR0127,PG0098,2,,teacher_recommendation,teacher_recommendation,teacher_recommendation,non_course
+PR0128,PG0099,0,1125,course,Intermediate Band I,Intermediate Band I,resolved
+PR0129,PG0099,1,1126,course,Intermediate Band II,Intermediate Band II,resolved
+PR0130,PG0099,2,,teacher_recommendation,teacher_recommendation,teacher_recommendation,non_course
+PR0131,PG0100,0,1125,course,Intermediate Band I,Intermediate Band I,resolved
+PR0132,PG0100,1,1126,course,Intermediate Band II,Intermediate Band II,resolved
+PR0133,PG0100,2,,teacher_recommendation,teacher_recommendation,teacher_recommendation,non_course
+PR0134,PG0101,0,1124,course,Beginning Band,Beginning Band,resolved
+PR0135,PG0101,1,,teacher_recommendation,teacher_recommendation,teacher_recommendation,non_course
+PR0136,PG0102,0,1124,course,Beginning Band,Beginning Band,resolved
+PR0137,PG0102,1,,teacher_recommendation,teacher_recommendation,teacher_recommendation,non_course
+PR0138,PG0103,0,,basic_computer_skills,basic computer skills,basic computer skills,non_course
+PR0139,PG0106,0,,unresolved_reference,Beginning PIANO 1,Beginning PIANO 1,unresolved
+PR0140,PG0106,1,1135,course,Beginning PIANO 2,Beginning PIANO 2,resolved
+PR0141,PG0107,0,1136,course,Intermediate Piano Techniques I,Intermediate Piano Techniques I,resolved
+PR0142,PG0107,1,1137,course,Intermediate Piano Techniques II,Intermediate Piano Techniques II,resolved
+PR0143,PG0104,0,,teacher_recommendation,teacher_recommendation,teacher_recommendation,non_course
+PR0144,PG0108,0,,unresolved_reference,Beginning PIANO 1,Beginning PIANO 1,unresolved
+PR0145,PG0109,0,,unresolved_reference,Beginning PIANO 1,Beginning PIANO 1,unresolved
+PR0146,PG0109,1,1135,course,Beginning PIANO 2,Beginning PIANO 2,resolved
+PR0147,PG0109,2,,teacher_recommendation,teacher_recommendation,teacher_recommendation,non_course
+PR0148,PG0110,0,,unresolved_reference,Beginning PIANO 1,Beginning PIANO 1,unresolved
+PR0149,PG0110,1,1135,course,Beginning PIANO 2,Beginning PIANO 2,resolved
+PR0150,PG0110,2,,teacher_recommendation,teacher_recommendation,teacher_recommendation,non_course
+PR0151,PG0111,0,1138,course,Beginning Chorus 1,Beginning Chorus 1,resolved
+PR0152,PG0111,1,,teacher_recommendation,teacher_recommendation,teacher_recommendation,non_course
+PR0153,PG0111,2,,exam,exam,exam,non_course
+PR0154,PG0112,0,1138,course,Beginning Chorus 1,Beginning Chorus 1,resolved
+PR0155,PG0112,1,,teacher_recommendation,teacher_recommendation,teacher_recommendation,non_course
+PR0156,PG0112,2,,exam,exam,exam,non_course
+PR0157,PG0113,0,1138,course,Beginning Chorus 1,Beginning Chorus 1,resolved
+PR0158,PG0113,1,,teacher_recommendation,teacher_recommendation,teacher_recommendation,non_course
+PR0159,PG0113,2,,exam,exam,exam,non_course
+PR0160,PG0114,0,,teacher_recommendation,teacher_recommendation,teacher_recommendation,non_course
+PR0161,PG0115,0,,application_approval,application and approval from yearbook advisor,application and approval from yearbook advisor,non_course
+PR0162,PG0116,0,,teacher_recommendation,teacher_recommendation,teacher_recommendation,non_course
+PR0163,PG0117,0,,teacher_recommendation,teacher_recommendation,teacher_recommendation,non_course
+PR0164,PG0118,0,,teacher_recommendation,teacher_recommendation,teacher_recommendation,non_course
+PR0165,PG0119,0,,teacher_recommendation,teacher_recommendation,teacher_recommendation,non_course

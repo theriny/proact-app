@@ -1,0 +1,120 @@
+prerequisite_group_id,course_id,parent_group_id,group_operator,group_order,source_expression,depth,created_at
+PG0001,1001,,AND,1,teacher_recommendation,0,10/6/2026
+PG0002,1002,,AND,1,Lit/Comp I,0,10/6/2026
+PG0003,1003,,AND,1,"Lit/Comp I, teacher_recommendation",0,10/6/2026
+PG0004,1004,,AND,1,Lit/Comp I & II,0,10/6/2026
+PG0005,1005,,AND,1,"Lit/Comp II, teacher_recommendation",0,10/6/2026
+PG0006,1006,,AND,1,American Literature/11th Literature,0,10/6/2026
+PG0007,1007,,AND,1,American Literature/11th Literature,0,10/6/2026
+PG0008,1008,,AND,1,"Lit/Comp II, teacher_recommendation",0,10/6/2026
+PG0009,1009,,AND,1,"American Literature/11th Literature, teacher_recommendation",0,10/6/2026
+PG0010,1011,,AND,1,GSE Algebra I,0,10/6/2026
+PG0011,1012,,AND,1,teacher_recommendation,0,10/6/2026
+PG0012,1013,,AND,1,GSE Geometry,0,10/6/2026
+PG0013,1014,,AND,1,teacher_recommendation,0,10/6/2026
+PG0014,1015,,AND,1,GSE Algebra II,0,10/6/2026
+PG0015,1016,,AND,1,Advanced Algebra C&C,0,10/6/2026
+PG0016,1017,,AND,1,Advanced Algebra C&C,0,10/6/2026
+PG0017,1018,,AND,1,teacher_recommendation,0,10/6/2026
+PG0018,1019,,AND,1,teacher_recommendation,0,10/6/2026
+PG0019,1021,,AND,1,GSE Algebra I,0,10/6/2026
+PG0020,1023,,AND,1,teacher_recommendation,0,10/6/2026
+PG0021,1025,,AND,1,teacher_recommendation,0,10/6/2026
+PG0022,1026,,AND,1,teacher_recommendation,0,10/6/2026
+PG0023,1027,,AND,1,teacher_recommendation,0,10/6/2026
+PG0024,1028,,AND,1,teacher_recommendation,0,10/6/2026
+PG0025,1029,,AND,1,"Biology, Physical Science, Chemistry",0,10/6/2026
+PG0026,1031,,AND,1,"Biology,Chemistry",0,10/6/2026
+PG0027,1032,,AND,1,"Biology,Chemistry",0,10/6/2026
+PG0028,1033,,AND,1,teacher_recommendation,0,10/6/2026
+PG0029,1034,,AND,1,"GSE Geometry,Algebra II",0,10/6/2026
+PG0030,1038,,AND,1,U.S. History,0,10/6/2026
+PG0031,1039,,AND,1,teacher_recommendation,0,10/6/2026
+PG0032,1040,,AND,1,teacher_recommendation,0,10/6/2026
+PG0033,1041,,AND,1,teacher_recommendation,0,10/6/2026
+PG0034,1043,,AND,1,French I,0,10/6/2026
+PG0035,1044,,AND,1,"French I,teacher_recommendation",0,10/6/2026
+PG0036,1045,,AND,1,"French II,teacher_recommendation",0,10/6/2026
+PG0037,1046,,AND,1,"French II,teacher_recommendation",0,10/6/2026
+PG0038,1047,,AND,1,"French III,teacher_recommendation",0,10/6/2026
+PG0039,1049,,AND,1,teacher_recommendation,0,10/6/2026
+PG0040,1051,,AND,1,Spanish I,0,10/6/2026
+PG0041,1052,,AND,1,teacher_recommendation,0,10/6/2026
+PG0042,1053,,AND,1,Spanish II,0,10/6/2026
+PG0043,1054,,AND,1,teacher_recommendation,0,10/6/2026
+PG0044,1055,,AND,1,teacher_recommendation,0,10/6/2026
+PG0045,1056,,AND,1,teacher_recommendation,0,10/6/2026
+PG0046,1057,,AND,1,teacher_recommendation,0,10/6/2026
+PG0047,1063,,AND,1,General PE I,0,10/6/2026
+PG0048,1067,,AND,1,Weight Training,0,10/6/2026
+PG0049,1070,,AND,1,Introduction to Healthcare Science,0,10/6/2026
+PG0050,1071,,AND,1,"Introduction to Healthcare Science,Essentials of Healthcare",0,10/6/2026
+PG0051,1072,,AND,1,"Introduction to Healthcare Science,Essentials of Healthcare",0,10/6/2026
+PG0052,1074,,AND,1,Intro to Business & Technology,0,10/6/2026
+PG0053,1075,,AND,1,Intro to Business & Technology,0,10/6/2026
+PG0054,1076,,AND,1,Intro to Business & Technology,0,10/6/2026
+PG0055,1077,,AND,1,"Intro to Business & Technology, Financial Literacy",0,10/6/2026
+PG0056,1079,,AND,1,Intro to Software Technology,0,10/6/2026
+PG0057,1080,,AND,1,"Intro to Digital Technology,Computer Science Principles",0,10/6/2026
+PG0058,1082,,AND,1,Marketing Principles,0,10/6/2026
+PG0059,1083,,AND,1,Fashion Merchandising and Retailing Essentials,0,10/6/2026
+PG0060,1084,,AND,1,Marketing Principles,0,10/6/2026
+PG0061,1085,,AND,1,Introduction to Sports and Entertainment Marketing,0,10/6/2026
+PG0062,1087,,AND,1,Foundations of Engineering & Technology,0,10/6/2026
+PG0063,1088,,AND,1,Engineering Concepts,0,10/6/2026
+PG0064,1089,,AND,1,teacher_recommendation,0,10/6/2026
+PG0065,1090,,AND,1,Audio & Video Technology & Film I,0,10/6/2026
+PG0066,1091,,AND,1,Audio & Video Technology & Film II,0,10/6/2026
+PG0067,1092,,AND,1,advisor_approval,0,10/6/2026
+PG0068,1093,,AND,1,Introduction to Graphics and Design,0,10/6/2026
+PG0069,1094,,AND,1,"Introduction to Graphics and Design,Graphic Design and Production",0,10/6/2026
+PG0070,1096,,AND,1,JROTC/Army I,0,10/6/2026
+PG0071,1097,,AND,1,JROTC/Army II,0,10/6/2026
+PG0072,1098,,AND,1,JROTC/Army III,0,10/6/2026
+PG0073,1099,,AND,1,Intro to Art,0,10/6/2026
+PG0074,1100,,AND,1,Drawing & Painting I,0,10/6/2026
+PG0075,1101,,AND,1,Drawing & Painting II,0,10/6/2026
+PG0076,1102,,AND,1,Drawing & Painting II,0,10/6/2026
+PG0077,1103,,AND,1,teacher_recommendation,0,10/6/2026
+PG0078,1104,,AND,1,Intro to Art,0,10/6/2026
+PG0079,1105,,AND,1,Ceramics I,0,10/6/2026
+PG0080,1106,,AND,1,Ceramics II,0,10/6/2026
+PG0081,1107,,AND,1,Ceramics III,0,10/6/2026
+PG0082,1108,,AND,1,Intro to Art,0,10/6/2026
+PG0083,1109,,AND,1,Sculpture I,0,10/6/2026
+PG0084,1110,,AND,1,Sculpture II,0,10/6/2026
+PG0085,1111,,AND,1,Sculpture III,0,10/6/2026
+PG0086,1112,,AND,1,teacher_recommendation,0,10/6/2026
+PG0087,1114,,AND,1,Photography I,0,10/6/2026
+PG0088,1115,,AND,1,Photography II,0,10/6/2026
+PG0089,1116,,AND,1,Photography III,0,10/6/2026
+PG0090,1118,,AND,1,Fundamentals of Theatre I,0,10/6/2026
+PG0091,1119,,OR,1,Fundamentals of Theatre I OR Fundamentals of Theatre II OR Audition,0,10/6/2026
+PG0092,1120,,OR,1,Fundamentals of Theatre I OR Fundamentals of Theatre II OR Audition,0,10/6/2026
+PG0093,1121,,OR,1,Fundamentals of Theatre I OR Fundamentals of Theatre II OR Audition,0,10/6/2026
+PG0094,1122,,AND,1,Audition,0,10/6/2026
+PG0095,1123,,AND,1,Audition,0,10/6/2026
+PG0096,1125,,OR,1,Beginning Band OR teacher_recommendation,0,10/6/2026
+PG0097,1126,,OR,1,Beginning Band OR teacher_recommendation,0,10/6/2026
+PG0098,1127,,OR,1,Intermediate Band I OR Intermediate Band II OR teacher_recommendation,0,10/6/2026
+PG0099,1128,,OR,1,Intermediate Band I OR Intermediate Band II OR teacher_recommendation,0,10/6/2026
+PG0100,1129,,OR,1,Intermediate Band I OR Intermediate Band II OR teacher_recommendation,0,10/6/2026
+PG0101,1130,,OR,1,Beginning Band OR teacher_recommendation,0,10/6/2026
+PG0102,1131,,OR,1,Beginning Band OR teacher_recommendation,0,10/6/2026
+PG0103,1132,,AND,1,Basic computer skills,0,10/6/2026
+PG0104,1133,,OR,1,((Beginning PIANO 1 OR Beginning PIANO 2) AND (Intermediate Piano Techniques I OR Intermediate Piano Techniques II)) OR teacher_recommendation,0,10/6/2026
+PG0105,1133,PG0104,AND,1,,1,10/6/2026
+PG0106,1133,PG0105,OR,1,,2,10/6/2026
+PG0107,1133,PG0105,OR,2,,2,10/6/2026
+PG0108,1135,,AND,1,Beginning PIANO 1,0,10/6/2026
+PG0109,1136,,OR,1,Beginning PIANO 1 OR Beginning PIANO 2 OR teacher_recommendation,0,10/6/2026
+PG0110,1137,,OR,1,Beginning PIANO 1 OR Beginning PIANO 2 OR teacher_recommendation,0,10/6/2026
+PG0111,1139,,OR,1,Beginning Chorus 1 OR teacher_recommendation OR Exam,0,10/6/2026
+PG0112,1140,,OR,1,Beginning Chorus 1 OR teacher_recommendation OR Exam,0,10/6/2026
+PG0113,1141,,OR,1,Beginning Chorus 1 OR teacher_recommendation OR Exam,0,10/6/2026
+PG0114,1143,,AND,1,teacher_recommendation,0,10/6/2026
+PG0115,1145,,AND,1,Application and approval from Yearbook Advisor,0,10/6/2026
+PG0116,1149,,AND,1,teacher_recommendation,0,10/6/2026
+PG0117,1150,,AND,1,teacher_recommendation,0,10/6/2026
+PG0118,1151,,AND,1,teacher_recommendation,0,10/6/2026
+PG0119,1152,,AND,1,teacher_recommendation,0,10/6/2026

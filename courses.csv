@@ -1,0 +1,1516 @@
+course_id,sem1_course_code,sem2_course_code,course_name,department,description,credits,course_level,pathway,is_ap,is_honors,is_dual_enrollment,created_at,updated_at
+1000,23.0610001,23.0610002,Lit/Comp I,ELA,"Reading strategies, interpretation of literature,
+writing, vocabulary, and grammar. Honors courses discuss these topics at an advanced level.",,1,FALSE,FALSE,FALSE,FALSE,10/6/2026,
+1001,23.0610041,23.0610042,Lit/Comp I Honors,ELA,"Reading strategies, interpretation of literature,
+writing, vocabulary, and grammar. Honors courses discuss these topics at an advanced level.",,1,FALSE,FALSE,TRUE,FALSE,10/6/2026,
+1002,23.0630001,23.0630002,Lit/Comp II,ELA,"Study of world literature and informational texts;
+an exploration of commonalities and differences
+among works of literature from different times
+and places around the world. Narrative,
+argument and synthesis writing; vocabulary and
+grammar instruction. Honors courses discuss
+these topics at an advanced level.",,2,FALSE,FALSE,FALSE,FALSE,10/6/2026,
+1003,23.0630041,23.0630042,Lit/Comp II Honors,ELA,"Study of world literature and informational texts;
+an exploration of commonalities and differences
+among works of literature from different times
+and places around the world. Narrative,
+argument and synthesis writing; vocabulary and
+grammar instruction. Honors courses discuss
+these topics at an advanced level.",,2,FALSE,FALSE,TRUE,FALSE,10/6/2026,
+1004,23.0510001,23.0510002,American Literature/11th Literature,ELA,"Reading strategies, interpretation of American
+literature, vocabulary, writing, and grammar. ",,,FALSE,FALSE,FALSE,FALSE,10/6/2026,
+1005,23.0510041,23.0510042,"American Literature
+Honors/11th Literature",ELA,"Honors courses discuss these topics at an
+advanced level.",,,FALSE,FALSE,TRUE,FALSE,10/6/2026,
+1006,23.0520001,23.0520002,British Literature,ELA,"This course focuses on the study of British
+literature (England, Scotland Ireland and
+Wales), writing modes and genres, and
+essential conventions for reading, writing, and
+speaking. The students develop an
+understanding of chronological context and
+the relevance of period structures in British
+literature. The students develop an
+understanding of the ways the period of
+literature affects its structure and how the
+chronology of a work affects its meaning. The
+students will demonstrate competency in
+research and a variety of writing genres. The
+reading, writing, and discussion require senior
+level depth and maturity and are geared to
+preparing all students for college.",,,FALSE,FALSE,FALSE,FALSE,10/6/2026,
+1007,23.06701,23.06702,Multiculture Literature,ELA,"Focusing on a study of Multicultural
+Literature, students will develop an
+understanding of historical context and the
+relevance of cultural philosophies that impact
+the diverse literary voices of America.
+Students will develop an understanding of
+cultures, origins, and diverse writers, and
+determine how these elements affect the
+meaning of literature. Students will develop
+an understanding of literature as both a
+product of cultures and as culture-bearers
+and recognize the commonalities and
+differences among works of multicultural
+American Literature.",,,FALSE,FALSE,FALSE,FALSE,10/6/2026,
+1008,23.0530001,23.0530002,AP Language,ELA,"Advanced study of language; advanced study
+and practice of writing.",,,FALSE,TRUE,FALSE,FALSE,10/6/2026,
+1009,23.0650001,23.0650002,"AP Literature &
+Composition",ELA,"Advanced college level study of literature
+and critical approaches, review of writing
+skills, vocabulary, and preparation for AP
+exam.",,,FALSE,TRUE,FALSE,FALSE,10/6/2026,
+1010,27.0990001,27.0990002,GSE Algebra I,Mathematics,"Students will formalize and extend the
+mathematics that they learned in the middle
+grades; deepen and extend understanding of linear
+relationships, in part by contrasting them with
+exponential phenomena, and in part by applying
+linear models to data that exhibit a linear trend;
+use algebra to deepen and extend understanding
+of geometric knowledge from prior
+grades; and tie together the algebraic and geometric
+ideas studied.",,1,FALSE,FALSE,FALSE,FALSE,10/6/2026,
+1011,27.0991001,27.0991002,GSE Geometry,Mathematics,"This course provides opportunities for the formal
+study of congruence and similarity. The study of
+similarity leads to an understanding of right triangle
+trigonometry and connects to quadratics through
+Pythagorean relationships. The study of circles uses
+similarity and congruence to develop basic
+theorems relating circles and lines. The need for
+extending the set of rational numbers arises and
+real and complex numbers are introduced so that all
+quadratic equations can be solved. Quadratic
+expressions, equations, and functions are
+developed, comparing their characteristics and
+behavior to those of linear and exponential
+relationships. The link between probability and data
+is explored through conditional probability. The
+honors course focuses on the standards to prepare
+students for a more intense study of mathematics.",,,FALSE,FALSE,FALSE,FALSE,10/6/2026,
+1012,27.0991041,27.0991042,GSE Geometry Honors,Mathematics,"""This course provides opportunities for the formal
+study of congruence and similarity. The study of
+similarity leads to an understanding of right triangle
+trigonometry and connects to quadratics through
+Pythagorean relationships. The study of circles uses
+similarity and congruence to develop basic
+theorems relating circles and lines. The need for
+extending the set of rational numbers arises and
+real and complex numbers are introduced so that all
+quadratic equations can be solved. Quadratic
+expressions, equations, and functions are
+developed, comparing their characteristics and
+behavior to those of linear and exponential
+relationships. The link between probability and data
+is explored through conditional probability. The
+honors course focuses on the standards to prepare
+students for a more intense study of mathematics.""",,,FALSE,FALSE,TRUE,FALSE,10/6/2026,
+1013,27.0992001,27.0992002,Advanced Algebra C&C,Mathematics,"Students will pull together and apply the
+accumulation of learning from their previous
+mathematics courses. Methods from probability and
+statistics will be used to draw inferences and
+conclusions from data. Students will expand their
+repertoire of functions to include polynomial,
+rational, and radical functions. The study of right
+triangle trigonometry will be expanded and then
+used to model periodic phenomena. Experiences
+with functions and geometry will help students to
+create models and solve contextual problems. The
+honors course focuses on the standards to prepare
+students for a more intense study of mathematics.",,,FALSE,FALSE,FALSE,FALSE,10/6/2026,
+1014,27.0992041,27.0992042,"Advanced Algebra C&C
+Honors ",Mathematics,"Students will pull together and apply the
+accumulation of learning from their previous
+mathematics courses. Methods from probability and
+statistics will be used to draw inferences and
+conclusions from data. Students will expand their
+repertoire of functions to include polynomial,
+rational, and radical functions. The study of right
+triangle trigonometry will be expanded and then
+used to model periodic phenomena. Experiences
+with functions and geometry will help students to
+create models and solve contextual problems. The
+honors course focuses on the standards to prepare
+students for a more intense study of mathematics.",,,FALSE,FALSE,TRUE,FALSE,10/6/2026,
+1015,27.0850001,27.0850002,Advanced Mathematical Decision Making ,Mathematics,"More in-depth study of statistical information,
+summaries, and methods of designing and
+conducting statistical studies; voting processes,
+modeling of data, and basic financial decisions; use
+of network models for making informed decisions. ",,,FALSE,FALSE,FALSE,FALSE,10/6/2026,
+1016,27.0974001,27.0974002,Pre-Calculus,Mathematics,"The study of circles and parabolas is extended to
+include other conics such as ellipses and hyperbolas.
+Trigonometric functions are further developed to
+include inverses, general triangles, and identities.
+Matrices provide an organizational structure in which
+to represent and solve complex problems. Students
+expand the concepts of complex numbers and the
+coordinate plane to represent and operate upon
+vectors. Probability rounds out the course using
+counting methods, including their use in making and
+evaluating decisions.
+The honors and accelerated courses focus on the
+standards to prepare students for a more intense
+study of mathematics. ",,,FALSE,FALSE,FALSE,FALSE,10/6/2026,
+1017,27.0974041,27.0974042,Pre-Calculus Honors ,Mathematics,"""The study of circles and parabolas is extended to
+include other conics such as ellipses and hyperbolas.
+Trigonometric functions are further developed to
+include inverses, general triangles, and identities.
+Matrices provide an organizational structure in which
+to represent and solve complex problems. Students
+expand the concepts of complex numbers and the
+coordinate plane to represent and operate upon
+vectors. Probability rounds out the course using
+counting methods, including their use in making and
+evaluating decisions.
+The honors and accelerated courses focus on the
+standards to prepare students for a more intense
+study of mathematics. """,,,FALSE,FALSE,TRUE,FALSE,10/6/2026,
+1018,27.0720001,27.0720002,AP Calculus AB,Mathematics,"Real numbers and the Cartesian plane; review of
+functions, limits and their properties; area and
+definite integrals; derivatives, differentiation, and
+application; anti-derivatives and indefinite
+integration; integration by substitution; the
+Trapezoidal rule; logarithmic, exponential and
+other transcendental functions; and applications
+and methods of Integration.",,,FALSE,TRUE,FALSE,FALSE,10/6/2026,
+1019,27.0740001,27.0740002,AP Statistics,Mathematics,"Introduction to statistics, descriptive statistics,
+probability; probability distributions and normal
+probability distributions; estimates and sample size;
+hypothesis testing; inferences from two samples;
+correlation and regression; multinomial
+experiments; analysis of variance; statistical
+process control; nonparametric statistics; and design
+and sampling. ",,,FALSE,TRUE,FALSE,FALSE,10/6/2026,
+1020,27.09971,27.09972,Algebra I Support ,Mathematics,"This course should be used in conjunction with
+Algebra I, the purpose of a mathematics support
+class is to address the needs of students who have
+traditionally struggled in mathematics by
+providing the additional time and attention they
+need to successfully complete their regular gradelevel mathematics course without failing. ",,,FALSE,FALSE,FALSE,FALSE,10/6/2026,
+1021,27.09981,27.09982,Geometry Support ,Mathematics,"This course should be used in conjunction with
+Geometry the purpose of a mathematics support
+class is to address the needs of students who have
+traditionally struggled in mathematics by providing
+the additional time and attention they need to
+successfully complete their regular grade-level
+mathematics course without failing. ",,,FALSE,FALSE,FALSE,FALSE,10/6/2026,
+1022,26.0120001,26.0120002,Biology ,Science,"This curriculum includes abstract concepts such as
+the interdependence of organisms, the relationship
+of matter, energy, and organization in living
+systems, and biological evolution. Students
+investigate biological concepts through experience
+in laboratories and field work using the processes of
+inquiry. Major concepts and skills include
+classification, the characteristics of science,
+structure and function of the six kingdoms,
+matterenergy relationships, DNA/RNA,
+homeostasis, Heredity, ecosystems, and biological
+evolution. The honors course includes a heavier
+focus on understanding concepts and data analysis
+in preparation for advanced sciences.",,,FALSE,FALSE,FALSE,FALSE,10/6/2026,
+1023,26.0120041,26.0120042,Biology Honors ,Science,"""This curriculum includes abstract concepts such as
+the interdependence of organisms, the relationship
+of matter, energy, and organization in living
+systems, and biological evolution. Students
+investigate biological concepts through experience
+in laboratories and field work using the processes of
+inquiry. Major concepts and skills include
+classification, the characteristics of science,
+structure and function of the six kingdoms,
+matterenergy relationships, DNA/RNA,
+homeostasis, Heredity, ecosystems, and biological
+evolution. The honors course includes a heavier
+focus on understanding concepts and data analysis
+in preparation for advanced sciences.""",,,FALSE,FALSE,TRUE,FALSE,10/6/2026,
+1024,40.0110001,40.0110002,Physical Science ,Science,"This course is designed as a survey course of
+chemistry and physics. This curriculum includes
+abstract concepts such as the conceptualization of
+the structure of atoms, motion and forces, and the
+conservation of energy and matter, wave behavior,
+and the action/reaction principle. Students
+investigate physical science concepts through
+experience in laboratories and field work using the processes of inquiry. Major concepts and skills
+include classifications of matter, atomic
+theory/configuration, periodicity, solutions,
+bonding/nomenclature, chemical reactions, Law of
+conservation of matter, acid/base chemistry, phase
+changes, Laws of motion and forces, energy
+transformation, electrical/magnetic forces, and wave
+properties.
+The honors course includes a heavier focus on
+understanding concepts and data analysis in
+preparation for advanced sciences. ",,,FALSE,FALSE,FALSE,FALSE,10/6/2026,
+1025,40.0110041,40.0110042,"Physical Science
+Honors ",Science,"""This course is designed as a survey course of
+chemistry and physics. This curriculum includes
+abstract concepts such as the conceptualization of
+the structure of atoms, motion and forces, and the
+conservation of energy and matter, wave behavior,
+and the action/reaction principle. Students
+investigate physical science concepts through
+experience in laboratories and field work using the processes of inquiry. Major concepts and skills
+include classifications of matter, atomic
+theory/configuration, periodicity, solutions,
+bonding/nomenclature, chemical reactions, Law of
+conservation of matter, acid/base chemistry, phase
+changes, Laws of motion and forces, energy
+transformation, electrical/magnetic forces, and wave
+properties.
+The honors course includes a heavier focus on
+understanding concepts and data analysis in
+preparation for advanced sciences. """,,,FALSE,FALSE,TRUE,FALSE,10/6/2026,
+1026,40.0510001,40.0510002,Chemistry ,Science,"This curriculum includes abstract concepts such as
+the structure of atoms, structure and properties of
+matter, and the conservation and interaction of
+energy and matter. Students investigate chemistry
+concepts through experience in laboratories and field
+work using the processes of inquiry. Major concepts and skills include classifications of matter,
+atomic theory/configuration, periodicity, gas laws,
+bonding/nomenclature, chemical reactions, Law of
+conservation of matter, empirical/molecular
+formulae, stoichiometry, kinetic molecular
+theory/phase changes, solutions/concentrations,
+acid/base chemistry.
+The honors course includes a heavier focus on
+understanding concepts and data analysis in
+preparation for advanced sciences. ",,,FALSE,FALSE,FALSE,FALSE,10/6/2026,
+1027,40.0510041,40.0510042,Honors Chemistry,Science,"This curriculum includes abstract concepts such as
+the structure of atoms, structure and properties of
+matter, and the conservation and interaction of
+energy and matter. Students investigate chemistry
+concepts through experience in laboratories and field
+work using the processes of inquiry. Major concepts and skills include classifications of matter,
+atomic theory/configuration, periodicity, gas laws,
+bonding/nomenclature, chemical reactions, Law of
+conservation of matter, empirical/molecular
+formulae, stoichiometry, kinetic molecular
+theory/phase changes, solutions/concentrations,
+acid/base chemistry.
+The honors course includes a heavier focus on
+understanding concepts and data analysis in
+preparation for advanced sciences. ",,,FALSE,FALSE,TRUE,FALSE,10/6/2026,
+1028,40.0810001,40.0810002,Physics ,Science,"This curriculum includes abstract concepts such as
+interactions of matter and energy, velocity,
+acceleration, force, energy, momentum, and charge.
+Students investigate physics concepts through
+experience in laboratories and field work using the
+processes of inquiry. Major concepts and
+skills include kinematics, energy and its
+transformations, Electricity, magnetism, wave
+properties.",,,FALSE,FALSE,FALSE,FALSE,10/6/2026,
+1029,26.0611001,26.0611002,Environmental Science,Science,"Environmental science is an interdisciplinary course
+of how nature works and how things in nature are
+interconnected. The following themes are central to
+the study of environmental science: sustainability;
+natural resources; natural resource degradation;
+solutions to environmental problems; tradeoffs in
+finding acceptable solutions; the importance of
+individual actions in implementing solutions; and
+sound science. Areas of study include the
+interconnection of all life, the flow of energy and
+cycling of matter, the stability and change in an
+ecosystem, conservation and resource allocation,
+and the evaluation of human activity and
+technology on the environment. ",,,FALSE,FALSE,FALSE,FALSE,10/6/2026,
+1030,40.0640001,40.0640002,Earth Systems ,Science,"This course develops the explanations of
+phenomena fundamental to the sciences of geology
+and physical geography, including the early history
+of the Earth, plate tectonics, landform evolution,
+the Earth’s geologic record, weather and climate,
+and the history of life on Earth. Instruction should
+focus on inquiry and development of scientific
+explanations, rather than mere descriptions of
+phenomena. Case studies, laboratory exercises,
+maps, and data analysis should be integrated into
+units. Special attention should be paid to topics of
+current interest (e.g., recent earthquakes, tsunamis,
+global warming, price of resources) and to potential
+careers in the geosciences. Major Concepts/Skills:
+Earth origin, composition, and structure, Plate
+tectonics and the rock cycle, Landscape evolution,
+Geologic hazards, Sedimentary environments,
+Geologic time and correlation,Earth and life history,
+Life-environment relationships, Hydrologic cycle,
+Insolation and global heat distribution,",,,FALSE,FALSE,FALSE,FALSE,10/6/2026,
+1031,26.0140001,26.0140002,AP Biology,Science,"The course is based on four Big Ideas, which
+encompass core scientific principles, theories, and
+processes that cut across traditional boundaries
+and provide a broad way of thinking about living
+organisms and biological systems. The following are
+Big Ideas: •The process of evolution explains the diversity
+and unity of life.
+•Biological systems utilize free energy and molecular
+building blocks to grow, to reproduce, and to
+maintain dynamic homeostasis.
+•Living systems store, retrieve, transmit, and
+respond to information essential to life processes.
+•Biological systems interact, and these systems and
+their interactions possess complex properties. ",,,FALSE,TRUE,FALSE,FALSE,10/6/2026,
+1032,26.0730001,26.0730002,"Human Anatomy &
+Physiology",Science,"Twenty-five percent of instructional time is devoted
+to hands-on laboratory work with an emphasis on
+inquiry- based investigations. Investigations require
+students to ask questions, make observations and
+predictions, design experiments, analyze data, and
+construct arguments in a collaborative setting,
+where they direct and monitor their progress. ",,,FALSE,FALSE,FALSE,FALSE,10/6/2026,
+1033,26.0620001,26.0620002,"AP Environmental
+Science",Science,"The AP Environmental Science course is designed to
+be the equivalent of a one-semester, introductory
+college course in environmental science, through
+which students engage with the scientific
+principles, concepts, and methodologies required
+to understand the interrelationships of the natural
+world. The course requires that students identify
+and analyze natural and humanmade
+environmental problems, evaluate the relative risks
+associated with these problems, and examine
+alternative solutions for resolving or preventing
+them. Environmental Science is interdisciplinary,
+embracing topics from geology, biology,
+environmental studies, environmental science,
+chemistry, and geography. Environmental science is
+interdisciplinary; it embraces a wide variety of
+topics from different areas of study. There are
+several unifying themes that cut across topics. The
+following are course themes:
+•Energy conversions underlie all ecological
+processes.
+•The Earth itself is one interconnected system. 
+•Humans alter natural systems.
+•Environmental problems have a cultural and
+social context.
+•Human survival depends on developing practices
+that will achieve sustainable systems. Twenty-five
+percent of instructional time is devoted to
+inquiry-based laboratory investigations. Students
+ask questions, make observations and predictions,
+design experiments, analyze data, and construct
+arguments in a collaborative setting, where they
+direct and monitor their progress. ",,,FALSE,TRUE,FALSE,FALSE,10/6/2026,
+1034,40.0831001,40.0831002,AP Physics I,Science,"AP Physics 1 is an algebra-based, introductory
+college- level physics course. Students cultivate
+their understanding of Physics through inquirybased investigations as they explore topics such as
+Newtonian mechanics (including rotational
+motion); work, energy, and power; mechanical
+waves and sound; and introductory, simple circuits.
+Students explore principles of Newtonian
+mechanics (including rotational motion); work,
+energy, and power; mechanical waves and sound;
+and introductory, simple circuits. The course is
+based on six Big Ideas, which encompass core
+scientific principles, theories, and processes that
+cut across traditional boundaries and provide a
+broad way of thinking about the physical world.
+The following are Big Ideas:
+•Objects and systems have properties such as mass
+and charge. Systems may have internal structure.
+•Fields existing in space can be used to explain
+interactions.
+•The interactions of an object with other objects can
+be described by forces.
+•Interactions between systems can result in changes
+in those systems.
+•Changes that occur as a result of interactions are
+constrained by conservation laws.
+•Waves can transfer energy and momentum from
+one location to another without the permanent
+transfer of mass and serve as a mathematical model
+for the description of other phenomena. ",,1,FALSE,TRUE,FALSE,FALSE,10/6/2026,
+1035,45.0570001,45.0570001,"American
+Government/Civics ",Social Studies,"This semester course is an in-depth study of the
+American political system. This course focuses on
+the foundation, principles and structure of the
+American system of government, examines the
+role of political parties, social factors as they relate
+to the role of the citizen, and analyzes the
+decision-making process that are a part of the
+system of American political behavior. This course
+meets the state’s Citizenship requirement for
+graduation. ",,,FALSE,FALSE,FALSE,FALSE,10/6/2026,
+1036,45.0830001,45.0830002,World History,Social Studies,"The high school world history course provides
+students with a comprehensive, intensive study of
+major events and themes in world history.
+Students begin with a study of the earliest
+civilizations worldwide and continue to examine
+major developments and themes in all regions of
+the world. The course culminates in a study of
+change and continuity and globalization at the
+beginning of the 21st century. Topics include
+prehistoric culture, ancient civilizations, classical
+civilizations, the medieval world, the Age of
+Exploration, Enlightenment, French Revolution,
+decline of colonial empires in America, Industrial
+Revolution, nationalism and imperialism, totalitarianism, WWI, WWII, and the modern
+world. ",,,FALSE,FALSE,FALSE,FALSE,10/6/2026,
+1037,45.0810001,45.0810002,U.S. History,Social Studies,"The high school United States history course
+provides students with a comprehensive,
+intensive study of major events and themes in
+United States history. Beginning with early
+European colonization, the course examines
+major events and themes throughout United
+States history. The course concludes with
+significant developments in the early 21st
+century. Topics include colonization, the
+revolutionary and colonial eras, manifest destiny,
+Civil War and reconstruction, urbanization and
+Industrialism, progressive era, imperialism, WWI
+& WWII, The Cold War, Vietnam, and the
+Decades of 1950 – 2000. ",,,FALSE,FALSE,FALSE,FALSE,10/6/2026,
+1038,45.061,45.061,"Personal Finance and
+Economics",Social Studies,"The state-mandated economics semester course
+provides students with basic foundations in the
+field of economics. The course content includes
+fundamental concepts, microeconomics,
+macroeconomics, international economics, and
+personal finance. Students are introduced to major
+concepts and themes concerning the U.S. economy
+including supply and demand, market forces,
+money, banking and capital, organization of
+natural resources, the national economy and
+global interdependence. ",,,FALSE,FALSE,FALSE,FALSE,10/6/2026,
+1039,45.0811001,45.0811002,AP World History,Social Studies,"Teaching students to think historically, to construct
+historical arguments and to analyze data within a
+historical context will be the focus of AP World
+History. With material from 8000 BCE to the
+present serving as the basis for study, students will
+explore multiple perspectives as they analyze global
+patterns that have occurred over time. Students
+will spend a great deal of time writing, reading, and
+interpreting artifacts as they strive to become true
+historians themselves. ",,,FALSE,TRUE,FALSE,FALSE,10/6/2026,
+1040,45.0820001,45.0820002,AP U.S. History ,Social Studies,"In AP U.S. History, students investigate significant
+events, individuals, developments, and processes in
+9 historical periods from 1491 to present. Students
+develop and use the same skills and methods
+employed by historians: analyzing
+primary/secondary sources, developing historical
+arguments; making historical connections; and
+utilizing reasoning about comparison causation,
+and continuity & change over time. The course also
+provides 8 themes that students explore
+throughout the course in order to make
+connections among historical developments in
+different times and places. AP U.S. History is
+equivalent to a two-semester college seminar
+course in U.S. History. Students should be able to read, critically think, and write at the college level;
+as well as possess the organizational and study
+skills expected at the college- level. Students should
+also consider their entire course load when
+choosing classes, to ensure balance in their
+schedule. ",,,FALSE,TRUE,FALSE,FALSE,10/6/2026,
+1041,45.0630011,45.0620001,AP Microeconomics ,Social Studies,"This year-long course will cover both
+microeconomics and macroeconomics.
+Microeconomics focuses on the supply and
+demand for products, the labor markets, and the
+role competition plays in a free market system.
+Macroeconomics focuses on the economy as a
+whole, including economic measures, economic
+growth, fiscal policy, monetary policy, and
+international economics. Extensive math skills are
+not required; however, students must learn to use
+graphs, charts, and data to analyze, describe, and
+explain economic concepts. In order for a student
+to be successful in this class, he/she should possess
+these specific skills: ability to read college level
+texts independently; ability to critically analyze
+graphs; ability to take notes and move rapidly
+through material; ability to work independently
+outside of class with disciplined work habits. This
+yearlong class is comparable to an introductory
+college economics course and will prepare
+students for the AP Macroeconomics &
+Microeconomics exams in May. This course also
+satisfies the Georgia graduation requirement for
+Economics. ",,,FALSE,TRUE,FALSE,FALSE,10/6/2026,
+1042,60.0110001,60.0110002,French I,World Language,"Sound systems, French alphabet, familiar words
+and phrases, greetings, family and friends,
+numbers and time, dates, weather/seasons,
+food/meals, city life, shopping, leisure, and
+culture. ",,1,FALSE,FALSE,FALSE,FALSE,10/6/2026,
+1043,60.0120001,60.0120002,French II,World Language,"School and class routines, family and relations, self
+and daily routines, clothing, body parts, shopping,
+money, banking, directions, community sites,
+food, meals, transportation, holidays, vacations. ",,2,FALSE,FALSE,FALSE,FALSE,10/6/2026,
+1044,60.0120041,60.0120042,French II Honors,World Language,"In-depth study of all topics in French 2 with heavy
+emphasis on listening and speaking proficiency
+with additional authentic francophone sources;
+beginning preparation for AP French.",,2,FALSE,FALSE,TRUE,FALSE,10/6/2026,
+1045,60.0130001,60.0130002,French III ,World Language,"Daily routines, family relations, history, geography,
+travel, accommodations, festivals, leisure time,
+food, current events, careers, aspects of art and
+literature. ",,3,FALSE,FALSE,FALSE,FALSE,10/6/2026,
+1046,60.0130041,60.0130042,French III Honors,World Language,In-depth study of all topics in French 3 with heavy emphasis on listening and speaking proficiency with additional authentic francophone sources; continuing preparation for AP French.,,3,FALSE,FALSE,TRUE,FALSE,10/6/2026,
+1047,60.0140001,60.0140002,French IV,World Language,"Intense development of communicative, cultural,
+and advanced grammatical competence; nearexclusive use of French in class. ",,4,FALSE,FALSE,FALSE,FALSE,10/6/2026,
+1048,60.0140041,60.0140042,French IV Honors,World Language,"Intense development of communicative, cultural,
+and advanced grammatical competence; final
+preparation for AP French; near-exclusive use of
+French in class. ",,4,FALSE,FALSE,TRUE,FALSE,10/6/2026,
+1049,60.017,60.017,"French AP Language
+and Culture ",World Language,"Equivalent to an intermediate level college course in
+French. Students cultivate their understanding of
+French language and culture by applying
+interpersonal, interpretive, and presentational
+modes of communication in real-life situations as
+they explore concepts related to family and
+community, personal and public identity, beauty
+and aesthetics, science and technology,
+contemporary life, and global challenges.",,,FALSE,TRUE,FALSE,FALSE,10/6/2026,
+1050,60.0710001,60.0710002,Spanish I ,World Language,"Numbers, weather, colors, celebrations, family,
+routines, self, school, clothing, shopping, food,
+transportation, body parts, health/emotions,
+animals, leisure time, sports, geography.",,1,FALSE,FALSE,FALSE,FALSE,10/6/2026,
+1051,60.0720001,60.0720002,Spanish II ,World Language,"Leisure time, travel, food/restaurants, fine arts,
+news, childhood experiences, family,
+celebrations, daily routines, beach, chores, and
+health; Spanish-speaking countries and Latino
+culture in the U.S. ",,2,FALSE,FALSE,FALSE,FALSE,10/6/2026,
+1052,60.0720041,60.0720042,Spanish II Honors,World Language,In-depth study of all topics in Spanish 2 with heavy emphasis on listening and speaking proficiency with additional authentic Spanishlanguage sources; beginning preparation for AP Spanish.,,2,FALSE,FALSE,TRUE,FALSE,10/6/2026,
+1053,60.0730001,60.0730002,Spanish III,World Language,"Vacations and hobbies, health and diet, urban life
+and culture, music, geography and politics,
+clothing, celebrations, household, environment,
+occupations, and fashion; Spanish- speaking
+countries and Latino culture in the U.S. ",,3,FALSE,FALSE,FALSE,FALSE,10/6/2026,
+1054,60.0730041,60.0730042,Spanish III Honors,World Language,"In-depth study of all topics in Spanish 3 with
+heavy emphasis on listening and speaking
+proficiency with additional authentic
+Spanishlanguage sources; continuing preparation
+for AP Spanish. ",,3,FALSE,FALSE,TRUE,FALSE,10/6/2026,
+1055,60.0740001,60.0740002,Spanish IV,World Language,In-depth study of all topics in Spanish 3 with heavy emphasis on listening and speaking proficiency with additional authentic Spanishlanguage sources; continuing preparation for AP Spanish.,,4,FALSE,FALSE,FALSE,FALSE,10/6/2026,
+1056,60.0740041,60.0740042,Spanish IV Honors,World Language,"Intense development of communicative, cultural,
+and advanced grammatical competence; final
+preparation for AP Spanish; near-exclusive use of
+Spanish in class. ",,4,FALSE,FALSE,TRUE,FALSE,10/6/2026,
+1057,60.0770001,60.0770002,Spanish AP Language and Culture,World Language,"College-level course that provides intense
+preparation for the AP Language and Culture
+exam using authentic Spanish- language sources;
+in-depth reading, speaking, and listening on
+themes of global challenges, science and
+technology, contemporary life, families and
+communities, identities, and beauty; exclusive
+use of Spanish in class. ",,,FALSE,TRUE,FALSE,FALSE,10/6/2026,
+1058,17.0110001,17.0110001,General Health,Health & Physical Education,"Wellness concepts, human sexuality, State ADAP
+requirements, CPR training, first aid procedures,
+safety practices, and responsibility for health
+decisions are all discussed. Course is required to
+graduate high school. ",,,FALSE,FALSE,FALSE,FALSE,10/6/2026,
+1059,36.0510001,36.0510001,Personal Fitness ,Health & Physical Education,"This course helps students develop a physical fitness
+program. Students are introduced to the concepts of
+stress management, weight training and
+conditioning, and proper nutrition. Progress toward
+individual fitness goals is measured throughout the
+semester. This course is required to graduate high
+school unless an approved personal fitness waiver is
+on file. ",,,FALSE,FALSE,FALSE,FALSE,10/6/2026,
+1060,,,Intro to Dance,Health & Physical Education,,,,FALSE,FALSE,FALSE,FALSE,10/6/2026,
+1061,36.0530001,36.0530001,Aerobic Dance,Health & Physical Education,"Provides opportunities to perform choreographic
+routines to music and to increase strength,
+cardiovascular and muscular endurance and
+flexibility. Includes fitness concepts for developing
+healthy lifetime habits.",,,FALSE,FALSE,FALSE,FALSE,10/6/2026,
+1062,36.0110001,36.0110001,General PE I,Health & Physical Education,"This course contains nine activities. The activities are basketball, flag football, Frisbee games, softball, soccer, speedball, tennis, hockey, and volleyball. Each activity will be presented in a two-week unit.",,1,FALSE,FALSE,FALSE,FALSE,10/6/2026,
+1063,36.0120001,36.0120001,General PE II,Health & Physical Education,"Basic skills, rules and strategies of basketball, flag football, team handball, badminton, tennis/pickle ball and soccer are covered in this class.",,2,FALSE,FALSE,FALSE,FALSE,10/6/2026,
+1064,36.0270001,36.0270001,Intro to Rec. Games,Health & Physical Education,"This course is designed for students to gain a better
+knowledge of various sports and activities. This class
+will include Volleyball, badminton, flag football,
+soccer, basketball, ultimate frisbee, pickle ball and
+ping pong. If you want to have a class that is fun and
+energetic, Recreational Games is for you! ",,,FALSE,FALSE,FALSE,FALSE,10/6/2026,
+1065,36.0220001,36.0220001,Lifetime Sports,Health & Physical Education,"This course involves low-impact sports activities
+which can be enjoyed for a lifetime. Major topics
+include golf, tennis, pickle ball, bocce, table tennis,
+croquet and Volleyball. ",,,FALSE,FALSE,FALSE,FALSE,10/6/2026,
+1066,36.0540001,36.0540001,Weight Training ,Health & Physical Education,"Weight training and conditioning introduces correct
+lifting form, emphasizes safety practices, and
+presents a variety of exercises. Individual weight
+training programs are designed and followed
+throughout the course. ",,,FALSE,FALSE,FALSE,FALSE,10/6/2026,
+1067,36.0640001,36.0640001,Advanced Weight Training,Health & Physical Education,"The student will participate in activities designed to
+improve his or her physical fitness. These will include
+activities in the areas of cardiovascular fitness,
+flexibility, muscular strength and endurance. Fitness
+testing will be included. The students will be shown
+lifts, safe spotting techniques and how to follow
+designed programs. Advanced coursework includes
+body sculpting and exercise/weight control. ",,,FALSE,FALSE,FALSE,FALSE,10/6/2026,
+1068,36.0520001,36.0520001,Physical Conditioning,Health & Physical Education,"This course provides students the opportunity to
+participate in a variety of activities to enhance
+flexibility, muscular strength and endurance,
+cardiovascular endurance and body composition.
+Includes fitness concepts for the development of
+healthy lifetime habits. ",,,FALSE,FALSE,FALSE,FALSE,10/6/2026,
+1069,25.5210001,25.5210002,"Introduction to
+Healthcare
+Science ",Therapeutic Services,"This course will enable students to receive initial
+exposure to many Healthcare Science careers as well
+as employability, communication, and technology
+skills necessary in the healthcare industry. The
+concepts of human growth and development,
+interaction with patients and family members,
+health, wellness, and preventative care are
+evaluated, as are the legal and ethical
+responsibilities of today’s healthcare provider.
+Fundamental healthcare skills development is
+initiated including microbiology and basic life
+support. First course in Sports Medicine and Surgical
+Technology Pathways. ** This class does not fill the
+health course requirement for graduation**",,,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1070,25.4400001,25.4400002,"Essentials of
+Healthcare",Therapeutic Services,"Anatomy course addressing the physiology of each
+body system, along with the investigation of
+common diseases, disorders, and emerging
+diseases. Second course in Sports Medicine and
+Surgical Technology Pathways. This course will also
+count as a full Science credit for Human Anatomy.",,,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1071,25.4370001,25.4370002,"Allied Health and
+Medicine",Therapeutic Services,"This course is designed to offer students (preferably
+upper classmen - juniors or seniors) the opportunity to
+become effective and efficient multi-skilled healthcare
+providers as they develop a working knowledge of
+various allied health opportunities. Students focusing
+on a career path in the healthcare field may apply
+classroom/lab knowledge and skills in the clinical
+setting as they participate in direct or simulated client
+care. The curriculum allows instructors to provide
+options for classroom/student growth opportunities in
+area(s) of interest to the student. These options may
+be determined by community need, available
+resources, and/or student interest, etc.",,,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1072,25.45301,25.45302,Pharmacy Operations and Fundamentals,Therapeutic Services,"This course is an introduction to pharmacy technology professions, and basic preemployment opportunities, pharmacy technician skills which may be utilized in either clinical or community settings such as retail, home health care, and ambulatory care pharmacies. Intensive pharmacy specific safety and security training is provided including potential drug addiction and abuse issues relative to pharmaceutical care such as robberies and identification of forgeries. Students are required to adhere to Federal Regulatory Agencies and Acts guidelines including Food, Drug, and Cosmetic Act, Controlled Substances Act (CSA), Joint Commission on Accreditation of Healthcare Organizations (JCAHO), Drug Enforcement Administration (DEA) in addition to the pharmacy regulatory agencies within the state of Georgia. This course is recommended for This course is an introduction to pharmacytechnology professions, and basic preemployment opportunities, pharmacy technician skills which may
+be utilized in either clinical or community settings such as retail, home health care, and ambulatory care pharmacies. Intensive pharmacy specific safety and security training is provided including potential drug addiction and abuse issues relative to
+pharmaceutical care such as robberies and identification of forgeries. Students are required to adhere to Federal Regulatory Agencies and Acts guidelines including Food, Drug, and Cosmetic Act, Controlled Substances Act (CSA), Joint Commission
+on Accreditation of Healthcare Organizations (JCAHO), Drug Enforcement Administration (DEA) in addition to the pharmacy regulatory agencies within the state of Georgia.",,,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1073,7.4413001,7.4413002,Intro to Business & Technology,"Business Management –
+Entrepreneurship","Introduction to Business & Technology is the
+foundational course for Business and Technology,
+Entrepreneurship. The course provides an overview
+of business and technology skills required for today's
+business environment. Knowledge of business
+principles, the impact of financial decisions, and
+technological proficiencies demanded by business
+combine to establish the elements of this course.
+Emphasis is placed on developing proficient
+fundamental computer skills required for all career
+pathways. Students will learn essentials for working
+in a business environment, managing a business, and
+owning a business. The intention of this course is to
+prepare students to be successful both personally
+and professionally in an informationbased society.
+Students will not only understand the concepts but
+apply their knowledge to situations and defend their
+actions/decisions/choices through the knowledge
+and skills acquired in this course. Employability skills
+are integrated into activities, tasks, and projects
+throughout the course standards to demonstrate the
+skills required by business and industry.
+Competencies in the co-curricular student
+organization, Future Business Leaders of America
+(FBLA), are integral components of both the
+employability skills standards and content standards
+for this course. Various forms of technologies will
+be highlighted to expose students to the emerging
+technologies impacting the business world.
+Professional communication skills and practices,
+problem-solving, ethical and legal issues, and the
+impact of effective presentation skills are taught in
+this course as a foundational knowledge to prepare
+students to be college and career ready.
+Introduction to Business & Technology is a course that is appropriate for all high school students. After
+mastery of the standards in this course, students
+should be prepared to earn an industry recognized
+credential: Microsoft Office Specialist for Word Core
+Certification. ",,,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1074,6.4150001,6.4150002,Legal Environment of Business,"Business Management –
+Entrepreneurship","Legal Environment of Business addresses statutes
+and regulations affecting businesses, families, and
+individuals. All students will benefit from the
+knowledge of business law as they will eventually
+assume roles as citizens, workers, and consumers
+in their communities and in society at large.
+Students will get an overview of business law
+while concentrating on the legal aspects of
+business ownership and management. Legal issues
+addressed include court procedures, contracts,
+torts, consumer law, employment law,
+environmental law, international law, ethics, and
+the role of the government in business. Students
+will not only understand the concepts but will also
+apply their knowledge to situations and defend
+their actions, decisions, and choices. Various
+forms of technologies will be highlighted to
+expose students to the emerging technologies
+impacting the business world. Professional
+communication skills and practices, problem
+solving, ethical and legal issues, and the impact of
+effective presentation skills are expanded in this
+course to prepare students to be college and
+career ready. Employability skills are integrated
+into activities, tasks, and projects throughout this
+course to demonstrate skills required by business
+and industry. Competencies in the cocurricular
+student organization, Future Business Leaders of
+America (FBLA), are integral components of both
+the employability skills and content standards of
+this course. ",,,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1075,6.4161001,6.4161002,Entrepreneurship,"Business Management –
+Entrepreneurship","Students will learn to: *Model work readiness traits required for success in the workplace. *Project a professional image through appearance, behavior, and language. *Communicate effectively through writing, speaking, listening, reading and interpersonal abilities. Additional topics include employment, market research, funding, location, marketing plan, management, accounting process, business ethics, culture, day to day operations, characteristics of an entrepreneur, goal setting and business plan.",,,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1076,7.4260001,7.4260002,Financial Literacy,"Business Management –
+Financial Services","This course is specifically designed for students to
+understand the importance of the financial world,
+including planning, and managing money wisely.
+Areas of study taught through application in
+personal finance include sources of income,
+budgeting, banking, consumer credit, credit laws
+and rights, personal bankruptcy, insurance,
+spending, taxes, investment strategies, savings
+accounts, mutual funds, and the stock market,
+buying a vehicle, and living independently. Based on
+the hands-on skills and knowledge applied in this course, students will develop financial goals and
+create realistic and measurable objectives to be
+MONEY SMART! Through project-based learning
+activities and tasks, students will apply
+mathematical concepts in realistic scenarios and will
+actively engage in applying the mathematics
+necessary to make informed decisions related to
+personal finance. Financial Literacy places great
+emphasis on problem solving, reasoning,
+representing, connecting and communicating
+financial data. Various forms of technologies and
+internet research will be highlighted to expose
+students to the resources available when managing
+personal financial goals. Employability skills are
+integrated into activities, tasks, and projects
+throughout the course standards to demonstrate the
+skills required by business and industry. ",,,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1077,7.43100001,7.43100002,"Banking,
+Investing, &
+Insurance ","Business Management –
+Financial Services","Explore the financial world as students dive into the
+main areas of financial services, including banking,
+investing, and insurance. Basics of banking and
+credit include a brief history of money and banking,
+negotiable instruments, creation of credit, and the
+function of banks. Methods for measuring the
+financial performance of financial institutions are
+analyzed. Students will be introduced to a variety of
+investment options and learn to determine the
+appropriate options for an investment goal. By
+analyzing financial reports and employing other
+tools to predict growth rates and return on
+investment, students will develop strategies to
+produce financial growth strategies for a business.
+Through projects, students will determine the risks
+faced by individuals and businesses and decide on
+the proper risk management techniques to mitigate
+those risks. Investigating both personal and business
+insurance products and deciding which products are
+suitable for a specific customer profile will be
+covered. Ethical issues and case studies involved in
+the financial services industry will be used to
+determine how industry regulations are developed.
+An investigation of careers in the financial services
+industry will be explored throughout this course.
+Concepts of this course will be enhanced by business
+partnerships with community financial institutions,
+investment firms, insurance companies, stock
+market simulations, guest speakers, virtual
+experiences, technology, and field trips. Various
+forms of technologies and internet research will be
+highlighted to expose students to the resources in
+the financial industry. Employability skills are
+integrated into activities, tasks, and projects
+throughout the course standards to demonstrate the
+skills required by business and industry. Banking,
+Investing, and Insurance is the final course in the
+Financial Services pathway in the Finance Cluster. ",,,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1078,11.4150001,11.4150002,Intro to Digital Technology,Computer Programming,"Introduction to the computer, software, technology,
+and problem solving that is the 1st course in the
+Software Technology pathways. ",,,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1079,11.4710001,11.4710002,"AP Computer
+Science Principles",Computer Programming,"College-level introduction to the concepts of
+Computer Science and how it affects society that
+prepares for the AP exam. Includes the rigors of
+computer programming and is the 2nd course of the
+Software Technology pathway. This course qualifies
+as the fourth science course for graduation and for
+college admissions, which meets the rigor
+requirement.",,,TRUE,TRUE,FALSE,FALSE,10/6/2026,
+1080,11.4720001,11.4720002,"Programming, Apps, Games & Society",Computer Programming,"The course is designed for students to strategize,
+design, and develop games and mobile and desktop
+applications that can be produced in the real world.
+Students will learn about life cycles of project
+development and use models to develop
+applications. Attention will be placed on how user
+interfaces affect the usability and effectiveness of a
+game or an application. Programming constructs will
+be employed which will allow students’ applications
+to interact with “real world,” stimuli. The course
+exposes students to privacy, legality, and security
+considerations with regards to the software industry.
+Various forms of technologies will be used to expose
+students to resources, software, and applications of
+programming. ",,,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1081,8.47401,8.47402,Marketing Principles,"Marketing – Fashion
+Merchandising","This course addresses all the ways in which
+marketing satisfies consumer and business needs and
+wants for products and services",,,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1082,8.42101,8.42102,"Fashion Merchandising
+and Retailing
+Essentials","Marketing – Fashion
+Merchandising","Fashion, Merchandising and Retailing Essentials is
+the second course in the Fashion, Merchandising and
+Retail Management Pathway. This course introduces
+students to the retail industry including the
+fundamentals of fashion marketing, key marketing
+concepts essential to every business, types of
+businesses involved in the industry, and an array of
+career opportunities. Students will develop skills in
+such areas as fashion economics, marketing
+segmentation and target marketing, product
+selection and buying, and inventory systems. ",,,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1083,8.42201,8.42202,"Advanced Fashion,
+Merchandising and
+Retailing","Marketing – Fashion
+Merchandising","Advanced Fashion, Merchandising and Retailing is
+the third course in the Fashion, Merchandising and
+Retail Management Career Pathway and focuses on
+the application of knowledge and the performance of
+key skills required in a retail environment. Students
+will develop skills necessary for managing the
+following elements: pricing, visual merchandising,
+advertising, special promotions, professional sales,
+and customer service. ",,,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1084,8.47801,8.47802,"Introduction to
+Sports and
+Entertainment
+Marketing",Marketing – Sports and Entertainment,"This course introduces the student to the major
+segments of the Sports and Entertainment Industry
+and the social and economic impact the industry has
+on the local, state, national, and global economies.
+The products and services offered to consumers and
+the impact of marketing on these products and serv
+ices are examined. Units include Business
+Fundamentals, Product Mix, Product Knowledge,
+Product/Service Management, Business Regulations,
+Interpersonal Skill, Selling, Marketing Information
+Management, Economics, Distribution, Pricing,
+Advertising, Publicity/Public Relations, Sales
+Promotion, Business Risks, and Organization. ",,,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1085,8.48501,8.48502,"Advanced Sports and
+Entertainment
+Marketing",Marketing – Sports and Entertainment,"This course provides students opportunities to
+develop managerial and analytical skills and deepen
+their knowledge in sports/entertainment marketing.
+Topical units include Pricing, Marketing Information
+Management, Selling, Publicity/Public Relations,
+Sales Promotion, Management of Promotion,
+Product Mix, Positioning, and Marketing Planning.",,,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1086,21.4250001,21.4250002,"Foundations of
+Engineering &
+Technology",Engineering and Technology,"Robotics and manufacturing, computer numerical
+control, automation, research and computer
+-aided
+design, advertising and presentation, radio
+-audio
+communication, laser and fiber optics, flight and
+space, solar energy, electricity and electronics,
+transportation, simple machines, and
+pneumatics/hydraulics. First course in Engineering &
+Technology Pathway. ",,,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1087,21.4710001,21.4710002,Engineering Concepts,Engineering and Technology,"Technological concepts, process and systems,
+problem- solving, safety, teamwork, equipment,
+analysis and evaluation, and career opportunities.
+Second course in Engineering & Technology Pathway. ",,,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1088,21.4720001,21.4720002,Engineering Applications,Engineering and Technology,"Engineering concepts, process and systems,
+problem solving, safety, teamwork, equipment,
+analysis and evaluation, and career opportunities.
+Third course in Engineering & Technology Pathway. ",,,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1089,10.5181001,10.5181002,"Audio & Video
+Technology &
+Film I",Audio – Video Technology,"This course is the foundational course in the Audio &
+Video Technology & Film pathway. The course
+prepares students for employment or entry into a
+postsecondary education program in the audio and
+video technology career field. Topics covered may
+include, but are not limited to terminology, safety,
+basic equipment, script writing, production teams,
+production and programming, lighting, recording and
+editing, studio production, and professional ethics.
+Skills USA and Technology Student
+Association (TSA) are examples of, but not limited to,
+appropriate organizations for providing leadership
+training and/or for reinforcing specific career and
+technical skills and may be considered an integral
+part of the instructional program. All material
+covered in Audio & Video Technology & Film I will be
+utilized in subsequent courses.",,1,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1090,10.5191001,10.5191002,"Audio & Video
+Technology &
+Film II ",Audio – Video Technology,"This year-long course is the second in a series of
+three that prepares students for a career in Audio
+Video Technology and Film production and/or to
+transfer to a postsecondary program for further
+study. Topics include Planning, Writing, Directing and
+Editing a Production; Field Equipment Functions;
+Operational Set-Up and Maintenance; Advanced
+Editing Operations; Studio Productions;
+Performance; Audio/Video Control Systems;
+Production Graphics; Career Opportunities; and
+Professional Ethics. Skills USA and Technology Student
+Association (TSA) are examples of, but not limited to,
+appropriate organizations for providing leadership
+training and/or for reinforcing specific career and
+technical skills and may be considered an integral part
+of the instructional program. ",,2,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1091,10.5201001,10.5201002,"Audio & Video
+Technology &
+Film III",Audio – Video Technology,"The last class of the pathway is geared towards
+careers in which students may be able to pursue.
+Students will manage a student-led broadcast and
+work, both individually and cooperatively, on a variety
+of projects. You will cover film making, career
+opportunities, professional ethics, copyright. ",,3,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1092,48.56101,48.56102,"Introduction to
+Graphics and
+Design",Graphic Design,"This course is designed as the foundational course for
+both the Graphics Production and Graphics Design
+pathways. The Graphics and Design course provides
+students with the processes involved in the
+technologies of printing, publishing, packaging,
+electronic imaging, and their allied industries. In
+addition, the Graphics and Design course offers a
+range of cognitive skills, aesthetics, and crafts that
+includes typography, visual arts, and page layout. ",,,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1093,48.56201,48.56202,"Graphic
+Design and
+Production",Graphic Design,"As the second course in the Graphics
+Communication and Graphics Design Pathways, this
+course builds on knowledge and skills learned in the
+Introduction to Graphics and Design course and
+focuses on procedures commonly used in the graphic
+communication and design industries. Students will
+gain more experience in creative problem solving
+and the practical implementation of those solutions
+across multiple areas of graphic design and graphic
+communications. ",,,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1094,48.52801,48.52802,"Advanced
+Graphic
+Design",Graphic Design,"Students will continue to explore in an increasingly
+independent manner, the principles of design and
+layout procedures relating to the field of graphic
+design. Content will cover electronic systems and
+software programs used in graphic design, page
+composition, image conversion, and digital printing.
+Knowledge and skills in digital design and imaging will
+be enhanced through experiences that simulate the
+graphic design industry and school-based and workbased learning opportunities. This is the final course
+in the Graphic Design pathway",,,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1095,28.0310001,28.0310002,JROTC/Army I,JROTC,"Introduction to leadership & character education;
+history, customs, traditions and purpose of Army
+JROTC; leadership principles, values and attributes;
+achieving a healthy lifestyle; study skills,
+communication skills, and conflict resolution ",,1,FALSE,FALSE,FALSE,FALSE,10/6/2026,
+1096,28.0320001,28.0320002,JROTC/Army II,JROTC,"Intermediate life skills, geography & government;
+communication skills, conflict resolution, styles of
+leadership, management skills; overview of the
+globes, maps and land navigation; the federal
+judicial system; first aid emergencies; achieving a
+healthy lifestyle ",,2,FALSE,FALSE,FALSE,FALSE,10/6/2026,
+1097,28.0330001,28.0330002,JROTC/Army III,JROTC,"Advanced leadership, principles of management,
+advanced life skills, orienteering and history; the
+nation’s defense forces; leading situation
+performance indicators, negotiating, decision
+making, and planning",,3,FALSE,FALSE,FALSE,FALSE,10/6/2026,
+1098,28.0340001,28.0340002,JROTC/Army IV,JROTC,"Leadership seminar and social sciences; leading
+situations: leading meetings, supervising, team
+development, project management, and mentoring.
+Students are placed in leadership positions and
+perform administrative, logistical, or operational
+duties; career planning ",,4,FALSE,FALSE,FALSE,FALSE,10/6/2026,
+1099,50.0313001,50.0313001,Drawing & Painting I,Visual Arts,"Drawing & Painting I will instruct students in fundamental
+drawing skills and prepare them to make the transition to
+painting. Course work builds on drawing skills introduced in
+Introduction to Art. Drawing approaches include contour, value
+to model form, gesture, perspective and color. Students work
+with drawing media such as pencil, charcoal, conte and oil
+pastels. Art history, criticism and aesthetics are incorporated
+with studio production of drawings and paintings. In addition
+to learning a life- long skill, drawing courses help increase
+observation skills, self-discipline, ability to evaluate one’s own
+performance, problem-solving abilities, and ability to complete
+long-term projects. ",,1,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1100,50.0314001,50.0314001,Drawing & Painting II,Visual Arts,"Drawing & Painting II develops fundamental painting skills and
+continues to strengthen composition and drawing skills. This
+course enhances level one skills in technique and provides further
+exploration of drawing media. Drawing skills and critical analysis
+skills are reinforced for responding to master drawings of different
+historical styles and periods. This course addresses increasingly
+complex drawing and painting problems and the development of
+personal style. Art history, criticism, and aesthetics are
+incorporated with studio production of drawings and paintings. ",,2,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1101,50.0321001,50.0321001,Drawing & Painting III,Visual Arts,"Drawing & Painting will instruct students in fundamental drawing
+skills and prepare them to make the transition to painting. Course
+work builds on drawing skills introduced in Introduction to Art.
+Drawing approaches include contour, value to model form, gesture,
+perspective and color; students work with drawing media such as
+pencil, charcoal, oil pastels. Art history, criticism and aesthetics are
+incorporated with studio production of drawings and paintings. In
+addition to learning a life-long skill, drawing courses help you
+increase your observation abilities, your self-discipline, your ability
+to evaluate your own performance, your problem-solving abilities,
+and your ability to complete long-term projects. ",,3,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1102,50.0322001,50.0322001,Drawing & Painting IV,Visual Arts,"Drawing & Painting will instruct students in fundamental drawing
+skills and prepare them to make the transition to painting. Course
+work builds on drawing skills introduced in Introduction to Art.
+Drawing approaches include contour, value to model form, gesture,
+perspective and color; students work with drawing media such as
+pencil, charcoal, oil pastels. Art history, criticism and aesthetics are
+incorporated with studio production of drawings and paintings. In
+addition to learning a life-long skill, drawing courses help you
+increase your observation abilities, your self-discipline, your ability
+to evaluate your own performance, your problem-solving abilities,
+and your ability to complete long-term projects. ",,4,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1103,50.4813011,50.4813012,AP Studio Drawing,Visual Arts,"This year-long course is a performance-based exam rather than a
+written exam. The product of this class will be a portfolio presented
+to the AP College Board. This portfolio is intended to address a
+broad interpretation of two-dimensional 2D design issues. This type
+of design involves purposeful decision-making about how to use
+the elements and principles of art in an integrative way. A variety of
+approaches to representation, abstraction and expression may be a
+part of the student's portfolio. This portfolio allows the student to
+work with photographic images, digital images, computermanipulated images, as well as media production. Students should
+expect to spend five or more hours outside of class each week to
+complete the assignments. Summer work provides students with a
+head start on their portfolios and is required prior to fall entry into
+the class.",,,TRUE,TRUE,FALSE,FALSE,10/6/2026,
+1104,50.0411001,50.0411001,Ceramics I,Visual Arts,"Ceramics I introduces the characteristics of clay and design in clay
+using various techniques of construction and decoration.
+Emphasizes hand building and introduces other forming
+techniques, surface decoration, and glaze applications. Covers
+styles of ceramic works from Western and non-Western cultures. In
+addition to learning a lifelong skill, ceramic courses help improve
+observation skills, self-discipline, organization, ability to evaluate
+one’s own performance, problem-solving abilities and ability to
+complete long-term projects. ",,1,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1105,50.0412001,50.0412001,Ceramics II,Visual Arts,"Ceramics II enhances level one skills and provides opportunities to
+apply design techniques in clay through hand building and/or
+throwing on the potter's wheel. Introduces formulation of basic
+glazes and kiln firing; stresses evaluation of clay forms through art
+criticism. ",,2,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1106,50.0413001,50.0413001,Ceramics III,Visual Arts,"Ceramics III enhances level two skills and provides opportunities to
+apply design techniques in clay through hand building and/or wheel
+throwing techniques while developing personal artistic voice.
+Presents ceramic/pottery forms as art and craft in historical
+context. Explores ideas and questions about purposes and
+functions of ceramic forms, past and present.",,3,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1107,50.0414001,50.0414001,Ceramics IV,Visual Arts,"Ceramics IV enhances level three skills and provides opportunities
+to apply design techniques in clay through hand building and/or
+wheel throwing techniques while continuing to develop personal
+artistic voice. Emphasizes more complex form and surface
+treatments using tools, glazes, resists, and multiple clay bodies.",,4,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1108,50.0611001,50.0611001,Sculpture I,Visual Arts,"Sculpture I introduces the design and production of relief sculpture
+and sculpture-in-the-round. Emphasizes the historical origins and
+functions of sculpture in Western and non-Western cultures.
+Includes additive, subtractive, and modeling methods. Explores
+traditional and nontraditional materials for sculpted works and the
+work of both historical and contemporary sculptural artists.
+Sculpture courses help improve problem solving skills, selfdiscipline,
+organization, ability to evaluate one’s own performance and ability
+to complete long- term projects. ",,1,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1109,50.0612001,50.0612001,Sculpture II,Visual Arts,"Sculpture II enhances level one skills and explores the design and
+production of relief sculpture and sculpture- in-the-round.
+Emphasizes the historical origins and functions of sculpture in
+Western and non-Western cultures. Includes additive, subtractive,
+and modeling, methods. Explores traditional and nontraditional
+materials for sculpted works and the work of a variety sculptural
+artists.",,2,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1110,50.0613001,50.0613001,Sculpture III,Visual Arts,"Sculpture III enhances level two skills and introduces advanced
+exploration and mastery of selected, complex techniques,
+designs, materials, tools, and equipment. Introduces casting,
+molding, gouging, brazing, soldering, piercing, and mixed media.
+Stresses personal expression of creative ideas and depth of
+exploration in selected techniques. Continues critical study of
+master sculptures and sculptors. ",,3,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1111,50.0614001,50.0614001,Sculpture IV,Visual Arts,"Sculpture IV enhances level three skills and provides advanced
+exploration and mastery of selected, complex techniques, designs,
+materials, tools, and equipment. It further explores casting,
+molding, gouging, brazing, soldering, piercing, and mixed media.
+Stresses personal expression of creative ideas and depth of
+exploration in selected techniques. Continues critical study of
+master sculptures and sculptors. ",,4,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1112,50.0814,50.0814,AP Studio 3D Art and Design,Visual Arts,"Develop 3-D skills in materials and processes, such as sculpture,
+architectural rendering and models, metal work, ceramics, glass
+work, and others. You’ll create artwork that reflects your own ideas
+and skills and what you’ve learned. Students will submit a portfolio
+of artwork for evaluation at the end of the school year. You’ll upload
+digital images of your work and commentary online. For the AP 3-D
+Art and Design portfolio:
+• Your work should focus on the use of three-dimensional (3-D)
+skills of art and design, including point, line, shape, plane, layer,
+form, volume, mass, occupied/unoccupied space, texture, color,
+value, opacity, transparency, time, unity, variety, rhythm,
+movement, proportion, scale, balance, emphasis, contrast,
+repetition, connection, juxtaposition, and hierarchy.
+• Here are some formats you can submit: figurative or
+nonfigurative sculpture, architectural models, metal work,
+ceramics, glasswork, installation, performance, assemblage, and
+3-D fabric/fiber arts.
+• Don’t submit video clips—they’re not allowed. You may submit
+still images from videos or film and composite images. ",,,TRUE,TRUE,FALSE,FALSE,10/6/2026,
+1113,50.0711001,50.0711001,Photography I,Visual Arts,"This semester long course is an introduction to black and white
+photography and darkroom processing. Students will construct their
+own pinhole camera, take photos, and develop photos in the
+darkroom creating a photographic portfolio as they learn the
+technical and artistic aspects of photography. A brief introduction to
+digital photography will be included. Photo history, critiques of
+photos, aesthetics and design will be addressed throughout the
+semester. Students will have assignments to take some photos at
+home and keep a visual journal. Students will provide their own
+light sensitive paper which can be purchased in bulk for a discount. ",,1,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1114,50.0712001,50.0712001,Photography II,Visual Arts,"This course builds on basic skills and darkroom techniques learned
+in Photo Design I. Students hone skills in communicating meaning
+through photography. They learn to use a 35mm camera, they develop and print images from black and while film and refine their
+darkroom and printing techniques. The course incorporates
+aesthetics, art criticism, art history and a brief introduction to
+digital photography. Students will be asked to take selected
+photographs at home and to keep a visual journal. Students will
+provide their own film and light sensitive paper which can be
+purchased in bulk for a discount.",,2,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1115,50.0713001,50.0713001,Photography III,Visual Arts,"This course hones skills in communicating meaning through
+photography. Students will work in a more conceptual manner to
+develop their own ideas, style and artistic voice while developing
+a portfolio. Students will be asked to take selected photographs
+at home and to keep a visual journal. Students will provide their
+own film and light sensitive paper which can be purchased in
+bulk for a discount.",,3,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1116,50.7140001,50.7140001,Photography IV,Visual Arts,"This course is an advanced semester long course that hones skills
+in communicating meaning through photography. Students will
+work in a more conceptual manner to develop their own ideas,
+style and artistic voice while developing a portfolio. Students will
+create a portfolio of prints in the form of a concentration.
+Students will be asked to take selected photographs at home and
+to keep a visual journal. Students will provide their own film and
+light sensitive paper which can be purchased in bulk for a
+discount. ",,4,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1117,52.0210001,52.0210002,Fundamentals of Theatre I,Fine Arts - Theatre,"This course will offer theatre exercises to develop acting
+and production skills at all levels. It is an exploration of
+theatre as an artistic form that focuses on the
+appreciation and value of theatre in society. The
+students will participate in theatre games that utilize
+their inner resources of imagination, observation, and
+concentration. Included will be performance and
+production demonstrations of creative team building
+scenes as well as open scenes. ",,1,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1118,52.0220001,52.0220002,Fundamentals of Theatre II,Fine Arts - Theatre,"This course will offer theatre exercises to develop acting
+and production skills at all levels and is a continuation
+of Fundamentals of Theater 1. It is an in- depth
+exploration of theatre as an artistic form that focuses
+on the appreciation and value of theatre in society. The
+students will participate in theatre games that utilize
+their inner resources of imagination, observation, and
+concentration. Included will be performance and
+production demonstrations of creative team building
+scenes as well as open scenes.",,2,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1119,52.061,52.061,Acting I,Fine Arts - Theatre,"This is a course for a student taking Acting for the first
+time. Beginning actors will be exposed to several
+different performance styles and methods which will
+improve their performance skills. This course uses
+theatre to encourage cooperative learning, teamwork,
+organization, and leadership skills. Theatre’s forte is in
+the emotional arena, where participants are able to
+not only express emotion in a safe environment, but
+more pertinently, able to learn how to calibrate their
+emotional responses to various stimuli. The class
+allows all students the opportunity to perform on a
+regular basis. After-school rehearsal time and
+performances may be required. ",,1,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1120,52.062,52.062,Acting II,Fine Arts - Theatre,"This is a course for a student taking Acting for the
+second time. This course delves further into the
+techniques of acting through the introduction of
+particular schools of thought associated with the
+control of voice and movement for effective character
+development. Using these techniques, the student then
+explores the style of realism and examines the artists
+associated with that movement and their methods of
+instruction. Through this framework the students begin
+to master specific period styles through research and
+implementation of the restrictions and demands found
+in a specific style. The course culminates in a peer
+reviewed performance which offers the opportunities to
+audition, build, and critique theatrical productions in
+the classroom setting. The course is designed for any
+student wishing to hone their acting skills in an effort to
+broaden the range of possibilities for performance.
+After-school rehearsal time and performances may be
+required. ",,2,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1121,52.063,52.063,Acting III,Fine Arts - Theatre,"This is a course for a student taking Acting for the third
+time. The focus of this course is to prepare students for
+a multitude of audition opportunities. This course is
+aimed at students that wish to continue theatrical
+studies beyond high school. Students will learn about
+the business of acting, personal marketing, and the
+importance of versatility in their audition repertoire. At
+the end of the course the student will have knowledge
+of contemporary selfmarketing and monologues to use
+in auditions for colleges, conservatories, community,
+academic, or professional theatre. After-school
+rehearsal time and performances may be required. ",,3,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1122,52.051,52.051,Advanced Drama I,Fine Arts - Theatre,"Placement in this course is by audition only. This is a
+course for a student taking Advanced Drama for the first
+time. A study of the artistic, technical, managerial, and
+financial elements of a dramatic production. Students
+will assume positions of responsibility for selected
+productions throughout the year and will have an
+opportunity to participate in several types of artistic
+situations. After-school rehearsal time and
+performances may be required. Students will be asked
+to prepare a monologue for the audition. ",,1,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1123,52.052,52.052,Advanced Drama II,Fine Arts - Theatre,"Placement in this course is by audition only. This is a
+course for a student taking Advanced Drama for the first
+time. A study of the artistic, technical, managerial, and
+financial elements of a dramatic production. Students
+will assume positions of responsibility for selected
+productions throughout the year and will have an
+opportunity to participate in several types of artistic
+situations. After-school rehearsal time and
+performances may be required. Students will be asked
+to prepare a monologue for the audition. ",,2,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1124,53.0361001,53.0361002,Beginning Band,Fine Arts – Band and Piano,"Courses provide opportunities for performers to
+increase performance skills and precision on a wind or
+percussion instrument. It includes performance and
+production, analysis and theoretical studies, historical
+and cultural contributions and influences, creative
+aspects of music and appreciation of music. Stresses
+individual progress and learning and group
+experiences; strengthens reading skills. After-school
+rehearsal time and performances may be required.
+NOTE: At each sequential level performance
+expectations increase. ",,,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1125,53.0371001,53.0371002,Intermediate Band I,Fine Arts – Band and Piano,"Courses provide opportunities for performers to
+increase performance skills and precision on a wind or
+percussion instrument. It includes performance and
+production, analysis and theoretical studies, historical
+and cultural contributions and influences, creative
+aspects of music and appreciation of music. Stresses
+individual progress and learning and group
+experiences; strengthens reading skills. After-school
+rehearsal time and performances may be required.
+NOTE: At each sequential level performance
+expectations increase. ",,1,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1126,53.0372001,53.0372002,Intermediate Band II,Fine Arts – Band and Piano,"Courses provide opportunities for performers to
+increase performance skills and precision on a wind or
+percussion instrument. It includes performance and
+production, analysis and theoretical studies, historical
+and cultural contributions and influences, creative
+aspects of music and appreciation of music. Stresses
+individual progress and learning and group
+experiences; strengthens reading skills. After-school
+rehearsal time and performances may be required.
+NOTE: At each sequential level performance
+expectations increase. ",,2,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1127,53.0381001,53.0381002,Advanced Band I,Fine Arts – Band and Piano,"This year-long course is similar to Intermediate Band,
+but includes more complex rhythms, pitch
+discrimination through singing and playing, expression,
+and music vocabulary. Major wind band literature is
+studied and performed; advanced knowledge of
+instrumental technique and music vocabulary is a
+must. Course content expectations are high. Afterschool rehearsal time and performances may be
+required.",,1,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1128,53.0382001,53.0382002,Advanced Band II,Fine Arts – Band and Piano,"This year-long course is similar to Intermediate Band,
+but includes more complex rhythms, pitch
+discrimination through singing and playing, expression,
+and music vocabulary. Major wind band literature is
+studied and performed; advanced knowledge of
+instrumental technique and music vocabulary is a
+must. Course content expectations are high. Afterschool rehearsal time and performances may be
+required.",,2,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1129,53.0383001,53.0383002,Advanced Band III,Fine Arts – Band and Piano,"This year-long course is similar to Intermediate Band,
+but includes more complex rhythms, pitch
+discrimination through singing and playing, expression,
+and music vocabulary. Major wind band literature is
+studied and performed; advanced knowledge of
+instrumental technique and music vocabulary is a
+must. Course content expectations are high. Afterschool rehearsal time and performances may be
+required.",,3,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1130,53.0761001,53.0761002,Percussion I,Fine Arts – Band and Piano,"This yearlong course develops the basic techniques in
+solo and chamber percussion playing as well as
+concert band materials. Emphasis is placed on
+percussion techniques, composers, percussion
+literature, and performance etiquette. After-school
+rehearsal time and performances may be required. ",,1,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1131,53.0762001,53.0762002,Percussion II,Fine Arts – Band and Piano,"This year-long course is a continuation of Percussion I
+and develops the intermediate techniques in solo and
+chamber percussion playing as well as concert and
+wind band materials. ",,2,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1132,53.0221001,53.0221002,Beginning Music Technology,Fine Arts – Band and Piano,"Learn the basics of professional audio recording and
+production - just like in the recording studio! Edit and
+mix simple and complex projects using the most
+advanced, industry-standard software and hardware
+tools and equipment. Studio production involves
+creative use of synthesizers, audio effects, processors,
+and more. Edit, mix and remix studio sessions by
+professional artists with an emphasis on training to
+use Pro Tools Digital Audio Workstation. Get hands-on
+training with audio interface, MIDI input devices,
+recording gear. Focus will be on learning and practicing
+the tools-of-the-trade for professional audio
+production, mixing and mastering. There may be
+additional fees to help cover the costs of professional
+software updates and equipment maintenance.",,,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1133,TBD,TBD,Advanced Keyboard Tech 1,Fine Arts – Band and Piano,"This course offers opportunities for Advanced-level
+performers to increase performance skills and
+knowledge in keyboard techniques. Covers
+performance and production, analysis and theoretical
+studies, historical and cultural contributions and
+influences, creative aspects of music and
+appreciation of music. Provides an individualized
+setting. ",,1,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1134,53.0941001,53.0941001,Beginning PIANO,Fine Arts – Band and Piano,"This semester course is for beginning piano students; it
+is not an advanced course. The course introduces basic
+piano techniques. It covers basic music notation
+reading, rhythm reading, application of notation and
+rhythm reading to piano, and appreciation of music.
+There may be additional fees to help cover the costs of
+professional software updates and/or books. ",,1,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1135,53.0942001,53.0942001,Beginning PIANO 2,Fine Arts – Band and Piano,"This semester course is for beginning piano students; it
+is not an advanced course. The course introduces basic
+piano techniques. It covers basic music notation
+reading, rhythm reading, application of notation and
+rhythm reading to piano, and appreciation of music.
+There may be additional fees to help cover the costs of
+professional software updates and/or books. ",,2,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1136,53.0951,53.0951,Intermediate Piano Techniques I,Fine Arts – Band and Piano,"Offers opportunities for intermediate-level
+performers to increase performance skills and
+knowledge of keyboard techniques. Covers
+performance and production, analysis and theoretical
+studies, historical and cultural contributions and
+influences, creative aspects of music and
+appreciation of music. Provides an individualized
+setting. ",,1,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1137,53.0952,53.0952,Intermediate Piano Techniques II,Fine Arts – Band and Piano,"Enhances level one skills and provides
+intermediatelevel performers with further
+opportunities for individualized study of keyboard
+techniques. Covers performance and production,
+analysis and theoretical studies, historical and
+cultural contributions and influences, creative aspects of
+music and appreciation of music. ",,2,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1138,54.02111,54.02112,Beginning Chorus 1,Fine Arts – Chorus,"Provides opportunities to develop performance skills
+and knowledge in mixed choral singing. Covers
+performance and production, analysis and theoretical
+studies, historical and cultural contributions and
+influences, creative aspects of music and appreciation
+of music. Organizes objectives for self-paced progress
+through all four levels. Stresses individual progress and
+group experiences. ",,1,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1139,54.0221001,54.0221002,Intermediate Chorus I,Fine Arts – Chorus,"In this course, students will perform music of all styles
+and time periods and become proficient at sightsinging and music theory to prepare each student for
+the upper- level choirs. After school rehearsals and
+performances may be required. ",,1,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1140,54.0222001,54.0222002,Intermediate Chorus II,Fine Arts – Chorus,"In this course, students will perform music of all styles
+and time periods and become proficient at sightsinging and music theory to prepare each student for
+the upper- level choirs. After school rehearsals and
+performances may be required. ",,2,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1141,54.0231001,54.0231002,Advanced Chorus I,Fine Arts – Chorus,"You must be able to read music at an advanced level.
+Students will perform music of all styles and time
+periods and become proficient at sight-singing and
+music theory to prepare each student for the
+upperlevel choirs. After school rehearsals and
+performances may be required.",,1,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1142,53.0221,53.0221,Music Appreciation,Fine Arts – Chorus,"Students will explore music's various functionalities to
+gain a deeper understanding and appreciation for all
+types of music. The course begins by examining basic
+music literacy and core musical elements such as
+melody, rhythm, harmony, form, and texture. ",,,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1143,53.023,53.023,AP Music Theory,Fine Arts – Chorus,"College Board topics for the AP Music Theory exam
+include terminology and notational skills, writing skills,
+visual analysis and aural skills, and advanced levels of
+understanding. ",,,TRUE,TRUE,FALSE,FALSE,10/6/2026,
+1144,45.0750001,45.0750001,African History,Electives,"Examines the geographical, political, economic and
+cultural development of African societies emphasizing
+selected case studies. ",,,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1145,23.0320003,23.0320004,Journalism Annual,Electives,"Study of photojournalism and production of school
+yearbook. Students will work together to
+conceptualize and create the school’s yearbook. ",,,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1146,23.0460001,23.0460002,Speech Forensics I,Electives,"Introduces critical thinking and speaking skills through
+the detailed study of forensic speaking including
+extemporaneous speaking, oration, and interpretation
+of literature and debate. Emphasizes understanding of
+various forensic speaking formats while applying
+reasoning, research, and delivery skills. ",,1,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1147,55.0210001,55.0210002,Communication Skills,Electives,"This course will focus on the acquisition of social and
+instructional language based on the five WIDA
+standards. The primary emphasis for this course
+includes building on the initial survival language skills
+as well as developing interpersonal communication
+skills while learning about various cultural
+characteristics of the United States. ",,,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1148,35.0660001,35.0660001,SAT Prep,Electives,"Students receive intense practice and instruction in
+the areas of problem solving and advanced grammar.
+The course is a team taught by mathematics and a
+language arts teacher. This course is highly
+recommended for juniors and fall semester seniors.",,,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1149,35.0670001,35.0670002,Tools College Success I (AVID),Electives,"Advancement Via Individual Determination (AVID) is
+a College Readiness System that transforms
+leadership, instruction, and culture to focus on the
+academic and social skills needed in higher
+education and beyond. The goal is to close the
+achievement gap by preparing students for, and
+supporting them in, the toughest courses schools
+offer. These courses provide explicit instruction in
+writing, inquiry, collaboration, organization, and
+reading (WICOR) strategies so that students have the
+skills necessary to meet the expectations of rigorous
+academic courses. College and career exploration
+have become a strong focus including organized
+college campus visits and completion of college
+applications. ",,1,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1150,35.0671001,35.0671002,Tools College Success II (AVID),Electives,"Advancement Via Individual Determination (AVID) is
+a College Readiness System that transforms
+leadership, instruction, and culture to focus on the
+academic and social skills needed in higher
+education and beyond. The goal is to close the
+achievement gap by preparing students for, and
+supporting them in, the toughest courses schools
+offer. These courses provide explicit instruction in
+writing, inquiry, collaboration, organization, and
+reading (WICOR) strategies so that students have the
+skills necessary to meet the expectations of rigorous
+academic courses. College and career exploration
+have become a strong focus including organized
+college campus visits and completion of college
+applications. ",,2,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1151,35.0672001,35.0672002,Tools College Success III (AVID),Electives,"Advancement Via Individual Determination (AVID) is
+a College Readiness System that transforms
+leadership, instruction, and culture to focus on the
+academic and social skills needed in higher
+education and beyond. The goal is to close the
+achievement gap by preparing students for, and
+supporting them in, the toughest courses schools
+offer. These courses provide explicit instruction in
+writing, inquiry, collaboration, organization, and
+reading (WICOR) strategies so that students have the
+skills necessary to meet the expectations of rigorous
+academic courses. College and career exploration
+have become a strong focus including organized
+college campus visits and completion of college
+applications. ",,3,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1152,35.0673001,35.0673002,Tools College Success IV (AVID),Electives,"Advancement Via Individual Determination (AVID) is
+a College Readiness System that transforms
+leadership, instruction, and culture to focus on the
+academic and social skills needed in higher
+education and beyond. The goal is to close the
+achievement gap by preparing students for, and
+supporting them in, the toughest courses schools
+offer. These courses provide explicit instruction in
+writing, inquiry, collaboration, organization, and
+reading (WICOR) strategies so that students have the
+skills necessary to meet the expectations of rigorous
+academic courses. College and career exploration
+have become a strong focus including organized
+college campus visits and completion of college
+applications. ",,4,TRUE,FALSE,FALSE,FALSE,10/6/2026,
+1153,45.015,45.015,Psychology,Electives,"Investigates the principles of psychology,
+developmental psychology, heredity, and
+environmental aspects of psychology, learning theory,
+personality, intelligence, social disorders and research
+methods used in the study of psychology.
+Integrates and reinforces social studies skills. ",,,TRUE,FALSE,FALSE,FALSE,10/6/2026,
