@@ -178,20 +178,274 @@ def _get_course_departments(conn):
     return [r['department'] for r in rows]
 
 def _search_courses(conn, q='', department='', course_type=''):
+    """Search the course catalog using only columns present in this database.
+
+    Some Langston database copies have the normalized department_id schema while
+    older copies store department text directly. Optional catalog columns can
+    also differ between copies, so never reference one unless it exists.
+    """
+    cols = _table_columns(conn, 'courses')
+    dept_expr, _ = _department_join(conn)
     sql = _course_select_sql(conn)
     where, args = [], []
-    if q.strip():
+
+    if q and q.strip():
         needle = '%' + q.strip()[:100] + '%'
-        where.append("(course_name LIKE ? OR COALESCE(description,'') LIKE ? OR COALESCE(department,'') LIKE ? OR CAST(course_id AS TEXT) LIKE ? OR CAST(sem1_course_code AS TEXT) LIKE ? OR CAST(sem2_course_code AS TEXT) LIKE ?)")
-        args.extend([needle] * 6)
-    if department:
-        where.append('department=?'); args.append(department)
-    if course_type in ('ap','honors','dual','pathway'):
-        col = {'ap':'is_ap','honors':'is_honors','dual':'is_dual_enrollment','pathway':'pathway'}[course_type]
-        where.append(f"COALESCE({col},0) IN (1,'1','TRUE','true','Yes','yes')")
-    if where: sql += ' WHERE ' + ' AND '.join(where)
-    sql += ' ORDER BY course_name COLLATE NOCASE LIMIT 300'
+        searchable = []
+        if 'course_name' in cols:
+            searchable.append("COALESCE(c.course_name, '') LIKE ?")
+        if 'description' in cols:
+            searchable.append("COALESCE(c.description, '') LIKE ?")
+        if dept_expr != "''":
+            searchable.append("COALESCE(" + dept_expr + ", '') LIKE ?")
+        if 'course_id' in cols:
+            searchable.append("CAST(c.course_id AS TEXT) LIKE ?")
+        for code_col in ('sem1_course_code', 'sem2_course_code'):
+            if code_col in cols:
+                searchable.append(f'CAST(c."{code_col}" AS TEXT) LIKE ?')
+        if searchable:
+            where.append('(' + ' OR '.join(searchable) + ')')
+            args.extend([needle] * len(searchable))
+        else:
+            # A valid catalog table should always have course_name, but return
+            # no rows instead of raising an SQL error if the schema is damaged.
+            where.append('1=0')
+
+    if department and dept_expr != "''":
+        where.append(f'{dept_expr}=?')
+        args.append(department)
+
+    type_columns = {
+        'ap': 'is_ap',
+        'honors': 'is_honors',
+        'dual': 'is_dual_enrollment',
+        'pathway': 'pathway',
+    }
+    if course_type in type_columns:
+        col = type_columns[course_type]
+        if col in cols:
+            where.append(f"COALESCE(c.\"{col}\", 0) IN (1, '1', 'TRUE', 'true', 'Yes', 'yes')")
+        else:
+            # An unavailable optional filter should return no results, not 500.
+            where.append('1=0')
+
+    if where:
+        sql += ' WHERE ' + ' AND '.join(where)
+    sql += ' ORDER BY c.course_name COLLATE NOCASE LIMIT 300'
     return conn.execute(sql, args).fetchall()
+
+# ------------------------- Phase 3.5: prerequisite validation -------------------------
+def _normalize_course_id(value):
+    """Normalize numeric IDs imported as integers, strings, or values like '1000.0'."""
+    if value is None:
+        return ''
+    text = str(value).strip()
+    if not text:
+        return ''
+    try:
+        number = float(text)
+        if number.is_integer():
+            return str(int(number))
+    except (TypeError, ValueError, OverflowError):
+        pass
+    return text.casefold()
+
+
+def _evaluate_prerequisite_course(conn, student_id, course_id):
+    """Evaluate a course's AND/OR prerequisite tree against one student's records.
+
+    The function is read-only. A current prerequisite is treated as in-progress,
+    and non-course/unresolved requirements require human verification rather than
+    being incorrectly marked as failed or satisfied.
+    """
+    tables = {r['name'] for r in conn.execute("SELECT name FROM sqlite_master WHERE type='table'")}
+    required_tables = {'prerequisite_groups', 'prerequisites', 'student_courses', 'courses'}
+    if not required_tables <= tables:
+        missing = ', '.join(sorted(required_tables - tables))
+        return {
+            'status': 'review_required', 'eligible': None,
+            'summary': f'Prerequisite validation is unavailable because these tables are missing: {missing}.',
+            'requirements': [], 'course': None,
+        }
+
+    target_key = _normalize_course_id(course_id)
+    course = next((r for r in conn.execute('SELECT course_id, course_name FROM courses')
+                   if _normalize_course_id(r['course_id']) == target_key), None)
+    if not course:
+        return {
+            'status': 'review_required', 'eligible': None,
+            'summary': 'The selected course could not be found in the course catalog.',
+            'requirements': [], 'course': None,
+        }
+
+    groups = [dict(r) for r in conn.execute('SELECT * FROM prerequisite_groups')
+              if _normalize_course_id(r['course_id']) == target_key]
+    if not groups:
+        return {
+            'status': 'no_prerequisites', 'eligible': None,
+            'summary': 'No prerequisite rules are recorded for this course. Confirm requirements with the current school catalog or counselor.',
+            'requirements': [], 'course': course,
+        }
+
+    group_ids = {str(g['prerequisite_group_id']) for g in groups}
+    all_requirements = [dict(r) for r in conn.execute('SELECT * FROM prerequisites')
+                        if str(r['prerequisite_group_id']) in group_ids]
+    requirements_by_group = defaultdict(list)
+    for item in all_requirements:
+        requirements_by_group[str(item['prerequisite_group_id'])].append(item)
+    groups_by_id = {str(g['prerequisite_group_id']): g for g in groups}
+    children_by_parent = defaultdict(list)
+    roots = []
+    for group in groups:
+        parent = group.get('parent_group_id')
+        if parent is None or str(parent).strip() == '' or str(parent) not in groups_by_id:
+            roots.append(group)
+        else:
+            children_by_parent[str(parent)].append(group)
+    for children in children_by_parent.values():
+        children.sort(key=lambda g: (int(g.get('group_order') or 0), str(g['prerequisite_group_id'])))
+    roots.sort(key=lambda g: (int(g.get('group_order') or 0), str(g['prerequisite_group_id'])))
+
+    student_courses = {}
+    for record in conn.execute('SELECT course_id, status FROM student_courses WHERE student_id=?', (student_id,)):
+        key = _normalize_course_id(record['course_id'])
+        status = str(record['status'] or '').strip().casefold()
+        if key not in student_courses:
+            student_courses[key] = set()
+        student_courses[key].add(status)
+
+    catalog_names = {
+        _normalize_course_id(r['course_id']): r['course_name']
+        for r in conn.execute('SELECT course_id, course_name FROM courses')
+    }
+    details = []
+    visiting = set()
+
+    def evaluate_requirement(item, group_id):
+        kind = str(item.get('requirement_type') or '').strip().casefold()
+        resolution = str(item.get('resolution_status') or '').strip().casefold()
+        raw_prereq_id = item.get('prerequisite_course_id')
+        label = (item.get('requirement_text') or item.get('source_requirement') or '').strip()
+        if not label and raw_prereq_id:
+            label = catalog_names.get(_normalize_course_id(raw_prereq_id), f'Course {raw_prereq_id}')
+        if not label:
+            label = 'Unspecified prerequisite'
+
+        detail = {
+            'text': label, 'state': 'pending', 'status_label': 'Needs verification',
+            'explanation': '', 'group_id': group_id,
+        }
+        if kind == 'course' and resolution == 'resolved' and _normalize_course_id(raw_prereq_id):
+            prereq_key = _normalize_course_id(raw_prereq_id)
+            if prereq_key not in catalog_names:
+                detail['explanation'] = 'This prerequisite points to a course that is not in the current catalog; counselor review is needed.'
+            elif 'completed' in student_courses.get(prereq_key, set()):
+                detail.update(state='met', status_label='Satisfied',
+                              explanation=f'Completed: {catalog_names[prereq_key]}.')
+            elif 'current' in student_courses.get(prereq_key, set()):
+                detail.update(state='pending', status_label='In progress',
+                              explanation=f'{catalog_names[prereq_key]} is marked current; completion has not yet been confirmed.')
+            else:
+                detail.update(state='unmet', status_label='Not satisfied',
+                              explanation=f'Complete {catalog_names[prereq_key]} before taking this course.')
+        elif resolution == 'unresolved' or kind == 'unresolved_reference':
+            detail['explanation'] = 'This source requirement could not be matched to a catalog course; counselor review is needed.'
+        else:
+            friendly = label.replace('_', ' ').strip().capitalize()
+            detail['text'] = friendly
+            detail['explanation'] = 'This requirement must be confirmed by a teacher, counselor, exam result, audition, or other school process.'
+        details.append(detail)
+        return detail['state']
+
+    def combine(states, operator):
+        if not states:
+            return 'pending'
+        op = str(operator or 'AND').strip().upper()
+        if op == 'OR':
+            if 'met' in states:
+                return 'met'
+            if all(state == 'unmet' for state in states):
+                return 'unmet'
+            return 'pending'
+        if 'unmet' in states:
+            return 'unmet'
+        if all(state == 'met' for state in states):
+            return 'met'
+        return 'pending'
+
+    def evaluate_group(group):
+        group_id = str(group['prerequisite_group_id'])
+        if group_id in visiting:
+            details.append({
+                'text': 'Prerequisite group structure', 'state': 'pending',
+                'status_label': 'Needs verification',
+                'explanation': 'A cycle was detected in the prerequisite groups; counselor review is needed.',
+                'group_id': group_id,
+            })
+            return 'pending'
+        visiting.add(group_id)
+        states = []
+        items = sorted(requirements_by_group.get(group_id, []),
+                       key=lambda x: (int(x.get('requirement_order') or 0), str(x.get('prerequisite_id') or '')))
+        for item in items:
+            states.append(evaluate_requirement(item, group_id))
+        for child in children_by_parent.get(group_id, []):
+            states.append(evaluate_group(child))
+        visiting.remove(group_id)
+        if not states:
+            details.append({
+                'text': 'Prerequisite group', 'state': 'pending',
+                'status_label': 'Needs verification',
+                'explanation': 'This prerequisite group has no requirement records.', 'group_id': group_id,
+            })
+            return 'pending'
+        return combine(states, group.get('group_operator', 'AND'))
+
+    root_states = [evaluate_group(root) for root in roots]
+    overall = combine(root_states, 'AND')
+    if overall == 'met':
+        status = 'eligible'
+        summary = 'All recorded prerequisite requirements are satisfied through at least one valid path.'
+    elif overall == 'unmet':
+        status = 'not_yet_eligible'
+        summary = 'One or more required prerequisite conditions are not satisfied yet.'
+    else:
+        status = 'review_required'
+        summary = 'Eligibility cannot be confirmed yet. Some prerequisites are in progress, unresolved, or require school staff verification.'
+
+    return {
+        'status': status,
+        'eligible': True if overall == 'met' else (False if overall == 'unmet' else None),
+        'summary': summary,
+        'requirements': details,
+        'course': course,
+    }
+
+
+@app.get('/prerequisites', response_class=HTMLResponse)
+def prerequisite_check_page(request: Request, course_id: str = ''):
+    user = current_user(request)
+    if not user:
+        return RedirectResponse('/login', status_code=303)
+    student = get_student_for_user(user['user_id'])
+    if not student:
+        return RedirectResponse('/login', status_code=303)
+
+    with db_connection() as conn:
+        catalog = conn.execute('SELECT course_id, course_name FROM courses ORDER BY course_name COLLATE NOCASE').fetchall()
+        result = None
+        selected_id = ''
+        if course_id:
+            selected_id = _normalize_course_id(course_id)
+            result = _evaluate_prerequisite_course(conn, student['student_id'], course_id)
+            if result.get('course'):
+                selected_id = _normalize_course_id(result['course']['course_id'])
+            else:
+                selected_id = ''
+
+    return render(request, 'prerequisites.html', student=student, catalog=catalog,
+                  selected_course_id=selected_id, result=result)
+
 
 def _student_course_rows(student_id, status=''):
     with db_connection() as conn:
