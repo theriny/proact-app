@@ -422,6 +422,251 @@ def _evaluate_prerequisite_course(conn, student_id, course_id):
     }
 
 
+# ------------------------- Phase 4: explainable course recommendations -------------------------
+_RECOMMENDATION_STOPWORDS = {
+    'the','and','for','with','from','that','this','into','your','you','are','was','will','want',
+    'would','could','should','learn','learning','course','courses','class','classes','high','school',
+    'career','careers','work','working','become','becoming','explore','exploring','using','use','about',
+    'skills','skill','student','students','help','helps','provide','provides','including','introduction',
+    'advanced','basic','level','one','two','three','four','their','them','they','have','has','who','how',
+    'into','through','such','also','more','than','other','based','focus','focused','designed','develop',
+}
+_RECOMMENDATION_SYNONYMS = {
+    'coding': {'programming','computer','software','technology'},
+    'code': {'programming','computer','software'},
+    'data': {'mathematics','statistics','computer','business'},
+    'analytics': {'mathematics','statistics','business','computer'},
+    'robotics': {'engineering','technology','computer','mathematics'},
+    'engineering': {'engineering','technology','mathematics','science'},
+    'medical': {'healthcare','therapeutic','science'},
+    'healthcare': {'healthcare','therapeutic','science'},
+    'nurse': {'healthcare','therapeutic','science'},
+    'helping': {'healthcare','therapeutic','education'},
+    'people': {'healthcare','therapeutic','education'},
+    'soccer': {'health','physical','education'},
+    'art': {'visual','arts','graphic','design','theatre','chorus','band'},
+    'design': {'visual','arts','graphic','computer','technology'},
+    'business': {'business','marketing','financial','entrepreneurship'},
+    'finance': {'financial','business','mathematics'},
+    'money': {'financial','business','mathematics'},
+    'video': {'audio','video','technology','graphic','design'},
+    'music': {'band','piano','chorus','audio','video'},
+    'teaching': {'education','ela','social','studies'},
+    'teacher': {'education','ela','social','studies'},
+    'writing': {'ela','literature','communication'},
+    'reading': {'ela','literature','communication'},
+    'automotive': {'automotive','engineering','technology'},
+    'cars': {'automotive','engineering','technology'},
+    'cybersecurity': {'computer','programming','technology','mathematics'},
+    'marketing': {'marketing','business','graphic','design','audio','video'},
+}
+_CAREER_DEPARTMENT_HINTS = {
+    'health': ('therapeutic', 'science', 'health & physical education'),
+    'medical': ('therapeutic', 'science', 'health & physical education'),
+    'information technology': ('computer programming', 'engineering and technology', 'mathematics', 'science'),
+    'engineering': ('engineering and technology', 'mathematics', 'science', 'computer programming'),
+    'manufacturing': ('engineering and technology', 'mathematics', 'science'),
+    'business': ('business management', 'marketing', 'mathematics', 'social studies'),
+    'finance': ('business management', 'mathematics', 'social studies'),
+    'marketing': ('marketing', 'graphic design', 'audio', 'video', 'business management'),
+    'creative': ('visual arts', 'graphic design', 'fine arts', 'audio', 'video'),
+    'media': ('visual arts', 'graphic design', 'fine arts', 'audio', 'video'),
+    'education': ('ela', 'social studies', 'world language', 'fine arts'),
+    'transportation': ('engineering and technology', 'mathematics', 'science'),
+    'automotive': ('engineering and technology', 'mathematics', 'science'),
+    'public safety': ('therapeutic', 'science', 'jrotc', 'health & physical education'),
+    'sales': ('marketing', 'business management', 'ela'),
+    'logistics': ('business management', 'mathematics', 'computer programming'),
+}
+
+def _recommendation_tokens(value):
+    import re as _re
+    raw = _re.findall(r'[a-zA-Z]{3,}', str(value or '').casefold())
+    tokens = set()
+    for token in raw:
+        if token in _RECOMMENDATION_STOPWORDS:
+            continue
+        tokens.add(token)
+        tokens.update(_RECOMMENDATION_SYNONYMS.get(token, ()))
+        # A small, transparent plural normalization rather than a model or opaque embedding.
+        if token.endswith('ies') and len(token) > 4:
+            tokens.add(token[:-3] + 'y')
+        elif token.endswith('s') and not token.endswith(('ss','us')) and len(token) > 4:
+            tokens.add(token[:-1])
+    return tokens
+
+def _career_department_hints(career_text):
+    text = str(career_text or '').casefold()
+    hints = set()
+    for key, values in _CAREER_DEPARTMENT_HINTS.items():
+        if key in text:
+            hints.update(values)
+    return hints
+
+def _recommend_courses(conn, student):
+    """Rank catalog courses from saved student interests/goals and return explanations.
+
+    Scores are transparent heuristic rankings, not predictions of student success.
+    Prerequisite status is calculated separately by the Phase 3.5 evaluator.
+    """
+    dept_expr, join = _department_join(conn)
+    course_rows = conn.execute(_course_select_sql(conn) + ' ORDER BY course_name COLLATE NOCASE').fetchall()
+    student_id = student['student_id']
+    interests = [dict(r) for r in conn.execute(
+        'SELECT interest_category, interest_name, interest_level, notes FROM student_interests WHERE student_id=? ORDER BY interest_id',
+        (student_id,))] if conn.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='student_interests'").fetchone() else []
+    goal_cols = _table_columns(conn, 'student_goals') if conn.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='student_goals'").fetchone() else set()
+    goals = []
+    if {'student_id','goal_type','title','status'} <= goal_cols:
+        goals = [dict(r) for r in conn.execute(
+            'SELECT * FROM student_goals WHERE student_id=? AND lower(status)=\'active\' ORDER BY priority, goal_id',
+            (student_id,))]
+    career_rows = {}
+    if conn.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='careers'").fetchone():
+        career_cols = _table_columns(conn, 'careers')
+        if {'career_id','career_name'} <= career_cols:
+            extra = ', industry' if 'industry' in career_cols else ', \'\' AS industry'
+            extra += ', description AS career_description' if 'description' in career_cols else ', \'\' AS career_description'
+            career_rows = {str(r['career_id']): dict(r) for r in conn.execute('SELECT career_id, career_name' + extra + ' FROM careers')}
+
+    profile_goals = []
+    college_goals = []
+    for goal in goals:
+        career = career_rows.get(str(goal.get('career_id') or ''), {})
+        text = ' '.join(str(goal.get(k) or '') for k in ('title','description','intended_major','institution_name'))
+        if career:
+            text += ' ' + ' '.join(str(career.get(k) or '') for k in ('career_name','industry','career_description'))
+        if str(goal.get('goal_type','')).casefold() == 'college':
+            college_goals.append((goal, text))
+        else:
+            profile_goals.append((goal, text, career))
+
+    taken = set()
+    if conn.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='student_courses'").fetchone():
+        for r in conn.execute("SELECT course_id FROM student_courses WHERE student_id=? AND lower(status) IN ('current','completed')", (student_id,)):
+            taken.add(_normalize_course_id(r['course_id']))
+    planned = set()
+    if conn.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='academic_plans'").fetchone() and conn.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='academic_plan_courses'").fetchone():
+        plan = conn.execute('SELECT plan_id FROM academic_plans WHERE student_id=? ORDER BY plan_id LIMIT 1', (student_id,)).fetchone()
+        if plan:
+            for r in conn.execute("SELECT course_id FROM academic_plan_courses WHERE plan_id=? AND lower(status) IN ('planned','approved','completed')", (plan['plan_id'],)):
+                planned.add(_normalize_course_id(r['course_id']))
+
+    ranked = []
+    for row in course_rows:
+        course = dict(row)
+        course_key = _normalize_course_id(course.get('course_id'))
+        if course_key in taken or course_key in planned:
+            continue
+        doc = ' '.join(str(course.get(k) or '') for k in ('course_name','description','department','pathway'))
+        doc_tokens = _recommendation_tokens(doc)
+        score = 0.0
+        reasons = []
+        career_best = 0.0
+        career_reason = ''
+        for goal, text, career in profile_goals:
+            goal_tokens = _recommendation_tokens(text)
+            overlap = goal_tokens & doc_tokens
+            lexical = min(1.0, len(overlap) / max(3, min(8, len(goal_tokens)))) if overlap else 0.0
+            department_hints = _career_department_hints(' '.join((text, str(career.get('industry') or ''), str(career.get('career_name') or ''))))
+            dept_match = 1.0 if any(hint in str(course.get('department') or '').casefold() for hint in department_hints) else 0.0
+            value = min(40.0, lexical * 32.0 + dept_match * 14.0)
+            if value > career_best:
+                career_best = value
+                if dept_match and lexical:
+                    career_reason = f"Fits your career goal through the {course.get('department')} subject area and related course content."
+                elif dept_match:
+                    career_reason = f"The {course.get('department')} subject area may support your career goal."
+                elif overlap:
+                    career_reason = 'Course content connects to topics in your career goal: ' + ', '.join(sorted(overlap)[:3]) + '.'
+        if career_best:
+            score += career_best
+            reasons.append(career_reason)
+
+        interest_best = 0.0
+        interest_reason = ''
+        for interest in interests:
+            interest_text = ' '.join(str(interest.get(k) or '') for k in ('interest_name','interest_category','notes'))
+            interest_tokens = _recommendation_tokens(interest_text)
+            overlap = interest_tokens & doc_tokens
+            if not overlap:
+                continue
+            level = int(interest.get('interest_level') or 2)
+            level_weight = {1: 0.65, 2: 0.82, 3: 1.0}.get(level, 0.82)
+            value = min(30.0, (8.0 + 5.0 * min(3, len(overlap))) * level_weight)
+            if value > interest_best:
+                interest_best = value
+                interest_reason = 'Connects to your interest in ' + str(interest.get('interest_name') or interest.get('interest_category') or 'this topic') + '.'
+        if interest_best:
+            score += interest_best
+            reasons.append(interest_reason)
+
+        college_best = 0.0
+        college_reason = ''
+        for goal, text in college_goals:
+            overlap = _recommendation_tokens(text) & doc_tokens
+            if overlap:
+                value = min(12.0, 4.0 * len(overlap))
+                if value > college_best:
+                    college_best = value
+                    college_reason = 'May help build knowledge related to your college or intended-major goal.'
+        if college_best:
+            score += college_best
+            reasons.append(college_reason)
+
+        # Course level is only a soft ranking signal; it is not treated as an eligibility rule.
+        # The catalog's course_level may reflect sequence rather than a guaranteed grade placement.
+        try:
+            level = int(course.get('course_level')) if course.get('course_level') is not None else None
+        except (TypeError, ValueError):
+            level = None
+        try:
+            current_grade = int(student['current_grade'])
+        except (TypeError, ValueError, KeyError):
+            current_grade = None
+        if level in (1, 2, 3, 4) and current_grade in (9, 10, 11, 12):
+            expected_level = current_grade - 8
+            level_points = max(0.0, 5.0 - 2.0 * abs(level - expected_level))
+            if level_points:
+                score += level_points
+                reasons.append('Its catalog course level is near the level associated with your current grade; confirm placement with school staff.')
+
+        # The catalog only provides a pathway yes/no flag, not a reliable pathway-to-career mapping.
+        if str(course.get('pathway') or '').strip().casefold() in ('1','true','yes'):
+            score += 2.0
+            reasons.append('Part of a designated course pathway.')
+        if not reasons:
+            # A general exploration recommendation is better than pretending there is a match.
+            score = 1.0
+            reasons.append('A general catalog option to explore; add interests and active goals for more personalized matches.')
+        score = round(min(100.0, score), 1)
+        prereq = _evaluate_prerequisite_course(conn, student_id, course.get('course_id'))
+        ranked.append({
+            'course': course, 'score': score, 'reasons': reasons[:3], 'prerequisite': prereq,
+            'status_label': {
+                'eligible': 'Recorded prerequisites met',
+                'not_yet_eligible': 'Prerequisite(s) outstanding',
+                'review_required': 'Counselor/teacher confirmation needed',
+                'no_prerequisites': 'Confirm prerequisites with school',
+            }.get(prereq.get('status'), 'Confirm with school'),
+            'status_class': 'good' if prereq.get('status') == 'eligible' else ('warning' if prereq.get('status') == 'not_yet_eligible' else 'neutral'),
+        })
+    ranked.sort(key=lambda item: (-item['score'], str(item['course'].get('course_name') or '').casefold()))
+    return ranked[:12], bool(interests), bool(profile_goals or college_goals)
+
+@app.get('/recommendations', response_class=HTMLResponse)
+def recommendations_page(request: Request):
+    user = current_user(request)
+    if not user:
+        return RedirectResponse('/login', status_code=303)
+    student = get_student_for_user(user['user_id'])
+    if not student:
+        return RedirectResponse('/login', status_code=303)
+    with db_connection() as conn:
+        recommendations, has_interests, has_goals = _recommend_courses(conn, student)
+    return render(request, 'recommendations.html', student=student, recommendations=recommendations,
+                  has_interests=has_interests, has_goals=has_goals)
+
 @app.get('/prerequisites', response_class=HTMLResponse)
 def prerequisite_check_page(request: Request, course_id: str = ''):
     user = current_user(request)
