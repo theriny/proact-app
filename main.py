@@ -429,87 +429,178 @@ _RECOMMENDATION_STOPWORDS = {
     'career','careers','work','working','become','becoming','explore','exploring','using','use','about',
     'skills','skill','student','students','help','helps','provide','provides','including','introduction',
     'advanced','basic','level','one','two','three','four','their','them','they','have','has','who','how',
-    'into','through','such','also','more','than','other','based','focus','focused','designed','develop',
-}
-_RECOMMENDATION_SYNONYMS = {
-    'coding': {'programming','computer','software','technology'},
-    'code': {'programming','computer','software'},
-    'data': {'mathematics','statistics','computer','business'},
-    'analytics': {'mathematics','statistics','business','computer'},
-    'robotics': {'engineering','technology','computer','mathematics'},
-    'engineering': {'engineering','technology','mathematics','science'},
-    'medical': {'healthcare','therapeutic','science'},
-    'healthcare': {'healthcare','therapeutic','science'},
-    'nurse': {'healthcare','therapeutic','science'},
-    'helping': {'healthcare','therapeutic','education'},
-    'people': {'healthcare','therapeutic','education'},
-    'soccer': {'health','physical','education'},
-    'art': {'visual','arts','graphic','design','theatre','chorus','band'},
-    'design': {'visual','arts','graphic','computer','technology'},
-    'business': {'business','marketing','financial','entrepreneurship'},
-    'finance': {'financial','business','mathematics'},
-    'money': {'financial','business','mathematics'},
-    'video': {'audio','video','technology','graphic','design'},
-    'music': {'band','piano','chorus','audio','video'},
-    'teaching': {'education','ela','social','studies'},
-    'teacher': {'education','ela','social','studies'},
-    'writing': {'ela','literature','communication'},
-    'reading': {'ela','literature','communication'},
-    'automotive': {'automotive','engineering','technology'},
-    'cars': {'automotive','engineering','technology'},
-    'cybersecurity': {'computer','programming','technology','mathematics'},
-    'marketing': {'marketing','business','graphic','design','audio','video'},
-}
-_CAREER_DEPARTMENT_HINTS = {
-    'health': ('therapeutic', 'science', 'health & physical education'),
-    'medical': ('therapeutic', 'science', 'health & physical education'),
-    'information technology': ('computer programming', 'engineering and technology', 'mathematics', 'science'),
-    'engineering': ('engineering and technology', 'mathematics', 'science', 'computer programming'),
-    'manufacturing': ('engineering and technology', 'mathematics', 'science'),
-    'business': ('business management', 'marketing', 'mathematics', 'social studies'),
-    'finance': ('business management', 'mathematics', 'social studies'),
-    'marketing': ('marketing', 'graphic design', 'audio', 'video', 'business management'),
-    'creative': ('visual arts', 'graphic design', 'fine arts', 'audio', 'video'),
-    'media': ('visual arts', 'graphic design', 'fine arts', 'audio', 'video'),
-    'education': ('ela', 'social studies', 'world language', 'fine arts'),
-    'transportation': ('engineering and technology', 'mathematics', 'science'),
-    'automotive': ('engineering and technology', 'mathematics', 'science'),
-    'public safety': ('therapeutic', 'science', 'jrotc', 'health & physical education'),
-    'sales': ('marketing', 'business management', 'ela'),
-    'logistics': ('business management', 'mathematics', 'computer programming'),
+    'through','such','also','more','than','other','based','focus','focused','designed','develop','will',
+    'science','technology','people','helping','research','studies','study','program','programs',
+    'design','problem','solving','analysis','analytical','teamwork','communication','system','systems',
+    'equipment','process','processes','opportunities','career',
 }
 
+# Domain vocabularies are deliberately narrow. Generic words such as "science" and
+# "technology" are not cross-domain synonyms: they cannot make an engineering course
+# look like healthcare (or vice versa).
+_RECOMMENDATION_DOMAINS = {
+    'healthcare': {
+        'healthcare','medical','medicine','nursing','nurse','surgery','surgical','anatomy',
+        'physiology','patient','patients','clinical','therapeutic','disease','diseases',
+        'wellness','diagnosis','diagnostic','pharmacy','pharmacology','vital','caregiving',
+        'healthcare science','sports medicine','surgical technology','human body','body system',
+        'microbiology','health services','health science',
+    },
+    'engineering': {
+        'engineering','engineer','robotics','manufacturing','mechanical','electrical','electronics',
+        'automation','circuit','circuits','pneumatics','hydraulics','cnc','machining','prototype',
+        'industrial','aerospace','flight','fiber optics','laser','electricity','computer aided design',
+    },
+    'computing': {
+        'coding','code','programming','software','algorithm','algorithms','computer','computing',
+        'cybersecurity','database','data','analytics','artificial intelligence','web development',
+    },
+    'business': {
+        'business','accounting','finance','financial','marketing','entrepreneurship','economics',
+        'management','sales','investment','banking',
+    },
+    'arts_media': {
+        'art','arts','graphic','theatre','theater','music','band','chorus','photography',
+        'film','video','audio','animation','sculpture','painting',
+    },
+    'sports_fitness': {
+        'soccer','athletics','sports','fitness','exercise','physical education','coaching',
+        'training','kinesiology','nutrition',
+    },
+    'education': {
+        'teaching','teacher','education','educator','instruction','pedagogy','child development',
+    },
+}
+
+_TOKEN_EQUIVALENTS = {
+    # Narrow equivalences within a subject area; intentionally no generic science/technology links.
+    'engineer': 'engineering', 'engineers': 'engineering', 'engineering': 'engineer',
+    'electricity': 'electrical', 'electronic': 'electronics', 'electronics': 'electronic',
+    'nurse': 'nursing', 'nursing': 'nurse', 'surgery': 'surgical', 'surgical': 'surgery',
+    'medical': 'medicine', 'medicine': 'medical', 'disease': 'diseases', 'diseases': 'disease',
+}
+
+_DEPARTMENT_DOMAINS = {
+    'therapeutic services': 'healthcare',
+    'health science': 'healthcare',
+    'health & physical education': 'sports_fitness',
+    'health and physical education': 'sports_fitness',
+    'engineering and technology': 'engineering',
+    'computer programming': 'computing',
+    'business management': 'business',
+    'marketing': 'business',
+    'visual arts': 'arts_media',
+    'fine arts': 'arts_media',
+    'fine arts - theatre': 'arts_media',
+    'education': 'education',
+}
+
+_DOMAIN_LABELS = {
+    'healthcare': 'healthcare', 'engineering': 'engineering', 'computing': 'computing',
+    'business': 'business', 'arts_media': 'arts and media',
+    'sports_fitness': 'sports and fitness', 'education': 'education',
+}
+
+
 def _recommendation_tokens(value):
+    """Return literal, normalized words; do not expand broad cross-domain synonyms."""
     import re as _re
     raw = _re.findall(r'[a-zA-Z]{3,}', str(value or '').casefold())
     tokens = set()
     for token in raw:
         if token in _RECOMMENDATION_STOPWORDS:
             continue
-        tokens.add(token)
-        tokens.update(_RECOMMENDATION_SYNONYMS.get(token, ()))
-        # A small, transparent plural normalization rather than a model or opaque embedding.
         if token.endswith('ies') and len(token) > 4:
-            tokens.add(token[:-3] + 'y')
+            token = token[:-3] + 'y'
         elif token.endswith('s') and not token.endswith(('ss','us')) and len(token) > 4:
-            tokens.add(token[:-1])
+            token = token[:-1]
+        tokens.add(token)
+        equivalent = _TOKEN_EQUIVALENTS.get(token)
+        if equivalent:
+            tokens.add(equivalent)
     return tokens
 
+
+def _recommendation_domains(value):
+    """Identify specific subject domains from explicit phrases/terms."""
+    text = ' '.join(str(value or '').casefold().replace('&', ' and ').split())
+    found = set()
+    for domain, terms in _RECOMMENDATION_DOMAINS.items():
+        for term in terms:
+            if ' ' in term:
+                if term in text:
+                    found.add(domain)
+                    break
+            elif term in _recommendation_tokens(text):
+                found.add(domain)
+                break
+    return found
+
+
+def _primary_recommendation_domain(value):
+    """Choose the most specific primary domain when text mentions adjacent fields."""
+    domains = _recommendation_domains(value)
+    priority = ('healthcare', 'engineering', 'computing', 'business',
+                'sports_fitness', 'education', 'arts_media')
+    return next((domain for domain in priority if domain in domains), None)
+
+
+def _course_domain(course):
+    department = str(course.get('department') or '').strip().casefold()
+    if department in _DEPARTMENT_DOMAINS:
+        return _DEPARTMENT_DOMAINS[department]
+    # A specific course title can establish a domain by itself. Description-only
+    # classification requires at least two domain-specific concepts to avoid a
+    # single incidental term (e.g. "electronics" in a graphics description).
+    title_domain = _primary_recommendation_domain(course.get('course_name'))
+    if title_domain:
+        return title_domain
+    description = str(course.get('description') or '').casefold()
+    description_tokens = _recommendation_tokens(description)
+    qualifying = []
+    for domain, terms in _RECOMMENDATION_DOMAINS.items():
+        hits = {term for term in terms if (
+            ((' ' in term) and term in ' '.join(description.split())) or
+            ((' ' not in term) and term in description_tokens)
+        )}
+        if len(hits) >= 2:
+            qualifying.append(domain)
+    priority = ('healthcare', 'engineering', 'computing', 'business',
+                'sports_fitness', 'education', 'arts_media')
+    return next((domain for domain in priority if domain in qualifying), None)
+
+
 def _career_department_hints(career_text):
-    text = str(career_text or '').casefold()
-    hints = set()
-    for key, values in _CAREER_DEPARTMENT_HINTS.items():
-        if key in text:
-            hints.update(values)
-    return hints
+    """Compatibility helper retained for tests/older callers; return specific department labels."""
+    domains = _recommendation_domains(career_text)
+    return {name for name, domain in _DEPARTMENT_DOMAINS.items() if domain in domains}
+
+
+def _weighted_text_match(query_text, course, max_points, title_weight, description_weight):
+    """Score meaningful literal term overlap, weighting course title over description."""
+    query_tokens = _recommendation_tokens(query_text)
+    title_tokens = _recommendation_tokens(course.get('course_name'))
+    description_tokens = _recommendation_tokens(course.get('description'))
+    title_overlap = query_tokens & title_tokens
+    description_overlap = query_tokens & description_tokens
+    # Count title matches more heavily. A word repeated in both fields is not double-counted.
+    value = min(max_points, len(title_overlap) * title_weight +
+                len(description_overlap - title_overlap) * description_weight)
+    evidence = []
+    if title_overlap:
+        evidence.append('course title includes ' + ', '.join(sorted(title_overlap)[:3]))
+    if description_overlap - title_overlap:
+        evidence.append('description discusses ' + ', '.join(sorted(description_overlap - title_overlap)[:3]))
+    return value, evidence
+
 
 def _recommend_courses(conn, student):
-    """Rank catalog courses from saved student interests/goals and return explanations.
+    """Rank relevant catalog courses with domain-aware, explainable matching.
 
-    Scores are transparent heuristic rankings, not predictions of student success.
-    Prerequisite status is calculated separately by the Phase 3.5 evaluator.
+    Interest relevance and career relevance are scored independently. Exact title,
+    department, and description evidence are weighted separately. Generic terms do not
+    create a domain match. Prerequisite status remains a separate Phase 3.5 assessment.
     """
-    dept_expr, join = _department_join(conn)
     course_rows = conn.execute(_course_select_sql(conn) + ' ORDER BY course_name COLLATE NOCASE').fetchall()
     student_id = student['student_id']
     interests = [dict(r) for r in conn.execute(
@@ -519,27 +610,33 @@ def _recommend_courses(conn, student):
     goals = []
     if {'student_id','goal_type','title','status'} <= goal_cols:
         goals = [dict(r) for r in conn.execute(
-            'SELECT * FROM student_goals WHERE student_id=? AND lower(status)=\'active\' ORDER BY priority, goal_id',
+            "SELECT * FROM student_goals WHERE student_id=? AND lower(status)='active' ORDER BY priority, goal_id",
             (student_id,))]
+
     career_rows = {}
     if conn.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='careers'").fetchone():
         career_cols = _table_columns(conn, 'careers')
         if {'career_id','career_name'} <= career_cols:
-            extra = ', industry' if 'industry' in career_cols else ', \'\' AS industry'
-            extra += ', description AS career_description' if 'description' in career_cols else ', \'\' AS career_description'
-            career_rows = {str(r['career_id']): dict(r) for r in conn.execute('SELECT career_id, career_name' + extra + ' FROM careers')}
+            extra = ', industry' if 'industry' in career_cols else ", '' AS industry"
+            extra += ', description AS career_description' if 'description' in career_cols else ", '' AS career_description"
+            career_rows = {str(r['career_id']): dict(r) for r in conn.execute(
+                'SELECT career_id, career_name' + extra + ' FROM careers')}
 
-    profile_goals = []
-    college_goals = []
+    career_goals, college_goals = [], []
     for goal in goals:
         career = career_rows.get(str(goal.get('career_id') or ''), {})
-        text = ' '.join(str(goal.get(k) or '') for k in ('title','description','intended_major','institution_name'))
+        # Institution name is intentionally excluded: a university name is not course content.
+        text = ' '.join(str(goal.get(k) or '') for k in
+                        ('title', 'description', 'intended_major'))
         if career:
-            text += ' ' + ' '.join(str(career.get(k) or '') for k in ('career_name','industry','career_description'))
-        if str(goal.get('goal_type','')).casefold() == 'college':
-            college_goals.append((goal, text))
+            text += ' ' + ' '.join(str(career.get(k) or '') for k in
+                                   ('career_name', 'industry', 'career_description'))
+        if str(goal.get('goal_type', '')).casefold() == 'college':
+            college_text = ' '.join(str(goal.get(k) or '') for k in
+                                    ('title', 'description', 'intended_major'))
+            college_goals.append((goal, college_text))
         else:
-            profile_goals.append((goal, text, career))
+            career_goals.append((goal, text))
 
     taken = set()
     if conn.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='student_courses'").fetchone():
@@ -552,70 +649,112 @@ def _recommend_courses(conn, student):
             for r in conn.execute("SELECT course_id FROM academic_plan_courses WHERE plan_id=? AND lower(status) IN ('planned','approved','completed')", (plan['plan_id'],)):
                 planned.add(_normalize_course_id(r['course_id']))
 
+    has_profile = bool(interests or career_goals or college_goals)
     ranked = []
     for row in course_rows:
         course = dict(row)
         course_key = _normalize_course_id(course.get('course_id'))
         if course_key in taken or course_key in planned:
             continue
-        doc = ' '.join(str(course.get(k) or '') for k in ('course_name','description','department','pathway'))
-        doc_tokens = _recommendation_tokens(doc)
+        department = str(course.get('department') or '').strip()
+        course_domain = _course_domain(course)
         score = 0.0
+        relevance_score = 0.0
         reasons = []
-        career_best = 0.0
-        career_reason = ''
-        for goal, text, career in profile_goals:
-            goal_tokens = _recommendation_tokens(text)
-            overlap = goal_tokens & doc_tokens
-            lexical = min(1.0, len(overlap) / max(3, min(8, len(goal_tokens)))) if overlap else 0.0
-            department_hints = _career_department_hints(' '.join((text, str(career.get('industry') or ''), str(career.get('career_name') or ''))))
-            dept_match = 1.0 if any(hint in str(course.get('department') or '').casefold() for hint in department_hints) else 0.0
-            value = min(40.0, lexical * 32.0 + dept_match * 14.0)
+
+        # Career goal: domain/department fit is strong evidence; specific title and
+        # description overlap add support. No generic "science"/"technology" bonus.
+        career_best, career_reason = 0.0, ''
+        for goal, text in career_goals:
+            domains = _recommendation_domains(text)
+            domain = _primary_recommendation_domain(text)
+            title_desc, evidence = _weighted_text_match(
+                text, course, max_points=20.0, title_weight=7.0, description_weight=2.0)
+            dept_match = bool(domain and _DEPARTMENT_DOMAINS.get(department.casefold()) == domain)
+            domain_match = bool(domain and course_domain == domain)
+            value = title_desc
+            if dept_match:
+                value += 18.0
+                evidence.insert(0, f"department is {department}")
+            elif domain_match:
+                value += 10.0
+                evidence.append(f"course content fits the { _DOMAIN_LABELS.get(domain, domain) } subject area")
+            value = min(40.0, value)
             if value > career_best:
                 career_best = value
-                if dept_match and lexical:
-                    career_reason = f"Fits your career goal through the {course.get('department')} subject area and related course content."
-                elif dept_match:
-                    career_reason = f"The {course.get('department')} subject area may support your career goal."
-                elif overlap:
-                    career_reason = 'Course content connects to topics in your career goal: ' + ', '.join(sorted(overlap)[:3]) + '.'
-        if career_best:
+                if value:
+                    goal_label = str(goal.get('title') or 'career goal')
+                    career_reason = f"Supports your career goal ({goal_label})" + (': ' + '; '.join(evidence[:2]) if evidence else '.')
+                    if not evidence:
+                        career_reason += '.'
+        if career_best >= 6.0:
             score += career_best
+            relevance_score += career_best
             reasons.append(career_reason)
 
-        interest_best = 0.0
-        interest_reason = ''
+        # Interests are evaluated independently from career goals. Notes are not used
+        # as primary matching text because casual notes can contain incidental words.
+        interest_best, interest_reason = 0.0, ''
         for interest in interests:
-            interest_text = ' '.join(str(interest.get(k) or '') for k in ('interest_name','interest_category','notes'))
-            interest_tokens = _recommendation_tokens(interest_text)
-            overlap = interest_tokens & doc_tokens
-            if not overlap:
-                continue
-            level = int(interest.get('interest_level') or 2)
-            level_weight = {1: 0.65, 2: 0.82, 3: 1.0}.get(level, 0.82)
-            value = min(30.0, (8.0 + 5.0 * min(3, len(overlap))) * level_weight)
+            interest_text = ' '.join(str(interest.get(k) or '') for k in
+                                     ('interest_name', 'interest_category'))
+            domains = _recommendation_domains(interest_text)
+            domain = _primary_recommendation_domain(interest_text)
+            title_desc, evidence = _weighted_text_match(
+                interest_text, course, max_points=21.0, title_weight=7.0, description_weight=1.5)
+            dept_match = bool(domain and _DEPARTMENT_DOMAINS.get(department.casefold()) == domain)
+            domain_match = bool(domain and course_domain == domain)
+            value = title_desc
+            if dept_match:
+                value += 10.0
+                evidence.insert(0, f"department is {department}")
+            elif domain_match:
+                value += 7.0
+                evidence.append(f"course content fits the { _DOMAIN_LABELS.get(domain, domain) } subject area")
+            # Level is a relevance preference, not a domain match.
+            try:
+                level = int(interest.get('interest_level') or 2)
+            except (TypeError, ValueError):
+                level = 2
+            value *= {1: 0.75, 2: 0.88, 3: 1.0}.get(level, 0.88)
+            value = min(30.0, value)
             if value > interest_best:
                 interest_best = value
-                interest_reason = 'Connects to your interest in ' + str(interest.get('interest_name') or interest.get('interest_category') or 'this topic') + '.'
-        if interest_best:
+                interest_name = str(interest.get('interest_name') or interest.get('interest_category') or 'your interest')
+                interest_reason = f"Matches your interest in {interest_name}" + (': ' + '; '.join(evidence[:2]) if evidence else '.')
+                if not evidence:
+                    interest_reason += '.'
+        if interest_best >= 6.0:
             score += interest_best
+            relevance_score += interest_best
             reasons.append(interest_reason)
 
-        college_best = 0.0
-        college_reason = ''
+        # College matching uses the intended major and explicit goal text, not the
+        # institution name. This avoids accidental matches on university names.
+        college_best, college_reason = 0.0, ''
         for goal, text in college_goals:
-            overlap = _recommendation_tokens(text) & doc_tokens
-            if overlap:
-                value = min(12.0, 4.0 * len(overlap))
-                if value > college_best:
-                    college_best = value
-                    college_reason = 'May help build knowledge related to your college or intended-major goal.'
-        if college_best:
+            domains = _recommendation_domains(text)
+            domain = _primary_recommendation_domain(text)
+            value, evidence = _weighted_text_match(
+                text, course, max_points=8.0, title_weight=3.0, description_weight=1.0)
+            if domain and _DEPARTMENT_DOMAINS.get(department.casefold()) == domain:
+                value += 4.0
+                evidence.insert(0, f"department is {department}")
+            elif domain and course_domain == domain:
+                value += 2.0
+            value = min(12.0, value)
+            if value > college_best:
+                college_best = value
+                college_reason = 'Connects to your college/major goal' + (': ' + '; '.join(evidence[:2]) if evidence else '.')
+                if not evidence:
+                    college_reason += '.'
+        if college_best >= 4.0:
             score += college_best
+            relevance_score += college_best
             reasons.append(college_reason)
 
-        # Course level is only a soft ranking signal; it is not treated as an eligibility rule.
-        # The catalog's course_level may reflect sequence rather than a guaranteed grade placement.
+        # The following are only small tie-breakers. They cannot make an unrelated
+        # course pass the personalized relevance threshold.
         try:
             level = int(course.get('course_level')) if course.get('course_level') is not None else None
         except (TypeError, ValueError):
@@ -630,15 +769,17 @@ def _recommend_courses(conn, student):
             if level_points:
                 score += level_points
                 reasons.append('Its catalog course level is near the level associated with your current grade; confirm placement with school staff.')
+        if str(course.get('pathway') or '').strip().casefold() in ('1', 'true', 'yes'):
+            score += 1.0
 
-        # The catalog only provides a pathway yes/no flag, not a reliable pathway-to-career mapping.
-        if str(course.get('pathway') or '').strip().casefold() in ('1','true','yes'):
-            score += 2.0
-            reasons.append('Part of a designated course pathway.')
-        if not reasons:
-            # A general exploration recommendation is better than pretending there is a match.
+        # Only show personalized matches with substantive evidence. If the student
+        # has no profile data, retain a clearly labeled general-exploration list.
+        if has_profile and relevance_score < 8.0:
+            continue
+        if not has_profile:
             score = 1.0
-            reasons.append('A general catalog option to explore; add interests and active goals for more personalized matches.')
+            reasons = ['A general catalog option to explore; add interests and active goals for personalized matches.']
+
         score = round(min(100.0, score), 1)
         prereq = _evaluate_prerequisite_course(conn, student_id, course.get('course_id'))
         ranked.append({
@@ -652,7 +793,7 @@ def _recommend_courses(conn, student):
             'status_class': 'good' if prereq.get('status') == 'eligible' else ('warning' if prereq.get('status') == 'not_yet_eligible' else 'neutral'),
         })
     ranked.sort(key=lambda item: (-item['score'], str(item['course'].get('course_name') or '').casefold()))
-    return ranked[:12], bool(interests), bool(profile_goals or college_goals)
+    return ranked[:12], bool(interests), bool(career_goals or college_goals)
 
 @app.get('/recommendations', response_class=HTMLResponse)
 def recommendations_page(request: Request):
@@ -900,6 +1041,7 @@ def startup_check():
     validate_phase_23_schema()
     ensure_phase_24_tables()
     validate_phase_24_schema()
+    ensure_phase_5_tables()
 
 @app.middleware('http')
 async def security_headers(request: Request, call_next):
@@ -1013,12 +1155,238 @@ def login(request: Request, csrf: str = Form(...), email: str = Form(...), passw
 def dashboard(request: Request):
     user = current_user(request)
     if not user: return RedirectResponse('/login', status_code=303)
+    if user['role'] in ('parent', 'counselor', 'admin'):
+        return RedirectResponse('/collaboration', status_code=303)
     with db_connection() as conn:
         student = conn.execute('''SELECT first_name,last_name,school_name,current_grade,graduation_year
                                   FROM students WHERE user_id=?''', (user['user_id'],)).fetchone()
     if not student:
         request.session.clear(); return RedirectResponse('/login', status_code=303)
     return render(request, 'dashboard.html', student=student, email=user['email'])
+
+# ------------------------- Phase 5: Parent + Counselor Collaboration -------------------------
+def ensure_phase_5_tables():
+    'Create additive collaboration tables only; never alter existing tables.'
+    with db_connection() as conn:
+        conn.executescript('''
+        CREATE TABLE IF NOT EXISTS student_relationships (
+            relationship_id INTEGER PRIMARY KEY AUTOINCREMENT,
+            student_id INTEGER NOT NULL,
+            related_user_id INTEGER NOT NULL,
+            relationship_type TEXT NOT NULL CHECK (relationship_type IN ('parent','counselor')),
+            status TEXT NOT NULL DEFAULT 'active' CHECK (status IN ('pending','active','revoked')),
+            created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            UNIQUE(student_id, related_user_id, relationship_type),
+            FOREIGN KEY(student_id) REFERENCES students(student_id) ON DELETE CASCADE,
+            FOREIGN KEY(related_user_id) REFERENCES users(user_id) ON DELETE CASCADE
+        );
+        CREATE TABLE IF NOT EXISTS plan_review_workflow (
+            workflow_id INTEGER PRIMARY KEY AUTOINCREMENT,
+            student_id INTEGER NOT NULL UNIQUE,
+            review_status TEXT NOT NULL DEFAULT 'draft' CHECK (review_status IN ('draft','awaiting_parent','awaiting_counselor','changes_requested','approved')),
+            submitted_at TEXT,
+            parent_reviewed_by INTEGER,
+            parent_reviewed_at TEXT,
+            counselor_reviewed_by INTEGER,
+            counselor_reviewed_at TEXT,
+            updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY(student_id) REFERENCES students(student_id) ON DELETE CASCADE,
+            FOREIGN KEY(parent_reviewed_by) REFERENCES users(user_id) ON DELETE SET NULL,
+            FOREIGN KEY(counselor_reviewed_by) REFERENCES users(user_id) ON DELETE SET NULL
+        );
+        CREATE TABLE IF NOT EXISTS collaboration_comments (
+            comment_id INTEGER PRIMARY KEY AUTOINCREMENT,
+            student_id INTEGER NOT NULL,
+            author_user_id INTEGER NOT NULL,
+            comment_text TEXT NOT NULL,
+            audience TEXT NOT NULL DEFAULT 'all' CHECK (audience IN ('all','school_staff')),
+            created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY(student_id) REFERENCES students(student_id) ON DELETE CASCADE,
+            FOREIGN KEY(author_user_id) REFERENCES users(user_id) ON DELETE CASCADE
+        );
+        CREATE TABLE IF NOT EXISTS collaboration_meetings (
+            meeting_id INTEGER PRIMARY KEY AUTOINCREMENT,
+            student_id INTEGER NOT NULL,
+            requested_by INTEGER NOT NULL,
+            meeting_topic TEXT NOT NULL,
+            preferred_time TEXT,
+            status TEXT NOT NULL DEFAULT 'requested' CHECK (status IN ('requested','scheduled','completed','cancelled')),
+            staff_response TEXT,
+            created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY(student_id) REFERENCES students(student_id) ON DELETE CASCADE,
+            FOREIGN KEY(requested_by) REFERENCES users(user_id) ON DELETE CASCADE
+        );
+        CREATE INDEX IF NOT EXISTS idx_student_relationships_user ON student_relationships(related_user_id,status);
+        CREATE INDEX IF NOT EXISTS idx_collaboration_comments_student ON collaboration_comments(student_id,created_at);
+        CREATE INDEX IF NOT EXISTS idx_collaboration_meetings_student ON collaboration_meetings(student_id,created_at);
+        ''')
+        conn.commit()
+
+def _collab_student_for_user(conn, user):
+    return conn.execute('SELECT * FROM students WHERE user_id=?', (user['user_id'],)).fetchone()
+
+def _collab_can_access(conn, user, student_id):
+    if user['role'] == 'admin':
+        return True
+    if user['role'] == 'student':
+        return bool(conn.execute('SELECT 1 FROM students WHERE student_id=? AND user_id=?', (student_id,user['user_id'])).fetchone())
+    if user['role'] in ('parent','counselor'):
+        return bool(conn.execute('''SELECT 1 FROM student_relationships WHERE student_id=? AND related_user_id=?
+            AND relationship_type=? AND status='active' ''', (student_id,user['user_id'],user['role'])).fetchone())
+    return False
+
+def _collab_student_list(conn, user):
+    if user['role'] == 'admin':
+        return conn.execute('''SELECT s.student_id,s.first_name,s.last_name,s.current_grade,s.graduation_year,
+            COALESCE(w.review_status,'draft') AS review_status FROM students s
+            LEFT JOIN plan_review_workflow w ON w.student_id=s.student_id ORDER BY s.last_name,s.first_name''').fetchall()
+    if user['role'] == 'student':
+        return conn.execute('''SELECT s.student_id,s.first_name,s.last_name,s.current_grade,s.graduation_year,
+            COALESCE(w.review_status,'draft') AS review_status FROM students s
+            LEFT JOIN plan_review_workflow w ON w.student_id=s.student_id WHERE s.user_id=?''',(user['user_id'],)).fetchall()
+    return conn.execute('''SELECT s.student_id,s.first_name,s.last_name,s.current_grade,s.graduation_year,
+        COALESCE(w.review_status,'draft') AS review_status FROM student_relationships r
+        JOIN students s ON s.student_id=r.student_id LEFT JOIN plan_review_workflow w ON w.student_id=s.student_id
+        WHERE r.related_user_id=? AND r.relationship_type=? AND r.status='active'
+        ORDER BY s.last_name,s.first_name''',(user['user_id'],user['role'])).fetchall()
+
+@app.get('/collaboration', response_class=HTMLResponse)
+def collaboration_dashboard(request: Request):
+    user = current_user(request)
+    if not user: return RedirectResponse('/login', status_code=303)
+    if user['role'] not in ('student','parent','counselor','admin'):
+        return HTMLResponse('This account does not have collaboration access.', status_code=403)
+    with db_connection() as conn:
+        students = _collab_student_list(conn,user)
+    return render(request,'collaboration_dashboard.html', user=user, students=students)
+
+@app.get('/collaboration/students/{student_id}', response_class=HTMLResponse)
+def collaboration_student_page(request: Request, student_id: int):
+    user=current_user(request)
+    if not user: return RedirectResponse('/login',status_code=303)
+    with db_connection() as conn:
+        if not _collab_can_access(conn,user,student_id):
+            return HTMLResponse('You are not authorized to view this student.',status_code=403)
+        student=conn.execute('SELECT * FROM students WHERE student_id=?',(student_id,)).fetchone()
+        if not student: return HTMLResponse('Student not found.',status_code=404)
+        workflow=conn.execute('SELECT * FROM plan_review_workflow WHERE student_id=?',(student_id,)).fetchone()
+        plan=conn.execute('SELECT * FROM academic_plans WHERE student_id=?',(student_id,)).fetchone()
+        plan_courses=[]
+        if plan:
+            plan_courses=conn.execute('''SELECT apc.*,c.course_name FROM academic_plan_courses apc
+                LEFT JOIN courses c ON CAST(c.course_id AS TEXT)=CAST(apc.course_id AS TEXT)
+                WHERE apc.plan_id=? AND lower(apc.status)!='removed'
+                ORDER BY apc.planned_grade,apc.term,c.course_name''',(plan['plan_id'],)).fetchall()
+        if user['role']=='student':
+            comments=conn.execute('''SELECT cc.*,u.email,u.role FROM collaboration_comments cc JOIN users u ON u.user_id=cc.author_user_id
+                WHERE cc.student_id=? AND cc.audience='all' ORDER BY cc.created_at DESC,cc.comment_id DESC''',(student_id,)).fetchall()
+        else:
+            comments=conn.execute('''SELECT cc.*,u.email,u.role FROM collaboration_comments cc JOIN users u ON u.user_id=cc.author_user_id
+                WHERE cc.student_id=? AND (?='counselor' OR ?='admin' OR cc.audience='all') ORDER BY cc.created_at DESC,cc.comment_id DESC''',
+                (student_id,user['role'],user['role'])).fetchall()
+        meetings=conn.execute('''SELECT m.*,u.email AS requester_email FROM collaboration_meetings m
+            JOIN users u ON u.user_id=m.requested_by WHERE m.student_id=? ORDER BY m.created_at DESC,m.meeting_id DESC''',(student_id,)).fetchall()
+    return render(request,'collaboration_student.html',user=user,student=student,workflow=workflow,plan=plan,
+                  plan_courses=plan_courses,comments=comments,meetings=meetings)
+
+@app.post('/collaboration/students/{student_id}/submit')
+def collaboration_submit_plan(request: Request, student_id: int, csrf: str=Form(...)):
+    user=current_user(request)
+    if not user: return RedirectResponse('/login',status_code=303)
+    if not csrf_ok(request,csrf): return HTMLResponse('Invalid form token. Refresh and try again.',status_code=400)
+    if user['role']!='student': return HTMLResponse('Only the student can submit the plan for review.',status_code=403)
+    with db_connection() as conn:
+        if not _collab_can_access(conn,user,student_id): return HTMLResponse('Not authorized.',status_code=403)
+        plan=conn.execute('SELECT plan_id FROM academic_plans WHERE student_id=?',(student_id,)).fetchone()
+        if not plan: return RedirectResponse('/planner',status_code=303)
+        conn.execute('''INSERT INTO plan_review_workflow(student_id,review_status,submitted_at,updated_at)
+            VALUES(?,'awaiting_parent',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)
+            ON CONFLICT(student_id) DO UPDATE SET review_status='awaiting_parent',submitted_at=CURRENT_TIMESTAMP,
+            parent_reviewed_by=NULL,parent_reviewed_at=NULL,counselor_reviewed_by=NULL,counselor_reviewed_at=NULL,updated_at=CURRENT_TIMESTAMP''',(student_id,))
+        conn.commit()
+    return RedirectResponse(f'/collaboration/students/{student_id}',status_code=303)
+
+@app.post('/collaboration/students/{student_id}/comment')
+def collaboration_add_comment(request: Request, student_id: int, csrf: str=Form(...), comment_text: str=Form(...), audience: str=Form('all')):
+    user=current_user(request)
+    if not user: return RedirectResponse('/login',status_code=303)
+    if not csrf_ok(request,csrf): return HTMLResponse('Invalid form token. Refresh and try again.',status_code=400)
+    comment_text=comment_text.strip()
+    if not comment_text or len(comment_text)>3000: return HTMLResponse('Comments must contain 1–3000 characters.',status_code=400)
+    if audience not in ('all','school_staff'): audience='all'
+    if user['role'] not in ('counselor','admin'): audience='all'
+    with db_connection() as conn:
+        if not _collab_can_access(conn,user,student_id): return HTMLResponse('Not authorized.',status_code=403)
+        conn.execute('INSERT INTO collaboration_comments(student_id,author_user_id,comment_text,audience) VALUES(?,?,?,?)',
+                     (student_id,user['user_id'],comment_text,audience))
+        conn.commit()
+    return RedirectResponse(f'/collaboration/students/{student_id}',status_code=303)
+
+@app.post('/collaboration/students/{student_id}/parent-review')
+def collaboration_parent_review(request: Request, student_id: int, csrf: str=Form(...), decision: str=Form(...)):
+    user=current_user(request)
+    if not user: return RedirectResponse('/login',status_code=303)
+    if not csrf_ok(request,csrf): return HTMLResponse('Invalid form token. Refresh and try again.',status_code=400)
+    if user['role']!='parent': return HTMLResponse('Only a linked parent/guardian can complete this review.',status_code=403)
+    if decision not in ('forward','changes_requested'): return HTMLResponse('Invalid review action.',status_code=400)
+    with db_connection() as conn:
+        if not _collab_can_access(conn,user,student_id): return HTMLResponse('Not authorized.',status_code=403)
+        row=conn.execute('SELECT review_status FROM plan_review_workflow WHERE student_id=?',(student_id,)).fetchone()
+        if not row or row['review_status']!='awaiting_parent': return HTMLResponse('This plan is not awaiting parent review.',status_code=409)
+        status='awaiting_counselor' if decision=='forward' else 'changes_requested'
+        conn.execute('''UPDATE plan_review_workflow SET review_status=?,parent_reviewed_by=?,parent_reviewed_at=CURRENT_TIMESTAMP,
+            updated_at=CURRENT_TIMESTAMP WHERE student_id=?''',(status,user['user_id'],student_id))
+        conn.commit()
+    return RedirectResponse(f'/collaboration/students/{student_id}',status_code=303)
+
+@app.post('/collaboration/students/{student_id}/counselor-review')
+def collaboration_counselor_review(request: Request, student_id: int, csrf: str=Form(...), decision: str=Form(...)):
+    user=current_user(request)
+    if not user: return RedirectResponse('/login',status_code=303)
+    if not csrf_ok(request,csrf): return HTMLResponse('Invalid form token. Refresh and try again.',status_code=400)
+    if user['role'] not in ('counselor','admin'): return HTMLResponse('Only a counselor can complete this review.',status_code=403)
+    if decision not in ('approve','changes_requested'): return HTMLResponse('Invalid review action.',status_code=400)
+    with db_connection() as conn:
+        if not _collab_can_access(conn,user,student_id): return HTMLResponse('Not authorized.',status_code=403)
+        row=conn.execute('SELECT review_status FROM plan_review_workflow WHERE student_id=?',(student_id,)).fetchone()
+        if not row or row['review_status']!='awaiting_counselor': return HTMLResponse('This plan is not awaiting counselor review.',status_code=409)
+        status='approved' if decision=='approve' else 'changes_requested'
+        conn.execute('''UPDATE plan_review_workflow SET review_status=?,counselor_reviewed_by=?,counselor_reviewed_at=CURRENT_TIMESTAMP,
+            updated_at=CURRENT_TIMESTAMP WHERE student_id=?''',(status,user['user_id'],student_id))
+        conn.commit()
+    return RedirectResponse(f'/collaboration/students/{student_id}',status_code=303)
+
+@app.post('/collaboration/students/{student_id}/meeting')
+def collaboration_request_meeting(request: Request, student_id: int, csrf: str=Form(...), meeting_topic: str=Form(...), preferred_time: str=Form('')):
+    user=current_user(request)
+    if not user: return RedirectResponse('/login',status_code=303)
+    if not csrf_ok(request,csrf): return HTMLResponse('Invalid form token. Refresh and try again.',status_code=400)
+    topic=meeting_topic.strip(); preferred_time=preferred_time.strip()
+    if not topic or len(topic)>500: return HTMLResponse('Please enter a meeting topic (up to 500 characters).',status_code=400)
+    if len(preferred_time)>200: return HTMLResponse('Preferred time must be 200 characters or fewer.',status_code=400)
+    with db_connection() as conn:
+        if not _collab_can_access(conn,user,student_id): return HTMLResponse('Not authorized.',status_code=403)
+        conn.execute('INSERT INTO collaboration_meetings(student_id,requested_by,meeting_topic,preferred_time) VALUES(?,?,?,?)',
+                     (student_id,user['user_id'],topic,preferred_time or None))
+        conn.commit()
+    return RedirectResponse(f'/collaboration/students/{student_id}',status_code=303)
+
+@app.post('/collaboration/students/{student_id}/meetings/{meeting_id}/update')
+def collaboration_update_meeting(request: Request, student_id: int, meeting_id: int, csrf: str=Form(...), status: str=Form(...), staff_response: str=Form('')):
+    user=current_user(request)
+    if not user: return RedirectResponse('/login',status_code=303)
+    if not csrf_ok(request,csrf): return HTMLResponse('Invalid form token. Refresh and try again.',status_code=400)
+    if user['role'] not in ('counselor','admin'): return HTMLResponse('Only school staff can update meeting requests.',status_code=403)
+    if status not in ('requested','scheduled','completed','cancelled'): return HTMLResponse('Invalid meeting status.',status_code=400)
+    staff_response=staff_response.strip()
+    if len(staff_response)>1000: return HTMLResponse('Meeting response must be 1000 characters or fewer.',status_code=400)
+    with db_connection() as conn:
+        if not _collab_can_access(conn,user,student_id): return HTMLResponse('Not authorized.',status_code=403)
+        cur=conn.execute("UPDATE collaboration_meetings SET status=?,staff_response=?,updated_at=CURRENT_TIMESTAMP WHERE meeting_id=? AND student_id=?",(status,staff_response or None,meeting_id,student_id))
+        if cur.rowcount==0: return HTMLResponse('Meeting request not found.',status_code=404)
+        conn.commit()
+    return RedirectResponse(f'/collaboration/students/{student_id}',status_code=303)
 
 @app.post('/logout')
 def logout(request: Request, csrf: str = Form(...)):

@@ -168,3 +168,64 @@ uvicorn main:app --reload
 ```
 
 The migration was tested against a copy of the supplied database. It added the missing column, verified that no rows had a blank `updated_at`, and passed `PRAGMA foreign_key_check`. The supplied database had no rows in `academic_plans` or `academic_plan_courses` at the time of inspection.
+
+## Phase 2.5 — Validation and end-to-end tests
+
+The Phase 2.5 suite covers guest protection and security headers, registration validation and duplicate email, profile persistence, interest and goal create/validation, course catalog and current-course workflows, four-year planner create/update/status persistence, CSRF rejection, invalid planner inputs, logout/login persistence, and student-to-student data isolation.
+
+### Run tests safely in Windows CMD
+
+1. Stop Uvicorn before running tests.
+2. Keep your development database path handy. The suite copies that database to a temporary directory and runs all writes against the copy; it does not intentionally modify your working database.
+3. From the folder containing `main.py`, run:
+
+```cmd
+.venv\Scripts\activate.bat
+python -m pip install -r requirements-dev.txt
+set "TEST_SOURCE_DB=C:\full\path\to\proact-backup.db"
+python -m pytest -v
+```
+
+Replace the example path with the absolute path to your **development backup database**. If `TEST_SOURCE_DB` is not set, tests also look for `proact-backup.db` in the project folder or its parent folder. Do not point it at a production database.
+
+The test fixture may add the Phase 2.4 `updated_at` column to its disposable copy when that column is missing. It does not run a migration on the source database. If startup tests fail on schema validation, run the provided migration against your development database as a separate, backed-up step before manually launching the app.
+
+### Manual browser acceptance checks
+
+Automated tests do not replace a final browser review. Confirm:
+
+- Empty states are understandable for new students with no interests, goals, current courses, or planned courses.
+- Form errors are visible and do not erase valid input unexpectedly.
+- A course can be added, status/notes changed, refreshed, and seen after logging out and back in.
+- Two student accounts never display or alter each other's profile, interests, goals, current courses, or plan.
+- Course eligibility and prerequisites are not represented as counselor-approved unless the underlying catalog data explicitly supports that conclusion. Students should confirm graduation requirements and prerequisites with a counselor.
+
+### Known scope limits
+
+These are integration tests for the current FastAPI/Jinja2/SQLite application, not browser automation or a production security certification. Rate limiting is in-process. Parent/counselor workflows, email verification, account recovery, and full prerequisite eligibility enforcement are not included in this phase unless implemented separately.
+
+### Phase 2.5 regression fix
+
+The test suite exposed and corrected an ambiguous-column SQL error in course catalog search for databases that join `courses` to `departments`. Search filters now qualify course fields and use the detected department expression, so course search works with the normalized `department_id` schema as well as a legacy text `department` column.
+
+
+### Course-browser search hotfix
+
+The course search builds its keyword conditions from the columns present in the connected `courses` schema. It searches course name, description, department (when available), course ID, and semester course codes (when available). This avoids SQL errors when an older catalog copy does not contain optional code/description fields. A regression test verifies that searching `calculus` returns AP Calculus AB, Pre-Calculus, and Pre-Calculus Honors in the supplied Langston catalog.
+
+
+## Phase 3.5 — Prerequisite validation
+
+The `/prerequisites` page checks a selected catalog course against the signed-in student's `student_courses` records and the existing `prerequisite_groups` / `prerequisites` tables. It supports nested AND/OR groups and normalizes imported numeric IDs such as `1000.0`. Completed courses satisfy course prerequisites; current courses are treated as in progress. Non-course requirements (teacher recommendations, exams, auditions, approvals) and unresolved catalog references are marked for school-staff verification rather than automatically passed or failed.
+
+This phase does not create or alter database tables. It is a read-only evaluation of existing prerequisite data. Courses with no recorded prerequisite groups are labeled as having no prerequisites recorded, with a reminder to confirm against the current school catalog.
+
+
+## Phase 4: Explainable course recommendations
+
+Phase 4 adds a `/recommendations` page that ranks courses using saved interests and active career/college goals, explains the reasons for each suggestion, avoids repeating courses already current/completed or planned, and displays prerequisite status using the Phase 3.5 evaluator. Scores are transparent heuristic match points—not predictions or guarantees. It does not change the database schema. See `PHASE_4_INSTALL.md` for Windows installation steps and limitations.
+
+
+## Phase 5 — Parent + Counselor Collaboration
+
+See `PHASE_5_INSTALL.md` for Windows installation and account-linking steps. Phase 5 adds role/relationship-protected plan review, parent comments and forwarding, counselor review/approval, school-staff-only notes, and meeting requests/responses. New tables are created only when absent; existing tables are not altered. Parent/counselor accounts are provisioned by an authorized administrator and linked to specific students; public registration remains student-only.
