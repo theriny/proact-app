@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Course Recommendations · Langston Student Planner{% endblock %}
+{% block content %}
+<section class="dashboard-card">
+  <p class="eyebrow">PHASE 4 · COURSE RECOMMENDATIONS</p>
+  <h1>Courses picked for your goals</h1>
+  <p class="muted">These suggestions compare your saved interests and goals with course titles, departments, and descriptions. Specific subject-area matches carry more weight than generic words. Each match includes reasons and a separate prerequisite status.</p>
+
+  {% if not has_interests and not has_goals %}
+  <div class="alert" role="status"><strong>Personalization is limited right now.</strong><p>Add interests and/or an active career or college goal to improve your recommendations. The list below includes general catalog options to explore.</p></div>
+  {% elif not has_interests or not has_goals %}
+  <div class="notice" role="status">You have some planning information saved. Adding both interests and active goals can make these recommendations more specific.</div>
+  {% endif %}
+
+  <div class="recommendation-note"><strong>How to read this list</strong><p>The match score is a transparent heuristic ranking, not a grade, admission prediction, or guarantee of career fit. “Prerequisites met” only reflects the rules currently recorded in the app. Confirm course availability and all requirements with a counselor or teacher.</p></div>
+
+  {% if recommendations %}
+  <div class="record-list recommendations-list">
+    {% for item in recommendations %}
+    <article class="record recommendation-card">
+      <div class="recommendation-main">
+        <div class="record-heading">
+          <strong>{{ item.course.course_name }}</strong>
+          <span class="tag">{{ item.score }} match points</span>
+          <span class="tag prereq-{{ item.status_class }}">{{ item.status_label }}</span>
+        </div>
+        <p class="compact muted">{{ item.course.department or 'Department not listed' }}{% if item.course.is_ap %} · AP{% endif %}{% if item.course.is_honors %} · Honors{% endif %}{% if item.course.is_dual_enrollment %} · Dual enrollment{% endif %}</p>
+        {% if item.course.description %}<p class="recommendation-description">{{ item.course.description }}</p>{% endif %}
+        <p class="recommendation-why"><strong>Why it appears:</strong></p>
+        <ul class="recommendation-reasons">{% for reason in item.reasons %}<li>{{ reason }}</li>{% endfor %}</ul>
+        {% if item.prerequisite.summary %}<p class="field-help">{{ item.prerequisite.summary }}</p>{% endif %}
+        <div class="recommendation-links"><a href="/prerequisites?course_id={{ item.course.course_id }}">Review prerequisites</a><span>·</span><a href="/planner">Open four-year plan</a></div>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+  {% else %}
+  {% if has_interests or has_goals %}
+  <div class="notice">No courses currently meet the minimum relevance threshold for your saved interests and goals. Try adding or refining an interest or goal, or browse the full course catalog.</div>
+  {% else %}
+  <div class="notice">No catalog courses are available to explore right now. Check that the Langston course catalog has been loaded.</div>
+  {% endif %}
+  {% endif %}
+  <p class="switch"><a href="/interests">Update interests</a> · <a href="/goals">Update goals</a> · <a href="/courses">Browse all courses</a> · <a href="/dashboard">Dashboard</a></p>
+</section>
+{% endblock %}

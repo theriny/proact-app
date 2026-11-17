@@ -1,0 +1,23 @@
+{% extends "base.html" %}{% block title %}Prerequisite Checker · Langston Student Planner{% endblock %}{% block content %}
+<section class="dashboard-card">
+<p class="eyebrow">PHASE 3.5 · PREREQUISITE VALIDATION</p>
+<h1>Prerequisite checker</h1>
+<p class="muted">Choose a course to compare its recorded requirements with your completed and current courses. Some requirements, such as teacher recommendations, exams, auditions, or unresolved catalog references, need school staff confirmation.</p>
+<form method="get" action="/prerequisites" class="filter-form">
+<div><label for="course_id">Course</label><select id="course_id" name="course_id" required><option value="">Choose a course…</option>{% for course in catalog %}<option value="{{ course['course_id'] }}" {% if selected_course_id|string == course['course_id']|string %}selected{% endif %}>{{ course['course_name'] }} (ID {{ course['course_id'] }})</option>{% endfor %}</select></div>
+<div class="filter-actions"><button type="submit">Check prerequisites</button></div>
+</form>
+{% if result %}
+<section class="dashboard-card" aria-live="polite">
+<h2>{{ result.course['course_name'] if result.course else 'Prerequisite result' }}</h2>
+{% if result.status == 'eligible' %}<div class="success" role="status"><strong>Eligible based on recorded rules</strong><p>{{ result.summary }}</p></div>
+{% elif result.status == 'not_yet_eligible' %}<div class="alert" role="status"><strong>Not yet eligible</strong><p>{{ result.summary }}</p></div>
+{% elif result.status == 'no_prerequisites' %}<div class="alert" role="status"><strong>No prerequisites recorded</strong><p>{{ result.summary }}</p></div>
+{% else %}<div class="alert" role="status"><strong>School staff verification needed</strong><p>{{ result.summary }}</p></div>{% endif %}
+{% if result.requirements %}<h3>Recorded requirements</h3><p class="field-help">For OR rules, an unmet alternative does not block eligibility when another allowed path is satisfied.</p>
+<div class="record-list">{% for item in result.requirements %}<article class="record"><div><div class="record-heading"><strong>{{ item['text'] }}</strong><span class="tag">{{ item['status_label'] }}</span></div><p class="record-notes">{{ item['explanation'] }}</p></div></article>{% endfor %}</div>
+{% endif %}
+</section>
+{% endif %}
+<p class="switch"><a href="/courses">← Back to course browser</a> · <a href="/current-courses">My courses</a> · <a href="/dashboard">Dashboard</a></p>
+</section>{% endblock %}
